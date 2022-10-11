@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import HomePage from "./pages/home/HomePage.js";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import Test from "./Test.js";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Helmet>
+        <title>Bus service</title>
+        <meta name='description' content='실시간 버스 정보를 제공합니다.' />
+      </Helmet>
+      <Router>
+        <Routes>
+          <Route path='/' element={<HomePage />} exact />
+          <Route path='/t' element={<Test />} exact />
+          <Route
+            path='*'
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Routes>
+      </Router>
+    </>
   );
-}
-
+};
 export default App;
