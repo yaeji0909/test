@@ -1,20 +1,26 @@
-import Header from "../../components/base/Header";
 import MainResponsive from "../../components/main/MainResponsive";
 import HomeLayout from "../../components/home/HomeLayout";
 import MainTemplate from "../../components/main/MainTemplate";
-import { Route } from "react-router-dom";
 import SearchPage from "./SearchPage";
+import RecentSearchPage from "./RecentPage";
+import MainPage from "./MainPage";
+import { Routes,Route,useLocation } from 'react-router-dom';
 
 const HomePage = () => {
+  const location = useLocation();
+
   return (
     <MainTemplate>
-      <Header />
       <MainResponsive>
         <HomeLayout
           main={
             <>
-              <Route path='/' component={SearchPage} exact />
-            </>
+              <Routes location={location}>
+                <Route path='/' element={<MainPage />} />
+                <Route path='search' element={<SearchPage />} />
+                <Route path='recent' element={<RecentSearchPage />} />
+              </Routes>
+              </>
           }
         />
       </MainResponsive>

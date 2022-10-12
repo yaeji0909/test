@@ -13,3 +13,13 @@ export const counting = atom({
   key: "counting",
   default: 0,
 });
+
+export const favoritesState = atom({
+  key: "favoritesState",
+  default: [],
+});
+
+export const darkMode = atom({
+  key: "darkMode",
+  default: false,
+});

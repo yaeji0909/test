@@ -1,7 +1,4 @@
 import styled from "styled-components";
-import MainNoticeWidgetContainer from "../../containers/home/MainNoticeWidgetContainer";
-import MainTagWidgetContainer from "../../containers/home/MainTagWidgetContainer";
-import HomeRightFooter from "./HomeRightFooter";
 import Sticky from "../common/Sticky";
 import { mediaQuery } from "../../lib/styles/media";
 
@@ -9,9 +6,6 @@ function HomeSidebar({ props }) {
   return (
     <Sticky top={118}>
       <Block>
-        <MainNoticeWidgetContainer />
-        <MainTagWidgetContainer />
-        <HomeRightFooter />
       </Block>
     </Sticky>
   );

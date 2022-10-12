@@ -1,7 +1,7 @@
-import HomePage from "./pages/home/HomePage.js";
+import HomePage from "./pages/home/HomePage.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import Test from "./Test.js";
+import NotFound from "./pages/NotFoundPage.jsx";
 
 const App = () => {
   return (
@@ -12,16 +12,8 @@ const App = () => {
       </Helmet>
       <Router>
         <Routes>
-          <Route path='/' element={<HomePage />} exact />
-          <Route path='/t' element={<Test />} exact />
-          <Route
-            path='*'
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
+          <Route path='home/*' element={<HomePage />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </Router>
     </>

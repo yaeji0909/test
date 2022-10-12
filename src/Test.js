@@ -1,8 +1,8 @@
-import { useRecoilState } from "recoil";
-import { counting } from "./store";
+import { useSetRecoilState } from "recoil";
+import { counting } from "./atom";
 
 const Test = () => {
-  const [count, setCount] = useRecoilState(counting);
+  const [count, setCount] = useSetRecoilState(counting);
   const handleIncrease = () => {
     setCount((prev) => prev + 1);
   };
