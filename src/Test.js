@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { counting } from "./atom";
+import { counting } from "./recoil/atom";
 
 const Test = () => {
   const [count, setCount] = useSetRecoilState(counting);

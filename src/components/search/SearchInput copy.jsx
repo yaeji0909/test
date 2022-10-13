@@ -6,12 +6,12 @@ import media from "../../lib/styles/media";
 import palette from "../../lib/styles/palette";
 import useToggle from "../../lib/hooks/useToggle";
 import useInput from "../../lib/hooks/useInput";
-import { debounce } from "throttle-debounce";
+import { debounce } from "lodash";
 
 const SearchInputBlock = styled.div`
   display: flex;
   height: 2.25rem;
-  border: 1px solid ${themedPalette.border1};
+  border: 1px solid ${themedPalette.border2};
   padding-left: 0.625rem;
   padding-right: 0.625rem;
   align-items: center;

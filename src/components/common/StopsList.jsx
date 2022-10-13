@@ -1,18 +1,21 @@
 import { useRecoilValue } from "recoil";
-import { favoritesState } from "../../atom";
+import { favoriteStates } from "../../recoil/home";
 import Stop from './Stop';
 
 const StopList = () => {
 
-const stopList = useRecoilValue(favoritesState)
+const stopList = useRecoilValue(favoriteStates)
 
     return(
      <>
-  {
-    stopList.map((stopItem)=>(
-      <Stop key={stopItem.id} item={stopItem}  />
-    ))
-  }
+        {
+        stopList.map((stopItem)=>{
+         const {id,stops} = stopItem;
+         return(
+            <Stop id={id} stops={stops}/>
+         )
+        })
+        }
      </>
     )
 }
