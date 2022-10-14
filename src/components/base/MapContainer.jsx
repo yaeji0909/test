@@ -1,6 +1,8 @@
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import { useState, useEffect } from "react";
 import busStopIcon from "../../static/images/bus-stop-icon.png";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const MapContainer = () => {
   const [state, setState] = useState({
@@ -11,11 +13,27 @@ const MapContainer = () => {
     errMsg: null,
     isLoading: true,
   });
-  const [isOpen, setIsOpen] = useState(false);
 
+  const getData = async () => {
+    const { data } = await axios.get(
+      `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${
+        process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY
+      }&
+      gpsLati=${33.450701}&gpsLong=${126.570667}&numOfRows=10&pageNo=1&_type=json`
+    );
+    return data;
+  };
+
+  const data = [
+    {
+      content: <div style={{ color: "#000" }}>a</div>,
+      latlng: { lat: 33.450705, lng: 126.570677 },
+    },
+  ];
+
+  // 현 위치 조회
   useEffect(() => {
     if (navigator.geolocation) {
-      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setState((prev) => ({
@@ -45,6 +63,41 @@ const MapContainer = () => {
     }
   }, []);
 
+  const EventMarkerContainer = ({ position, content }) => {
+    const {
+      data: locations,
+      isLoading,
+      isError,
+      error,
+    } = useQuery("locations", getData);
+
+    const map = useMap();
+    const [isVisible, setIsVisible] = useState(false);
+
+    return (
+      <MapMarker
+        position={position} // 마커를 표시할 위치
+        // @ts-ignore
+        onClick={(marker) => map.panTo(marker.getPosition())}
+        onMouseOver={() => setIsVisible(true)}
+        onMouseOut={() => setIsVisible(false)}
+        image={{
+          src: busStopIcon,
+          size: {
+            width: 16,
+            height: 25,
+          },
+          offset: {
+            x: 10,
+            y: 10,
+          },
+        }}
+      >
+        {isVisible && content}
+      </MapMarker>
+    );
+  };
+
   return (
     <>
       <Map // 지도를 표시할 Container
@@ -56,41 +109,13 @@ const MapContainer = () => {
         }}
         level={3} // 지도의 확대 레벨
       >
-        {!state.isLoading && (
-          <MapMarker
-            position={state.center}
-            image={{
-              src: busStopIcon,
-              size: {
-                width: 26,
-                height: 38,
-              }, // 마커이미지의 크기입니다
-              options: {
-                offset: {
-                  x: 27,
-                  y: 69,
-                },
-              },
-            }}
-            clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-            onMouseOver={
-              // 마커에 마우스오버 이벤트를 등록합니다
-              // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
-              () => setIsOpen(true)
-            }
-            onMouseOut={
-              // 마커에 마우스아웃 이벤트를 등록합니다
-              // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
-              () => setIsOpen(false)
-            }
-          >
-            {/* MapMarker의 자식을 넣어줌으로 해당 자식이 InfoWindow로 만들어지게 합니다 */}
-            {/* 인포윈도우에 표출될 내용으로 HTML 문자열이나 React Component가 가능합니다 */}
-            {isOpen && (
-              <div style={{ padding: "5px", color: "#000" }}>정류장이름</div>
-            )}
-          </MapMarker>
-        )}
+        {data.map((value) => (
+          <EventMarkerContainer
+            key={`EventMarkerContainer-${value.latlng.lat}-${value.latlng.lng}`}
+            position={value.latlng}
+            content={value.content}
+          />
+        ))}
       </Map>
     </>
   );
