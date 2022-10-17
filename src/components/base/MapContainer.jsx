@@ -1,42 +1,20 @@
 import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import busStopIcon from "../../static/images/bus-stop-icon.png";
-import { useQuery } from "react-query";
-import axios from "axios";
+import { useGetLocations } from "../../api/useGetLocations";
+import { useRecoilState } from "recoil";
+import { currentPos, positionMarkers, busStop } from "../../recoil/home";
 
 const MapContainer = () => {
-  const [state, setState] = useState({
-    center: {
-      lat: 33.450701,
-      lng: 126.570667,
-    },
-    errMsg: null,
-    isLoading: true,
-  });
-
-  const getData = async () => {
-    const { data } = await axios.get(
-      `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${
-        process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY
-      }&
-      gpsLati=${33.450701}&gpsLong=${126.570667}&numOfRows=10&pageNo=1&_type=json`
-    );
-    return data;
-  };
-
-  const data = [
-    {
-      content: <div style={{ color: "#000" }}>a</div>,
-      latlng: { lat: 33.450705, lng: 126.570677 },
-    },
-  ];
-
+  const [currentPosition, setCurrentPosition] = useRecoilState(currentPos);
+  const [markers, setMarkers] = useRecoilState(positionMarkers);
+  const [stop, setBusStop] = useRecoilState(busStop);
   // 현 위치 조회
-  useEffect(() => {
+  const getCurrentPos = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setState((prev) => ({
+          setCurrentPosition((prev) => ({
             ...prev,
             center: {
               lat: position.coords.latitude, // 위도
@@ -46,7 +24,7 @@ const MapContainer = () => {
           }));
         },
         (err) => {
-          setState((prev) => ({
+          setCurrentPosition((prev) => ({
             ...prev,
             errMsg: err.message,
             isLoading: false,
@@ -55,29 +33,48 @@ const MapContainer = () => {
       );
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-      setState((prev) => ({
+      setCurrentPosition((prev) => ({
         ...prev,
         errMsg: "geolocation을 사용할수 없어요..",
         isLoading: false,
       }));
     }
-  }, []);
+  }, [setCurrentPosition]);
+
+  useEffect(() => {
+    getCurrentPos();
+    // console.log(currentPosition.center);
+  }, [getCurrentPos, currentPosition.center]);
 
   const EventMarkerContainer = ({ position, content }) => {
+    // console.log(position);
     const {
-      data: locations,
-      isLoading,
+      status,
+      isSuccess,
       isError,
+      isLoading,
+      isFetching,
+      data: positionData,
       error,
-    } = useQuery("locations", getData);
-
+    } = useGetLocations();
+    if (status === "success") {
+      const initData = positionData;
+      const marker = {
+        latlng: {
+          lat: "",
+          lng: "",
+        },
+      };
+      initData.forEach((pos) => {
+        console.log(pos);
+      });
+    }
     const map = useMap();
     const [isVisible, setIsVisible] = useState(false);
 
     return (
       <MapMarker
-        position={position} // 마커를 표시할 위치
-        // @ts-ignore
+        position={currentPosition.center} // 마커를 표시할 위치
         onClick={(marker) => map.panTo(marker.getPosition())}
         onMouseOver={() => setIsVisible(true)}
         onMouseOut={() => setIsVisible(false)}
@@ -101,7 +98,7 @@ const MapContainer = () => {
   return (
     <>
       <Map // 지도를 표시할 Container
-        center={state.center}
+        center={currentPosition.center}
         style={{
           // 지도의 크기
           width: "100%",
@@ -109,10 +106,10 @@ const MapContainer = () => {
         }}
         level={3} // 지도의 확대 레벨
       >
-        {data.map((value) => (
+        {markers.map((value) => (
           <EventMarkerContainer
             key={`EventMarkerContainer-${value.latlng.lat}-${value.latlng.lng}`}
-            position={value.latlng}
+            position={currentPosition.center}
             content={value.content}
           />
         ))}
