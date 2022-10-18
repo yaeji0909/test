@@ -1,11 +1,11 @@
 import styled, { css } from "styled-components";
 import React, { useRef, useMemo, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { themedPalette } from "../../lib/styles/themes";
-import media from "../../lib/styles/media";
-import palette from "../../lib/styles/palette";
-import useToggle from "../../lib/hooks/useToggle";
-import useInput from "../../lib/hooks/useInput";
+import { themedPalette } from "@lib/styles/themes";
+import media from "@lib/styles/media";
+import palette from "@lib/styles/palette";
+import useToggle from "@lib/hooks/useToggle";
+import useInput from "@lib/hooks/useInput";
 import { debounce } from "throttle-debounce";
 
 const SearchInputBlock = styled.div`

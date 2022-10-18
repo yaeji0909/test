@@ -12,10 +12,5 @@ export const stops = atom({
 
 export const positionMarkers = atom({
   key: "positionMarkers",
-  default: [
-    // {
-    //   content: "",
-    //   latlng: { lat: 0, lng: 0 },
-    // },
-  ],
+  default: [],
 });

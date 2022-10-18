@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import media from '../../lib/styles/media';
+import styled from "styled-components";
+import media from "@lib/styles/media";
 
 const ResponsiveBlock = styled.div`
   width: 768px;
@@ -10,18 +10,9 @@ const ResponsiveBlock = styled.div`
   }
 `;
 
-
-const Responsive = ({
-  children,
-  className,
-  style,
-}) => {
+const Responsive = ({ children, className, style }) => {
   return (
-    <ResponsiveBlock
-      children={children}
-      className={className}
-      style={style}
-    />
+    <ResponsiveBlock children={children} className={className} style={style} />
   );
 };
 

@@ -1,8 +1,8 @@
 import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import { useState, useEffect, useCallback } from "react";
-import busStopIcon from "../../static/images/bus-stop-icon.png";
+import busStopIcon from "@static/images/bus-stop-icon.png";
 import { useRecoilState } from "recoil";
-import { currentPos, positionMarkers, busStop } from "../../recoil/home";
+import { currentPos, positionMarkers, busStop } from "@recoil/home";
 import { useQuery } from "react-query";
 import axios from "axios";
 

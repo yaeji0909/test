@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { mediaQuery } from "../../lib/styles/media";
+import { mediaQuery } from "@lib/styles/media";
 
 const MainResponsive = ({ className, children }) => {
   return <Block className={className}>{children}</Block>;

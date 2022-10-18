@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import Sticky from "../common/Sticky";
-import { mediaQuery } from "../../lib/styles/media";
+import { mediaQuery } from "@lib/styles/media";
 
 function HomeSidebar({ props }) {
   return (
     <Sticky top={118}>
-      <Block>
-      </Block>
+      <Block></Block>
     </Sticky>
   );
 }

@@ -1,7 +1,7 @@
-import PageTemplate from '../base/PageTemplate';
-import Responsive from './Responsive';
-import styled from 'styled-components';
-import media from '../../lib/styles/media';
+import PageTemplate from "../base/PageTemplate";
+import Responsive from "./Responsive";
+import styled from "styled-components";
+import media from "@lib/styles/media";
 
 const SearchTemplate = styled(Responsive)`
   margin-top: 3.5rem;
@@ -15,12 +15,12 @@ const SearchTemplate = styled(Responsive)`
   }
 `;
 
- SearchTemplate = ({ children })=> {
+SearchTemplate = ({ children }) => {
   return (
     <PageTemplate>
       <SearchTemplate>{children}</SearchTemplate>
     </PageTemplate>
   );
-}
+};
 
 export default SearchTemplate;
