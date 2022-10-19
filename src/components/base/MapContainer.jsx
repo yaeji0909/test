@@ -38,12 +38,36 @@ const MapContainer = () => {
     data: positionData,
     error,
   } = useGetLocations();
-  setBusStop(positionData);
 
-  // if (status === "success") {
-  // }
+  if (status === "success") {
+  }
 
-  // const getCurrentPos = useCallback(() => {
+  const drawMap = useCallback(() => {
+    const editMarkerData = () => {
+      let markers = [];
+      for (let { nodenm: name, gpslati: lat, gpslong: lng } of stop) {
+        let markerObj = {
+          content: name,
+          latlng: { lat, lng },
+        };
+        markers.push(markerObj);
+        // console.log(`${nodenm} ${gpslong} ${gpslati}`);
+      }
+      console.log(markers);
+      return markers;
+    };
+
+    setBusStop(positionData);
+    const marker = editMarkerData();
+    setMarkers(marker);
+  }, [setBusStop, setMarkers, positionData, stop]);
+
+  useEffect(() => {
+    drawMap();
+    // console.log(markers);
+  }, [drawMap]);
+
+  // const getCurrentPos = useCallbacsk(() => {
   //   // 현 위치 조회
   //   if (navigator.geolocation) {
   //     navigator.geolocation.getCurrentPosition(
@@ -74,27 +98,6 @@ const MapContainer = () => {
   //     }));
   //   }
   // }, [setCurrentPosition]);
-  const editMarkerData = () => {
-    let markers = [];
-    for (let { nodenm: name, gpslati: lat, gpslong: lng } of stop) {
-      let markerObj = {
-        content: name,
-        latlng: { lat, lng },
-      };
-      markers.push(markerObj);
-      // console.log(`${nodenm} ${gpslong} ${gpslati}`);
-    }
-    return markers;
-  };
-
-  const getMarkers = useCallback(() => {
-    let marker = editMarkerData();
-    setMarkers(marker);
-  }, []);
-
-  useEffect(() => {
-    getMarkers();
-  }, [getMarkers]);
 
   const EventMarkerContainer = ({ position, content }) => {
     const map = useMap();
