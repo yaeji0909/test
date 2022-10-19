@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet-async";
 // import Footer from "../../components/base/Footer";
-import SearchInput from "../../components/search/SearchInput";
-import MapContainer from "../../components/base/MapContainer";
+import LargeSearchInput from "@components/search/LargeSearchInput";
+import MapContainer from "@components/base/MapContainer";
 import styled from "styled-components";
 
 const Section = styled.section`
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 2rem;
+  justify-content: center;
+  margin-bottom: 1.8rem;
 `;
 
 function MainPage(props) {
@@ -17,7 +17,7 @@ function MainPage(props) {
         <title>MainPage</title>
       </Helmet>
       <Section>
-        <SearchInput {...props} />
+        <LargeSearchInput {...props} />
       </Section>
       <MapContainer />
       {/* <StopList/> */}

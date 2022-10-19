@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import React, { useRef, useMemo, useEffect } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { themedPalette } from "@lib/styles/themes";
+import themedPalette from "@lib/styles/themes";
 import media from "@lib/styles/media";
 import palette from "@lib/styles/palette";
 import useToggle from "@lib/hooks/useToggle";
@@ -11,12 +10,14 @@ import { debounce } from "throttle-debounce";
 const SearchInputBlock = styled.div`
   display: flex;
   height: 2.25rem;
-  border: 1px solid ${themedPalette.border1};
+  border: 1px solid ${themedPalette.border3};
   padding-left: 0.625rem;
   padding-right: 0.625rem;
   align-items: center;
   transition: all 0.125s ease-in;
   cursor: text;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
   svg {
     transition: all 0.125s ease-in;
     margin-right: 0.5rem;
@@ -58,17 +59,14 @@ const SearchInputBlock = styled.div`
   ${(props) =>
     props.large &&
     css`
-      height: 4rem;
+      height: 2rem;
+      width: 30rem;
       padding: 0 1.5rem;
-      svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        margin-right: 1.25rem;
-      }
       input {
+        padding-left: 2rem;
         font-size: 1.5rem;
         line-height: 2rem;
-        height: 2rem;
+        height: auto;
       }
       ${media.small} {
         height: 2.25rem;
@@ -133,9 +131,8 @@ const SearchInput = ({
       onClick={onClick}
       large={large}
     >
-      <GiHamburgerMenu />
       <input
-        placeholder='입력하세요'
+        placeholder='정류장을 검색해보세요'
         onFocus={toggleFocus}
         onBlur={toggleFocus}
         onKeyPress={onKeyPress}
