@@ -6,8 +6,10 @@ import palette from "@lib/styles/palette";
 
 const StyledSearchInput = styled(SearchInput)`
   margin-bottom: 0.5rem;
-  position: relative;
   height: 3rem;
+  z-index: 2;
+  position: absolute;
+  left: 2%;
 `;
 
 const Block = styled.div`
@@ -18,7 +20,8 @@ const Block = styled.div`
     width: 4vw;
     height: 4vh;
     position: absolute;
-    left: 10%;
+    left: 5%;
+    z-index: 3;
   }
 `;
 

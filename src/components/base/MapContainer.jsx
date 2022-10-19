@@ -1,6 +1,6 @@
 import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import { useState, useEffect, useCallback } from "react";
-// import busStopIcon from "../../static/images/bus-stop-icon.png";
+import busStopIcon from "../../static/images/bus-stop-icon.png";
 import { useRecoilState } from "recoil";
 import { currentPos, positionMarkers, stops } from "../../recoil/home";
 import { useQuery } from "react-query";
@@ -26,8 +26,7 @@ const MapContainer = () => {
   };
 
   const {
-    status,
-    isSuccess,
+    onSuccess,
     isLoading,
     isError,
     isFetching,
@@ -56,7 +55,6 @@ const MapContainer = () => {
           }));
         }
       );
-      console.log("getCurrentPos Done!");
       console.log(currentPosition, "currentPosition");
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다.
@@ -70,36 +68,33 @@ const MapContainer = () => {
 
   const editMarkerData = () => {
     let markers = [];
-    console.log(currentPosition);
-    const userPosition = {
-      content: <div>here!</div>,
-      latlng: {
-        lat: 33.450701,
-        lng: 126.570667,
-      },
-    };
-    markers.push(userPosition);
-    for (let { nodenm: name, gpslati: lat, gpslong: lng } of stop) {
-      let markerObj = {
-        content: <div>{name}</div>,
-        latlng: { lat, lng },
+    if (stop) {
+      const userPosition = {
+        content: <div>here!</div>,
+        latlng: {
+          // lat: currentPosition.center.lat,
+          // lng: currentPosition.center.lng,
+        },
       };
-      markers.push(markerObj);
-      // console.log(`${nodenm} ${gpslong} ${gpslati}`);
+      markers.push(userPosition);
+      for (let { nodenm: name, gpslati: lat, gpslong: lng } of stop) {
+        let markerObj = {
+          content: <div style={{ color: "tomato" }}>{name}</div>,
+          latlng: { lat, lng },
+        };
+        markers.push(markerObj);
+        // console.log(`${nodenm} ${gpslong} ${gpslati}`);
+      }
     }
-    console.log(stop);
-    console.log(markers);
-    console.log("editMarkerData Done!");
+    console.log("markers", markers);
     return markers;
   };
 
   useEffect(() => {
-    getLocations();
     getCurrentPos();
     setBusStop(positionData);
     setMarkers(editMarkerData());
-    console.log("mount Finish!");
-  }, []);
+  }, [positionData, stop]);
 
   const EventMarkerContainer = ({ position, content }) => {
     const map = useMap();
@@ -107,20 +102,23 @@ const MapContainer = () => {
 
     return (
       <>
-        {isSuccess ? (
+        {!isLoading ? (
           <MapMarker
             position={position} // 마커를 표시할 위치
             onClick={(marker) => map.panTo(marker.getPosition())}
             onMouseOver={() => setIsVisible(true)}
             onMouseOut={() => setIsVisible(false)}
             image={{
+              src: busStopIcon,
               size: {
-                width: 5,
-                height: 5,
+                width: 22,
+                height: 30,
               },
-              offset: {
-                x: 10,
-                y: 10,
+              options: {
+                offset: {
+                  x: 12,
+                  y: 43,
+                },
               },
             }}
           >
@@ -128,7 +126,7 @@ const MapContainer = () => {
             {isVisible && content}
           </MapMarker>
         ) : (
-          <div>Loading...</div>
+          <div>Loading</div>
         )}
       </>
     );
@@ -136,7 +134,7 @@ const MapContainer = () => {
 
   return (
     <>
-      {isSuccess ? (
+      {!isLoading ? (
         <Map // 지도를 표시할 Container
           center={{
             lat: "33.450701",
@@ -144,10 +142,12 @@ const MapContainer = () => {
           }}
           style={{
             // 지도의 크기
-            width: "100%",
-            height: "450px",
+            width: "100vw",
+            height: "100vh",
+            zIndex: 1,
+            position: "relative",
           }}
-          level={3} // 지도의 확대 레벨
+          level={4} // 지도의 확대 레벨
         >
           {markers.map((marker) => (
             <EventMarkerContainer
@@ -158,7 +158,7 @@ const MapContainer = () => {
           ))}
         </Map>
       ) : (
-        <div>Loading...</div>
+        <div>Loading</div>
       )}
     </>
   );
