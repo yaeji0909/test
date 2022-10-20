@@ -43,15 +43,13 @@ const MapContainer = () => {
 
   const getLocations = async () => {
     // 현 위치를 기준으로 근처 500m이내의 정류소를 조회합니다.
-    if (currentPosition.center.lat !== 33.452613) {
-      try {
-        const { data } = await axios.get(
-          `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY}&gpsLati=${currentPosition.center.lat}&gpsLong=${currentPosition.center.lng}&numOfRows=10&pageNo=1&_type=json`
-        );
-        return data.response.body.items.item;
-      } catch (err) {
-        throw new Error(err.response.status);
-      }
+    try {
+      const { data } = await axios.get(
+        `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY}&gpsLati=${currentPosition.center.lat}&gpsLong=${currentPosition.center.lng}&numOfRows=10&pageNo=1&_type=json`
+      );
+      return data.response.body.items.item;
+    } catch (err) {
+      throw new Error(err.response.status);
     }
   };
 
