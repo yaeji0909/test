@@ -11,7 +11,7 @@ function HomeLayout({ main }) {
 
 const Block = styled.div`
   display: flex;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 `;
 const Main = styled.main`
   flex: 1;

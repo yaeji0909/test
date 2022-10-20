@@ -11,8 +11,8 @@ const MapContainer = () => {
   const [stop, setBusStop] = useRecoilState(stops);
   const [markers, setMarkers] = useRecoilState(positionMarkers);
 
+  // 현 위치 조회
   const getCurrentPos = () => {
-    // 현 위치 조회
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -41,18 +41,33 @@ const MapContainer = () => {
     }
   };
 
+  // 현 위치를 기준으로 근처 500m이내의 정류소 조회
+  const endPoint = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService";
+
   const getLocations = async () => {
-    // 현 위치를 기준으로 근처 500m이내의 정류소를 조회합니다.
     try {
       const { data } = await axios.get(
-        `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY}&gpsLati=${currentPosition.center.lat}&gpsLong=${currentPosition.center.lng}&numOfRows=10&pageNo=1&_type=json`
+        `${endPoint}/getCrdntPrxmtSttnList?serviceKey=${
+          process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY
+        }&gpsLati=${33.450701}&gpsLong=${126.570667}&numOfRows=10&pageNo=1&_type=json`
       );
-      return data.response.body.items.item;
+      return data.response.body.items.item || [];
     } catch (err) {
       throw new Error(err.response.status);
     }
   };
 
+  const getRouteInfo = async () => {
+    const { data } = await axios.get(
+      `${endPoint}/getSttnThrghRouteList?serviceKey=${
+        process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY
+      }&cityCode=${25}&nodeid=${"DJB8002011"}&numOfRows=10&pageNo=1&_type=json`
+    );
+    console.log(data);
+    return data;
+  };
+
+  // response data를 마커를 그릴 수 있도록 수정
   const editMarkerData = () => {
     let markers = [];
     if (stop) {
@@ -64,44 +79,48 @@ const MapContainer = () => {
         },
       };
       markers.push(userPosition);
-      for (let { nodenm: name, gpslati: lat, gpslong: lng } of stop) {
+      for (let {
+        nodenm: name,
+        gpslati: lat,
+        gpslong: lng,
+        nodeid: stopId,
+      } of stop) {
         let markerObj = {
-          content: <div style={{ color: "tomato" }}>{name}</div>,
+          // content: <div style={{ color: "tomato" }}>{name}</div>,
+          name: { name },
+          stopId: { stopId },
           latlng: { lat, lng },
         };
         markers.push(markerObj);
-        // console.log(`${nodenm} ${gpslong} ${gpslati}`);
       }
     }
-    console.log("markers", markers);
+
     return markers;
   };
 
-  const { onSuccess, data: positionData } = useQuery(
-    "locations",
-    getLocations,
-    {
-      enabled: currentPosition.center.lat !== 33.452613,
-    }
-  );
+  const { data: positionData } = useQuery("locations", getLocations, {
+    enabled: currentPosition.center.lat !== 33.452613,
+  });
 
+  const { data: routeData } = useQuery("route", getRouteInfo, {
+    enabled: !positionData,
+  });
+
+  console.log(routeData);
   useEffect(() => {
     getCurrentPos();
-    console.log(positionData);
     setBusStop(positionData);
     setMarkers(editMarkerData());
   }, [positionData, stop]);
 
-  const EventMarkerContainer = ({ position, content }) => {
-    const map = useMap();
+  // 이벤트 등록이 된 마커 오버레이
+  const EventMarkerContainer = ({ marker }) => {
     const [isVisible, setIsVisible] = useState(false);
-
     return (
       <>
-        {/* {userPosition ? ( */}
         <MapMarker
-          position={position} // 마커를 표시할 위치
-          onClick={(marker) => map.panTo(marker.getPosition())}
+          position={marker.latlng} // 마커를 표시할 위치
+          onClick={() => console.log(marker)}
           onMouseOver={() => setIsVisible(true)}
           onMouseOut={() => setIsVisible(false)}
           image={{
@@ -118,19 +137,14 @@ const MapContainer = () => {
             },
           }}
         >
-          {/* {content} */}
-          {isVisible && content}
+          {isVisible && marker.content}
         </MapMarker>
-        {/* ) : (
-          <div>Loading</div>
-        )} */}
       </>
     );
   };
 
   return (
     <>
-      {/* {userPosition ? ( */}
       <Map // 지도를 표시할 Container
         center={currentPosition.center}
         isPanto={currentPosition.isPanto}
@@ -141,19 +155,16 @@ const MapContainer = () => {
           zIndex: 1,
           position: "relative",
         }}
-        level={4} // 지도의 확대 레벨
+        level={4}
       >
         {markers.map((marker) => (
           <EventMarkerContainer
             key={`EventMarkerContainer-${marker.latlng.lat}-${marker.latlng.lng}`}
             position={marker.latlng}
-            content={marker.content}
+            marker={marker}
           />
         ))}
       </Map>
-      {/* ) : (
-        <div>Loading</div>
-      )} */}
     </>
   );
 };
