@@ -142,7 +142,7 @@ const MapContainer = () => {
           }}
           style={{
             // 지도의 크기
-            width: "100vw",
+            width: "100%",
             height: "100vh",
             zIndex: 1,
             position: "relative",

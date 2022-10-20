@@ -5,11 +5,12 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import palette from "@lib/styles/palette";
 
 const StyledSearchInput = styled(SearchInput)`
+  margin-top: 2rem;
   margin-bottom: 0.5rem;
   height: 3rem;
   z-index: 2;
   position: absolute;
-  left: 2%;
+  left: 6%;
 `;
 
 const Block = styled.div`
@@ -17,10 +18,11 @@ const Block = styled.div`
     color: ${palette.gray7};
   }
   .hamburgerBtn {
-    width: 4vw;
-    height: 4vh;
+    width: 1.2rem;
+    height: 3rem;
     position: absolute;
-    left: 5%;
+    left: 9%;
+    top: 5.3%;
     z-index: 3;
   }
 `;

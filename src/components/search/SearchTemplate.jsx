@@ -1,9 +1,10 @@
+import React from "react";
 import PageTemplate from "../base/PageTemplate";
-import Responsive from "./Responsive";
+import VelogResponsive from "../velog/VelogResponsive";
 import styled from "styled-components";
-import media from "@lib/styles/media";
+import media from "../../lib/styles/media";
 
-const SearchTemplate = styled(Responsive)`
+const StyledVelogResponsive = styled(VelogResponsive)`
   margin-top: 3.5rem;
   ${media.medium} {
     padding-left: 1rem;
@@ -15,12 +16,12 @@ const SearchTemplate = styled(Responsive)`
   }
 `;
 
-SearchTemplate = ({ children }) => {
+function SearchTemplate({ children }) {
   return (
     <PageTemplate>
-      <SearchTemplate>{children}</SearchTemplate>
+      <StyledVelogResponsive>{children}</StyledVelogResponsive>
     </PageTemplate>
   );
-};
+}
 
 export default SearchTemplate;

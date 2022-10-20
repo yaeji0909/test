@@ -8,6 +8,8 @@ const MainResponsive = ({ className, children }) => {
 
 const Block = styled.div`
   width: 1728px;
+  margin-left: auto;
+  margin-right: auto;
   ${mediaQuery(1919)} {
     width: 1376px;
   }

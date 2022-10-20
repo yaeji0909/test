@@ -1,10 +1,11 @@
 import MainTemplate from "./MainTemplate";
 import Header from "../base/Header";
 
-function MainPageTemplate() {
+function MainPageTemplate({ children }) {
   return (
     <MainTemplate>
       <Header />
+      {children}
     </MainTemplate>
   );
 }
