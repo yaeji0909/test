@@ -2,7 +2,10 @@ import { atom } from "recoil";
 
 export const currentPos = atom({
   key: "currentPos",
-  default: {},
+  default: {
+    center: { lat: 33.452613, lng: 126.570888 },
+    isPanto: true,
+  },
 });
 
 export const stops = atom({
