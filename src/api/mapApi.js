@@ -7,7 +7,6 @@ const govAxios = axios.create({
 
 export const getBusStopByLocation = async () => {
   // 현 위치를 기준으로 근처 500m이내의 정류소 조회
-
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
@@ -26,13 +25,13 @@ export const getBusStopByLocation = async () => {
   }
 };
 
-export const getStopInfo = async () => {
+export const getStopInfo = async (clickedStation) => {
   // 버스 정류장 운행중인 노선 정보
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
       cityCode: 39,
-      nodeid: "JEB405001622",
+      nodeid: clickedStation,
       numOfRows: 10,
       pageNo: 1,
       _type: "json",

@@ -1,7 +1,7 @@
 import { Map } from "react-kakao-maps-sdk";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { currentMapState, positionMarkers, stops } from "@recoil/home";
+import { currentMapState, positionMarkers, stations } from "@recoil/home";
 import { useQuery } from "react-query";
 import EventMarker from "./EventMarker";
 import {
@@ -12,7 +12,7 @@ import {
 
 const MapContainer = () => {
   const [mapState, setMapState] = useRecoilState(currentMapState);
-  const [stop, setBusStop] = useRecoilState(stops);
+  const [station, setStation] = useRecoilState(stations);
   const [markers, setMarkers] = useRecoilState(positionMarkers);
 
   // 현 위치 조회
@@ -31,10 +31,10 @@ const MapContainer = () => {
     });
   };
 
-  // response data를 마커를 그릴 수 있도록 수정
+  // response data를 마커객체로 수정
   const editDataToMarker = () => {
     let markers = [];
-    if (stop) {
+    if (station) {
       const userPosition = {
         content: <div>here!</div>,
         latlng: {
@@ -48,7 +48,7 @@ const MapContainer = () => {
         gpslati: lat,
         gpslong: lng,
         nodeid: stopId,
-      } of stop) {
+      } of station) {
         let markerObj = {
           // content: <div style={{ color: "tomato" }}>{name}</div>,
           name,
@@ -58,24 +58,24 @@ const MapContainer = () => {
         markers.push(markerObj);
       }
     }
-
     return markers;
   };
 
   const { data: positionData } = useQuery("locations", getBusStopByLocation, {
     enabled: mapState.center.lat !== 33.452613,
   });
-  const { data: arrivalData } = useQuery("busArrival", getBusArrivalInfo);
+  const { data: arrivalData } = useQuery("busArrival", getBusArrivalInfo, {
+    enabled: !positionData,
+  });
   const { data: clickedBusInfo } = useQuery("busInfo", getClickedBusInfo, {
     enabled: !arrivalData,
   });
 
   useEffect(() => {
-    console.log("mapState", mapState);
     getCurrentPos();
-    setBusStop(positionData);
+    setStation(positionData);
     setMarkers(editDataToMarker());
-  }, [positionData, stop]);
+  }, [positionData, station]);
 
   return (
     <>

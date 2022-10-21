@@ -8,8 +8,8 @@ export const currentMapState = atom({
   },
 });
 
-export const stops = atom({
-  key: "stops",
+export const stations = atom({
+  key: "stations",
   default: [],
 });
 
@@ -21,4 +21,9 @@ export const positionMarkers = atom({
 export const userInfo = atom({
   key: "userInfo",
   default: {},
+});
+
+export const selectedStation = atom({
+  key: "selectedStation",
+  default: [],
 });
