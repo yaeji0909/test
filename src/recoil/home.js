@@ -17,3 +17,8 @@ export const positionMarkers = atom({
   key: "positionMarkers",
   default: [],
 });
+
+export const userInfo = atom({
+  key: "userInfo",
+  default: {},
+});

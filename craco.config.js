@@ -14,6 +14,7 @@ module.exports = {
           "@containers": "./src/containers",
           "@lib": "./src/lib",
           "@hooks": "./src/hooks",
+          "@utils": "./src/utils",
           "@modules": "./src/modules",
           "@pages": "./src/pages",
           "@recoil": "./src/recoil",

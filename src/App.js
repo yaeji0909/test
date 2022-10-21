@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import NotFound from "./pages/NotFoundPage.jsx";
 import "./App.css";
-
 const App = () => {
   return (
     <>
