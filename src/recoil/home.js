@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
-export const currentPos = atom({
-  key: "currentPos",
+export const currentMapState = atom({
+  key: "currentMapState",
   default: {
     center: { lat: 33.452613, lng: 126.570888 },
     isPanto: true,

@@ -1,18 +1,18 @@
 import { Helmet } from "react-helmet-async";
 import Header from "../../components/base/Header";
 
-function RecentSearchPage() {
+function BusStopInfoPage() {
   return (
     <>
       <Helmet>
-        <title>RecentSearchPage</title>
+        <title>BusStopInfoPage</title>
       </Helmet>
       <Header />
       <div>
-        <h3>RecentSearchPage</h3>
+        <h3>BusStopInfoPage</h3>
       </div>{" "}
     </>
   );
 }
 
-export default RecentSearchPage;
+export default BusStopInfoPage;

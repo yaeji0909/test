@@ -27,6 +27,7 @@ export const getBusStopByLocation = async () => {
 };
 
 export const getStopInfo = async () => {
+  // 버스 정류장 운행중인 노선 정보
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
@@ -40,13 +41,14 @@ export const getStopInfo = async () => {
     const { data } = await govAxios.get(
       `/BusSttnInfoInqireService/getSttnThrghRouteList${param}`
     );
-    return data || [];
+    return data.response.body.items.item || [];
   } catch (err) {
     throw new Error(err.response.status);
   }
 };
 
 export const getBusArrivalInfo = async () => {
+  // 검색한 정류장에 대한 모든 노선 도착 정보
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
@@ -67,6 +69,7 @@ export const getBusArrivalInfo = async () => {
 };
 
 export const getClickedBusInfo = async () => {
+  // 특정 노선에 대한 정보
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,

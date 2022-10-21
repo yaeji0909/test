@@ -1,28 +1,31 @@
-import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { useState, useEffect } from "react";
-import busStopIcon from "@static/images/bus-stop-icon.png";
+import { Map } from "react-kakao-maps-sdk";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { currentPos, positionMarkers, stops } from "@recoil/home";
+import { currentMapState, positionMarkers, stops } from "@recoil/home";
 import { useQuery } from "react-query";
+import EventMarker from "./EventMarker";
 import {
   getBusStopByLocation,
-  getStopInfo,
   getBusArrivalInfo,
   getClickedBusInfo,
 } from "@api/mapApi";
 
 const MapContainer = () => {
-  const [currentPosition, setCurrentPosition] = useRecoilState(currentPos);
+  const [mapState, setMapState] = useRecoilState(currentMapState);
   const [stop, setBusStop] = useRecoilState(stops);
   const [markers, setMarkers] = useRecoilState(positionMarkers);
 
   // 현 위치 조회
   const getCurrentPos = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      setCurrentPosition({
+      setMapState({
+        // center: {
+        //   lat: position.coords.latitude, // 위도
+        //   lng: position.coords.longitude, // 경도
+        // },
         center: {
-          lat: position.coords.latitude, // 위도
-          lng: position.coords.longitude, // 경도
+          lat: "33.450701", // 위도
+          lng: "126.570667", // 경도
         },
       });
     });
@@ -35,8 +38,8 @@ const MapContainer = () => {
       const userPosition = {
         content: <div>here!</div>,
         latlng: {
-          lat: currentPosition.center.lat,
-          lng: currentPosition.center.lng,
+          lat: mapState.center.lat,
+          lng: mapState.center.lng,
         },
       };
       markers.push(userPosition);
@@ -48,8 +51,8 @@ const MapContainer = () => {
       } of stop) {
         let markerObj = {
           // content: <div style={{ color: "tomato" }}>{name}</div>,
-          name: { name },
-          stopId: { stopId },
+          name,
+          stopId,
           latlng: { lat, lng },
         };
         markers.push(markerObj);
@@ -60,60 +63,25 @@ const MapContainer = () => {
   };
 
   const { data: positionData } = useQuery("locations", getBusStopByLocation, {
-    enabled: currentPosition.center.lat !== 33.452613,
+    enabled: mapState.center.lat !== 33.452613,
   });
-
-  const { data: stopData } = useQuery("route", getStopInfo, {
-    enabled: !positionData,
-  });
-  const { data: arrivalData } = useQuery("busArrival", getBusArrivalInfo, {
-    enabled: !stopData,
-  });
+  const { data: arrivalData } = useQuery("busArrival", getBusArrivalInfo);
   const { data: clickedBusInfo } = useQuery("busInfo", getClickedBusInfo, {
     enabled: !arrivalData,
   });
 
   useEffect(() => {
+    console.log("mapState", mapState);
     getCurrentPos();
     setBusStop(positionData);
     setMarkers(editDataToMarker());
   }, [positionData, stop]);
 
-  // 이벤트 등록이 된 마커 오버레이
-  const EventMarkerContainer = ({ marker }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    return (
-      <>
-        <MapMarker
-          position={marker.latlng} // 마커를 표시할 위치
-          onClick={() => console.log(marker)}
-          onMouseOver={() => setIsVisible(true)}
-          onMouseOut={() => setIsVisible(false)}
-          image={{
-            src: busStopIcon,
-            size: {
-              width: 22,
-              height: 30,
-            },
-            options: {
-              offset: {
-                x: 12,
-                y: 43,
-              },
-            },
-          }}
-        >
-          {isVisible && marker.content}
-        </MapMarker>
-      </>
-    );
-  };
-
   return (
     <>
       <Map // 지도를 표시할 Container
-        center={currentPosition.center}
-        isPanto={currentPosition.isPanto}
+        center={mapState.center}
+        isPanto={mapState.isPanto}
         style={{
           // 지도의 크기
           width: "100%",
@@ -124,8 +92,8 @@ const MapContainer = () => {
         level={4}
       >
         {markers.map((marker) => (
-          <EventMarkerContainer
-            key={`EventMarkerContainer-${marker.latlng.lat}-${marker.latlng.lng}`}
+          <EventMarker
+            key={`EventMarker-${marker.latlng.lat}-${marker.latlng.lng}`}
             position={marker.latlng}
             marker={marker}
           />

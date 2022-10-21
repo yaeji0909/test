@@ -4,11 +4,13 @@ import MainTemplate from "@components/main/MainTemplate";
 import SearchPage from "./SearchPage";
 import RecentSearchPage from "./RecentPage";
 import MainPage from "./MainPage";
-import TodoPage from "./TodoPage";
+// import TodoPage from "./TodoPage";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
-import ReactQueryPage from "./ReactQueryPage";
-import ParallelPage from "./ParallelPage";
-import DependentPage from "./DependentPage";
+// import ReactQueryPage from "./ReactQueryPage";
+// import ParallelPage from "./ParallelPage";
+// import DependentPage from "./DependentPage";
+import BusInfoPage from "./BusInfoPage";
+import BusStopInfoPage from "./BusStopInfoPage";
 
 const HomePage = () => {
   const location = useLocation();
@@ -23,11 +25,13 @@ const HomePage = () => {
                 <Route path='/' element={<Navigate replace to='home' />} />
                 <Route path='home' element={<MainPage />} />
                 <Route path='search' element={<SearchPage />} />
+                <Route path='bus' element={<BusInfoPage />} />
+                <Route path='bus-stop' element={<BusStopInfoPage />} />
                 <Route path='recent' element={<RecentSearchPage />} />
-                <Route path='todo' element={<TodoPage />} />
-                <Route path='query' element={<ReactQueryPage />} />
-                <Route path='query/parallel' element={<ParallelPage />} />
-                <Route path='query/dependent' element={<DependentPage />} />
+                {/* <Route path='todo' element={<TodoPage />} /> */}
+                {/* <Route path='query' element={<ReactQueryPage />} /> */}
+                {/* <Route path='query/parallel' element={<ParallelPage />} /> */}
+                {/* <Route path='query/dependent' element={<DependentPage />} /> */}
               </Routes>
             </>
           }
