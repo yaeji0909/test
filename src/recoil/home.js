@@ -25,5 +25,5 @@ export const userInfo = atom({
 
 export const selectedStation = atom({
   key: "selectedStation",
-  default: [],
+  default: null,
 });

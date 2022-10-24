@@ -60,7 +60,7 @@ const SearchInputBlock = styled.div`
     props.large &&
     css`
       height: 2rem;
-      width: 80%;
+      width: 88%;
       padding: 0 1.5rem;
       background: #ffffff;
       input {

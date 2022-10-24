@@ -46,13 +46,13 @@ export const getStopInfo = async (clickedStation) => {
   }
 };
 
-export const getBusArrivalInfo = async () => {
+export const getBusArrivalInfo = async (clickedStation) => {
   // 검색한 정류장에 대한 모든 노선 도착 정보
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
       cityCode: 39,
-      nodeId: "JEB405001622",
+      nodeId: clickedStation,
       numOfRows: 10,
       pageNo: 1,
       _type: "json",

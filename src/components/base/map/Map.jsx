@@ -1,19 +1,21 @@
 import { Map } from "react-kakao-maps-sdk";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { currentMapState, positionMarkers, stations } from "@recoil/home";
+import {
+  currentMapState,
+  positionMarkers,
+  stations,
+  selectedStation,
+} from "@recoil/home";
 import { useQuery } from "react-query";
 import EventMarker from "./EventMarker";
-import {
-  getBusStopByLocation,
-  getBusArrivalInfo,
-  getClickedBusInfo,
-} from "@api/mapApi";
+import { getBusStopByLocation, getClickedBusInfo } from "@api/mapApi";
 
 const MapContainer = () => {
   const [mapState, setMapState] = useRecoilState(currentMapState);
   const [station, setStation] = useRecoilState(stations);
   const [markers, setMarkers] = useRecoilState(positionMarkers);
+  const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
 
   // 현 위치 조회
   const getCurrentPos = () => {
@@ -64,22 +66,20 @@ const MapContainer = () => {
   const { data: positionData } = useQuery("locations", getBusStopByLocation, {
     enabled: mapState.center.lat !== 33.452613,
   });
-  const { data: arrivalData } = useQuery("busArrival", getBusArrivalInfo, {
-    enabled: !positionData,
-  });
-  const { data: clickedBusInfo } = useQuery("busInfo", getClickedBusInfo, {
-    enabled: !arrivalData,
-  });
+
+  // const { data: clickedBusInfo } = useQuery("busInfo", getClickedBusInfo, {
+  //   enabled: !arrivalData,
+  // });
 
   useEffect(() => {
     getCurrentPos();
     setStation(positionData);
     setMarkers(editDataToMarker());
-  }, [positionData, station]);
+  }, [positionData, station, clickedBusStop]);
 
   return (
     <>
-      <Map // 지도를 표시할 Container
+      <Map
         center={mapState.center}
         isPanto={mapState.isPanto}
         style={{

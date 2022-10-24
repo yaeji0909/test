@@ -1,20 +1,18 @@
 import styled from "styled-components";
-import Sticky from "../common/Sticky";
-import { mediaQuery } from "@lib/styles/media";
 
-function BusInfo({ props }) {
+function BusInfo({ color, type, num, busStop }) {
   return (
-    <Sticky top={118}>
-      <Block></Block>
-    </Sticky>
+    <BusInfoBox>
+      <BusList>{busStop.routeno}</BusList>
+      <BusList>{busStop.routetp}</BusList>
+    </BusInfoBox>
   );
 }
 
-const Block = styled.div`
-  width: 16rem;
-  ${mediaQuery(1440)} {
-    width: 12rem;
-  }
-`;
+const BusInfoBox = styled.div``;
 
+const BusList = styled.li`
+  border-bottom: 1px solid #e0e2e7;
+  padding: 1.5rem;
+`;
 export default BusInfo;
