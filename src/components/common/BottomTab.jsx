@@ -1,23 +1,21 @@
 import styled from "styled-components";
-// import Sticky from "../common/Sticky";
-import { mediaQuery } from "@lib/styles/media";
 
 function BottomTab({ props }) {
   return (
     // <Sticky top={118}>
-    <Block>rdimtvoerhdu</Block>
+    <Block>BottomTab</Block>
     // </Sticky>
   );
 }
 
 const Block = styled.div`
-  width: 16rem;
-  height: 50vh;
+  width: 95%;
+  height: 7vh;
   background-color: #ffffff;
   z-index: 5;
-  ${mediaQuery(1440)} {
-    width: 12rem;
-  }
+  position: absolute;
+  bottom: 0%;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
 `;
 
 export default BottomTab;

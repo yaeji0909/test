@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { getStopInfo, getBusArrivalInfo } from "@api/mapApi";
+import { getStopInfo } from "@api/mapApi";
 import { useRecoilState } from "recoil";
 import { selectedStation } from "@recoil/home";
 import { useQuery } from "react-query";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { IoMdMap } from "react-icons/io";
 import BusInfo from "@components/home/BusInfo";
+import { useNavigate } from "react-router-dom";
 
 function BusStopInfo() {
   const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
@@ -22,13 +22,7 @@ function BusStopInfo() {
     console.log(busStopData);
   }
 
-  const { data: arrivalData } = useQuery(
-    "busArrival",
-    () => getBusArrivalInfo(clickedBusStop.stopId),
-    {
-      enabled: !!clickedBusStop,
-    }
-  );
+  const navigate = useNavigate();
 
   useEffect(() => {}, []);
   return (
@@ -36,21 +30,16 @@ function BusStopInfo() {
       <BusStopInfoTextBox>
         <BusStopInfoText>
           <p>{clickedBusStop ? clickedBusStop.name : ""}</p>
+          <p>{clickedBusStop ? clickedBusStop.startnodenm : ""}</p>
+          <p>{clickedBusStop ? clickedBusStop.endnodenm : ""}</p>
         </BusStopInfoText>
-        <Link to='/'>
-          <MapBtn>
-            <IoMdMap />
-          </MapBtn>
-        </Link>
+        <MapBtn onClick={() => navigate(-1)}>
+          <IoMdMap />
+        </MapBtn>
       </BusStopInfoTextBox>
-
       {busStopData.map((busStop) => (
         <BusListBox key={`${busStop.routeid}`}>
-          {busStop.routetp === "간선버스" ? (
-            <BusInfo color={"#59BE0A"} busStop={busStop} />
-          ) : (
-            <BusInfo color={"#1E7ADB"} busStop={busStop} />
-          )}
+          <BusInfo busStop={busStop} />
         </BusListBox>
       ))}
     </BusStopInfoBox>
@@ -66,20 +55,24 @@ const BusStopInfoTextBox = styled.div`
   justify-contents: center;
   align-items: center;
   flex-direction: column;
+  box-shadow: 0 4px 4px -3px rgba(0, 0, 0, 0.15);
+  padding: 2rem 0;
 `;
 const BusStopInfoText = styled.div`
   font-size: 24px;
 `;
 
 const MapBtn = styled.div`
+  margin-top: 1rem;
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;
   border: 1px solid #e0e2e7;
   position: relative;
   svg {
+    font-size: 0.8rem;
     position: absolute;
-    left: 20%;
+    left: 22%;
     top: 20%;
   }
 `;

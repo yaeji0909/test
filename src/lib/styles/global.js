@@ -1,14 +1,15 @@
 import { createGlobalStyle } from "styled-components";
+
 const GlobalStyle = createGlobalStyle`
 * {
     margin: 0;
-    font-family: $font-main;
+    font-family: "Spoqa Han Sans Neo", "sans-serif";
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   html {
-    font-family: $font-main;
+    font-family: "Spoqa Han Sans Neo", "sans-serif";
     font-size: $font-size-16;
   }
   

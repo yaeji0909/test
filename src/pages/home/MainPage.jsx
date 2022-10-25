@@ -5,7 +5,8 @@ import { useRecoilState } from "recoil";
 import Map from "@components/base/map/Map";
 import BusStopInfoPage from "@pages/home/BusStopInfoPage";
 import { selectedStation } from "@recoil/home";
-// import BusStopList from "../../components/home/BusStopList";
+import BusStopList from "../../components/home/BusStopList";
+import BottomTab from "../../components/common/BottomTab";
 // import PostCardGrid from "./PostCardGrid";
 // import BottomTab from "../../components/common/BottomTab";
 function MainPage(props) {
@@ -23,9 +24,11 @@ function MainPage(props) {
         <>
           <LargeSearchInput />
           <Map />
+          <BusStopList />
         </>
       )}
       {/* <BusStopInfo /> */}
+      <BottomTab />
     </>
   );
 }

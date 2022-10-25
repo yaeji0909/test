@@ -61,20 +61,20 @@ export const getBusArrivalInfo = async (clickedStation) => {
     const { data } = await govAxios.get(
       `/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList${param}`
     );
-    return data || [];
+    return data.response.body.items || [];
   } catch (err) {
     throw new Error(err.response.status);
   }
 };
 
-export const getClickedBusInfo = async () => {
+export const getClickedBusInfo = async (clickedStation, routeId) => {
   // 특정 노선에 대한 정보
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
       cityCode: 39,
-      nodeId: "JEB405001622",
-      routeId: "JEB405242602",
+      nodeId: clickedStation,
+      routeId: routeId,
       numOfRows: 10,
       pageNo: 1,
       _type: "json",
@@ -83,7 +83,28 @@ export const getClickedBusInfo = async () => {
     const { data } = await govAxios.get(
       `/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList${param}`
     );
-    return data || [];
+    return data.response.body.items.item || [];
+  } catch (err) {
+    throw new Error(err.response.status);
+  }
+};
+
+export const getBusRouteInfo = async (routeId) => {
+  // 특정 노선에 대한 정보
+  try {
+    const param = objectToParam({
+      serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
+      cityCode: 39,
+      routeId: routeId,
+      numOfRows: 10,
+      pageNo: 1,
+      _type: "json",
+    });
+
+    const { data } = await govAxios.get(
+      `BusRouteInfoInqireService/getRouteNoList${param}`
+    );
+    return data.response.body.items || [];
   } catch (err) {
     throw new Error(err.response.status);
   }

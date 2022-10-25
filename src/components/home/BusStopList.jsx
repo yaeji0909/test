@@ -6,38 +6,43 @@ function BusStopList() {
   return (
     <Block>
       <ContentsBox>
-        <Title></Title>
+        <Title>즐겨찾기</Title>
         <Contents>A</Contents>
         <Contents>B</Contents>
       </ContentsBox>
     </Block>
   );
 }
-const Title = styled.div`
-  height: 5vh;
-  border-bottom: 1px solid #3f4150;
+
+const Block = styled.div`
+  z-index: 3;
+  position: absolute;
+  bottom: -7%;
+  width: 94.5%;
 `;
+
+const ContentsBox = styled.div`
+  border: 3px solid #ffffff;
+  border-radius: 30px;
+  background-color: #ffffff;
+  height: 66vh;
+  padding: 1rem 0;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
+`;
+
 const Contents = styled.div`
   height: 20vh;
-  1px solid #F7F8FA;
+  margin: 0.8rem;
   box-shadow: 0px 4px 15px rgba(65, 97, 119, 0.2);
   border-radius: 10px;
 `;
 
-const ContentsBox = styled.div`
-background-color="#fffff";
-width:100vw;
-height:60vh;
-box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
-`;
-
-const Block = styled.div`
-  z-index: 3;
-  height: 30vh;
-  width: 16rem;
-  ${mediaQuery(1440)} {
-    width: 12rem;
-  }
+const Title = styled.div`
+  height: 5vh;
+  padding: 0 1rem;
+  color: #3f4150;
+  font-size: 20px;
+  font-weight: 700;
 `;
 
 export default BusStopList;
