@@ -6,18 +6,17 @@ import palette from "@lib/styles/palette";
 import useToggle from "@lib/hooks/useToggle";
 import useInput from "@lib/hooks/useInput";
 import { debounce } from "throttle-debounce";
+import { useNavigate } from "react-router-dom";
 
 const SearchInputBlock = styled.div`
   display: flex;
   height: 2.25rem;
-  border: 1px solid ${themedPalette.border3};
   padding-left: 0.625rem;
   padding-right: 0.625rem;
   align-items: center;
   transition: all 0.125s ease-in;
   cursor: text;
   border-radius: 0.5rem;
-  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
   svg {
     transition: all 0.125s ease-in;
     margin-right: 0.5rem;
@@ -60,6 +59,8 @@ const SearchInputBlock = styled.div`
     props.large &&
     css`
       height: 2rem;
+      box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+      border: 1px solid ${themedPalette.border3};
       width: 88%;
       padding: 0 1.5rem;
       background: #ffffff;
@@ -100,12 +101,12 @@ const SearchInput = ({
   const [value, onChange] = useInput(initial);
   const mounted = useRef(false);
   const inputRef = useRef(null);
+
   const debouncedSearch = useMemo(() => {
     return debounce(300, (keyword) => {
       onSearch(keyword);
     });
   }, [onSearch]);
-
   const onClick = () => {
     if (!inputRef.current) return;
     inputRef.current.focus();
@@ -134,11 +135,12 @@ const SearchInput = ({
       large={large}
     >
       <input
+        style={{ fontWeight: "300" }}
         placeholder='정류장을 검색해보세요'
         onFocus={toggleFocus}
         onBlur={toggleFocus}
-        onKeyPress={onKeyPress}
         ref={inputRef}
+        onKeyPress={onKeyPress}
         onChange={onChange}
         value={value}
         autoFocus

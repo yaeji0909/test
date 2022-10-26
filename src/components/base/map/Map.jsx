@@ -1,5 +1,5 @@
 import { Map } from "react-kakao-maps-sdk";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
 import {
   currentMapState,
@@ -16,6 +16,8 @@ const MapContainer = () => {
   const [station, setStation] = useRecoilState(stations);
   const [markers, setMarkers] = useRecoilState(positionMarkers);
   const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
+
+  const map = useRef();
 
   // 현 위치 조회
   const getCurrentPos = () => {
@@ -67,9 +69,7 @@ const MapContainer = () => {
     enabled: mapState.center.lat !== 33.452613,
   });
 
-  // const { data: clickedBusInfo } = useQuery("busInfo", getClickedBusInfo, {
-  //   enabled: !arrivalData,
-  // });
+  const focusMap = () => {};
 
   useEffect(() => {
     getCurrentPos();
@@ -82,6 +82,8 @@ const MapContainer = () => {
       <Map
         center={mapState.center}
         isPanto={mapState.isPanto}
+        onTouchStart={focusMap}
+        ref={map}
         style={{
           // 지도의 크기
           width: "100%",

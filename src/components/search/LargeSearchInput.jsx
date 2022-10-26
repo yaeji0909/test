@@ -1,8 +1,9 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import SearchInput from "@components/search/SearchInput";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import palette from "@lib/styles/palette";
+import { Link, useNavigate } from "react-router-dom";
 
 const StyledSearchInput = styled(SearchInput)`
   margin-top: 2rem;
@@ -22,29 +23,43 @@ const Block = styled.div`
     height: 3rem;
     position: absolute;
     left: 9%;
-    top: 5.7%;
+    top: 5.5%;
     z-index: 3;
   }
 `;
 
-function LargeSearchInput({ history, initialKeyword, location }) {
+const LargeSearchInput = ({ history, initialKeyword }) => {
+  const navigate = useNavigate();
+
   const onSearch = useCallback((keyword) => {
     console.log(keyword);
   }, []);
+
+  // const onKeyPress = useCallback((e) => {
+  //   if (e.key === "Enter") {
+  //     navigate(`/search`, {
+  //       state: {
+  //         key: searchKeyword,
+  //       },
+  //     });
+  //   }
+  // });
 
   return (
     <Block>
       <div className='user-search-description'>
         <GiHamburgerMenu className='hamburgerBtn' />
       </div>
-      <StyledSearchInput
-        onSearch={onSearch}
-        initial={initialKeyword}
-        large
-        searchAsYouType
-      />
+      <Link to='/search'>
+        <StyledSearchInput
+          onSearch={onSearch}
+          initial={initialKeyword}
+          large
+          searchAsYouType
+        />
+      </Link>
     </Block>
   );
-}
+};
 
 export default LargeSearchInput;

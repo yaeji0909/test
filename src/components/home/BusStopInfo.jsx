@@ -52,7 +52,7 @@ const BusStopInfoBox = styled.div`
 
 const BusStopInfoTextBox = styled.div`
   display: flex;
-  justify-contents: center;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   box-shadow: 0 4px 4px -3px rgba(0, 0, 0, 0.15);
