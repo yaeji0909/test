@@ -2,22 +2,29 @@ import styled from "styled-components";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdSettings } from "react-icons/io";
 import { MdDirectionsBus } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 function BottomTab({ props }) {
   return (
     // <Sticky top={118}>
     <Block>
-      <Left>
-        <AiOutlineSearch />
-        <TextBox>최근 검색</TextBox>
-      </Left>
+      <Link to='/search'>
+        <Left>
+          <AiOutlineSearch />
+          <TextBox>최근 검색</TextBox>
+        </Left>
+      </Link>
       <Center>
-        <MdDirectionsBus />
+        <Link to='/home'>
+          <MdDirectionsBus />
+        </Link>
       </Center>
-      <Right>
-        <IoMdSettings />
-        <TextBox>설정</TextBox>
-      </Right>
+      <Link>
+        <Right>
+          <IoMdSettings />
+          <TextBox>설정</TextBox>
+        </Right>
+      </Link>
     </Block>
     // </Sticky>
   );

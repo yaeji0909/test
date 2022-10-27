@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { selectedStation } from "@recoil/home";
 import BusStopInfoPage from "@pages/home/BusStopInfoPage";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import BottomTab from "@components/common/BottomTab";
+// import BottomTab from "@components/common/BottomTab";
 import "react-spring-bottom-sheet/dist/style.css";
 import useDebounce from "@components/home/hooks/useDebounce";
 import BottomSheetHeader from "@components/home/BottomSheetHeader";
@@ -12,7 +12,6 @@ import BottomSheetHeader from "@components/home/BottomSheetHeader";
 import BottomSheetBody from "@components/home/BottomSheetBody";
 import LargeSearchInput from "@components/search/LargeSearchInput";
 import Map from "@components/base/map/Map";
-import styled from "styled-components";
 
 function MainPage() {
   const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
@@ -66,7 +65,7 @@ function MainPage() {
           </BottomSheet>
         </>
       )}
-      <BottomTab />
+      {/* <BottomTab /> */}
     </>
   );
 }

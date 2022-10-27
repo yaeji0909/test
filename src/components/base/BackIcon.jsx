@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 
-const BackIcon = ({ title }) => {
+const BackIcon = ({ props }) => {
   return (
     <>
       <BackIconBox>
-        <MdOutlineArrowBackIosNew className=' ' />
+        <MdOutlineArrowBackIosNew />
       </BackIconBox>
-      <div>{title}</div>
+      <div>{props}</div>
     </>
   );
 };

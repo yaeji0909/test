@@ -27,11 +27,11 @@ const SearchInputBlock = styled.div`
   }
   input {
     transition: all 0.125s ease-in;
-    font-size: 0.875rem;
+    font-size: 1rem;
     flex: 1;
     display: block;
     line-height: 1rem;
-    height: 1rem;
+    height: 1.5rem;
     padding: 0;
     border: none;
     outline: 0;
@@ -46,7 +46,6 @@ const SearchInputBlock = styled.div`
   ${(props) =>
     props.focus &&
     css`
-      border: 1px solid ${themedPalette.border1};
       svg {
         fill: ${palette.gray9};
       }
@@ -107,10 +106,12 @@ const SearchInput = ({
       onSearch(keyword);
     });
   }, [onSearch]);
+
   const onClick = () => {
     if (!inputRef.current) return;
     inputRef.current.focus();
   };
+
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
       onSearch(value);

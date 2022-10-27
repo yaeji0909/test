@@ -3,11 +3,12 @@ import BackIcon from "../../components/base/BackIcon";
 import styled from "styled-components";
 import starIcon from "@static/svg/star-icon.svg";
 
-const Header = ({ title, img }) => {
+const Header = ({ title }) => {
   return (
     <Block>
       <Inner>
         <BackIcon />
+        {/* <div>{title}</div> */}
         <img src={starIcon} alt={"starBtn"} />
       </Inner>
     </Block>

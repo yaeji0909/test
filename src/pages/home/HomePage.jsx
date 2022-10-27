@@ -11,7 +11,8 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 // import DependentPage from "./DependentPage";
 import BusInfoPage from "./BusInfoPage";
 import BusStopInfoPage from "./BusStopInfoPage";
-
+import BottomTab from "@components/common/BottomTab";
+import ConfigPage from "./ConfigPage";
 const HomePage = () => {
   const location = useLocation();
 
@@ -28,11 +29,13 @@ const HomePage = () => {
                 <Route path='bus' element={<BusInfoPage />} />
                 <Route path='bus-stop' element={<BusStopInfoPage />} />
                 <Route path='recent' element={<RecentSearchPage />} />
+                <Route path='config' element={<ConfigPage />} />
                 {/* <Route path='todo' element={<TodoPage />} /> */}
                 {/* <Route path='query' element={<ReactQueryPage />} /> */}
                 {/* <Route path='query/parallel' element={<ParallelPage />} /> */}
                 {/* <Route path='query/dependent' element={<DependentPage />} /> */}
               </Routes>
+              <BottomTab />
             </>
           }
         />
