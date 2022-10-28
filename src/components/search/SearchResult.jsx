@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { favorites } from "@recoil/home";
 
-const SearchResult = ({ item, query }) => {
+const SearchResult = ({ item, query, no }) => {
   const [clickToggle, setClickToggle] = useState(false);
 
   const addFavorites = (e) => {
@@ -19,6 +19,7 @@ const SearchResult = ({ item, query }) => {
         {item.split(query)[0]}
         <span style={{ color: "#3186C4" }}>{query}</span>
         {item.split(query)[1]}
+        <span className='stop-num'>{no}</span>
       </List>
       <ImgBox>
         {clickToggle ? (
@@ -35,6 +36,10 @@ const SearchResult = ({ item, query }) => {
 
 const List = styled.li`
   padding: 1.5rem 1rem;
+  .stop-num {
+    display: block;
+    color: #8c8d96;
+  }
 `;
 
 const ImgBox = styled.div`

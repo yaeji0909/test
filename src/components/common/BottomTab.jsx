@@ -14,12 +14,12 @@ function BottomTab({ props }) {
           <TextBox>최근 검색</TextBox>
         </Left>
       </Link>
-      <Center>
-        <Link to='/home'>
+      <Link to='/home'>
+        <Center>
           <MdDirectionsBus />
-        </Link>
-      </Center>
-      <Link to='/config'>
+        </Center>
+      </Link>
+      <Link to='/settings'>
         <Right>
           <IoMdSettings />
           <TextBox>설정</TextBox>
@@ -31,14 +31,16 @@ function BottomTab({ props }) {
 }
 
 const Block = styled.div`
+  position: fixed;
   width: 100%;
-  height: 6vh;
+  height: 7%;
   background-color: #ffffff;
   z-index: 5;
   left: 0;
-  position: absolute;
+  right: 0;
+  bottom: 0;
   display: flex;
-  padding: 0.5rem 0;
+  padding: 0.8rem 3rem;
   justify-content: space-around;
   bottom: 0%;
   color: #8c8d96;
@@ -55,7 +57,8 @@ const Center = styled.div`
   width: 3rem;
   height: 3rem;
   position: absolute;
-  bottom: 42%;
+  bottom: 50%;
+  left: 45%;
   border-radius: 10px;
   background: linear-gradient(180deg, #4c80f1 0%, #0051d9 100%);
   display: flex;

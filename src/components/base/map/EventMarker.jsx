@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import busStopIcon from "@static/images/bus-stop-icon.png";
 import { useRecoilState } from "recoil";
 import { positionMarkers, selectedStation } from "@recoil/home";
+import { useNavigate } from "react-router-dom";
+
 // 이벤트 등록이 된 마커 오버레이
 const EventMarker = ({ marker, handleToggle }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,6 +16,7 @@ const EventMarker = ({ marker, handleToggle }) => {
       (marker) => marker.stopId === clickedMarker.stopId
     );
     setClickedStation(marker[0]);
+    navigate("/bus-stop");
     console.log(clickedBusStop);
   };
 
@@ -22,6 +25,7 @@ const EventMarker = ({ marker, handleToggle }) => {
   //   // getBusStopInfo();
   //   // searchBusStopInfo();
   // }
+  const navigate = useNavigate();
 
   useEffect(() => {
     // getClickedStopInfo();

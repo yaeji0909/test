@@ -36,7 +36,7 @@ const SearchInputBlock = styled.div`
     border: none;
     outline: 0;
     background: transparent;
-    color: ${themedPalette.text2};
+    color: #191a20;
     min-width: 0;
     &::placeholder {
       color: ${themedPalette.text3};

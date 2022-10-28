@@ -1,9 +1,8 @@
 import { Helmet } from "react-helmet-async";
-// import { useLocation } from "react-router-dom";
 import SearchInput from "../../components/search/SearchInput";
 import styled from "styled-components";
-import { MdOutlineArrowBackIosNew, MdSavedSearch } from "react-icons/md";
-// import { MdCancel } from "react-icons/md";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { MdCancel } from "react-icons/md";
 // import SearchContents from "../../components/search/SearchContents";
 import { useCallback, useState, useEffect } from "react";
 import { useQuery } from "react-query";
@@ -12,10 +11,6 @@ import busStop from "@static/images/bus-stop.png";
 import SearchResult from "../../components/search/SearchResult";
 
 function SearchPage() {
-  // const location = useLocation();
-  // const state = location.state;
-  // 검색키워드
-
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
@@ -29,7 +24,11 @@ function SearchPage() {
 
   useEffect(() => {
     if (isSuccess) {
-      const searchR = busStopInfo.map((stopInfo) => stopInfo.name);
+      const searchR = busStopInfo.map((stopInfo) => [
+        stopInfo.name,
+        stopInfo.no,
+      ]);
+      console.log(searchR);
       editBusStopData(searchR);
       // setSearchResult(busStopInfo);
       // console.log(busStopInfo);
@@ -43,48 +42,53 @@ function SearchPage() {
 
   const editBusStopData = (searchResult) => {
     setSearchResult(searchResult);
+    console.log(typeof searchResult);
   };
 
   return (
-    <SearchBox>
+    <Wrapper>
       <Helmet>
         <title>SearchPage</title>
       </Helmet>
       <SearchInputBox>
-        <MdOutlineArrowBackIosNew className=' ' />
+        <MdOutlineArrowBackIosNew />
         <SearchInput searchAsYouType onSearch={onSearch} />
-        {/* {searchResult} */}
-        {/* <MdCancel /> */}
+        <MdCancel className='cancel-btn' />
       </SearchInputBox>
       <SearchContentsBox>
         {searchKeyword ? (
           searchResult.map((el, index) => (
-            <SearchResult item={el} query={searchKeyword} key={index} />
+            <SearchResult
+              item={el[0]}
+              no={el[1]}
+              query={searchKeyword}
+              key={index}
+            />
           ))
         ) : (
-          // searchResult.map((keyword, index) => (
-          //   <SearchContents keyword={keyword} key={index} />
-          // ))
           <BeforeSearch>
             <img src={busStop} alt='bus-stop-img' />
           </BeforeSearch>
         )}
       </SearchContentsBox>
-    </SearchBox>
+    </Wrapper>
   );
 }
-
-const SearchBox = styled.div`
-  width: 100%;
-`;
+const Wrapper = styled.div``;
 const SearchInputBox = styled.div`
   display: flex;
   align-items: center;
-  padding: 0.4rem;
+  padding: 1rem;
   width: 100%;
   border-bottom: 1px solid #8c8d96;
   svg {
+    color: #8c8d96;
     font-size: 1.5rem;
+  }
+  .cancel-btn {
+    color: #a6a6a6;
+    font-size: 1.2rem;
+    margin-left: 8rem;
   }
 `;
 
@@ -93,7 +97,8 @@ const SearchContentsBox = styled.ul`
 `;
 
 const BeforeSearch = styled.div`
-  padding: 15rem 6rem;
+  padding: 50% 25%;
+  height: 100%;
 `;
 
 export default SearchPage;

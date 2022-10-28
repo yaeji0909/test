@@ -36,7 +36,7 @@ function BusInfo({ busStop }) {
 
   useEffect(() => {});
   return (
-    <>
+    <Wrapper>
       {busStop.routetp === "간선버스" ? (
         <>
           <BusInfoBox>
@@ -62,14 +62,17 @@ function BusInfo({ busStop }) {
           </BusInfoBox>
         </>
       )}
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div``;
 
 const BusInfoBox = styled.div`
   padding: 1.7rem;
   display: flex;
   border-bottom: 1px solid #e0e2e7;
+  overflow-y: scroll;
 `;
 
 const BusBadge = styled.div`

@@ -1,20 +1,19 @@
 import { Helmet } from "react-helmet-async";
 import Header from "@components/base/Header";
-import ConfigMenu from "@components/config/ConfigMenu";
+import SettingsMenu from "@components/settings/SettingsMenu";
 
-const ConfigPage = () => {
+const SettingPage = () => {
   return (
     <>
       <Helmet>
-        <title>ConfigPage</title>
+        <title>SettingPage</title>
       </Helmet>
       <Header title={"설정"} />
       <div>
-        <h3>ConfigPage</h3>
-        <ConfigMenu />
+        <SettingsMenu />
       </div>
     </>
   );
 };
 
-export default ConfigPage;
+export default SettingPage;

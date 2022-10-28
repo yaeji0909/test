@@ -7,7 +7,7 @@ const busAxios = axios.create({
 
 export const searchBusStop = async (searchKeyword) => {
   const param = objectToParam({
-    city: 39,
+    city: 31230,
     key: searchKeyword,
   });
   const { data } = await busAxios.get(`station/list${param}`);
