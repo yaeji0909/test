@@ -19,7 +19,7 @@ function BottomTab({ props }) {
           <MdDirectionsBus />
         </Link>
       </Center>
-      <Link>
+      <Link to='/config'>
         <Right>
           <IoMdSettings />
           <TextBox>설정</TextBox>

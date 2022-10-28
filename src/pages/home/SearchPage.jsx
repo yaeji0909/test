@@ -4,12 +4,12 @@ import SearchInput from "../../components/search/SearchInput";
 import styled from "styled-components";
 import { MdOutlineArrowBackIosNew, MdSavedSearch } from "react-icons/md";
 // import { MdCancel } from "react-icons/md";
-import SearchContents from "../../components/search/SearchContents";
+// import SearchContents from "../../components/search/SearchContents";
 import { useCallback, useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { searchBusStop } from "@api/BusServiceApi";
 import busStop from "@static/images/bus-stop.png";
-import HighlightKeyword from "../../components/search/HighlightKeyword";
+import SearchResult from "../../components/search/SearchResult";
 
 function SearchPage() {
   // const location = useLocation();
@@ -45,29 +45,6 @@ function SearchPage() {
     setSearchResult(searchResult);
   };
 
-  const Highlight = ({ text }, { query }) => {
-    if (query !== "" && text.includes(query)) {
-      console.log("func");
-      const parts = text.split(new RegExp(`(${query})`, "gi"));
-
-      return (
-        <>
-          {parts.map((part, index) =>
-            part.toLowerCase() === query.toLowerCase() ? (
-              <span style={{ color: "tomato" }} key={index}>
-                {part}
-              </span>
-            ) : (
-              part
-            )
-          )}
-        </>
-      );
-    }
-
-    return text;
-  };
-
   return (
     <SearchBox>
       <Helmet>
@@ -81,7 +58,9 @@ function SearchPage() {
       </SearchInputBox>
       <SearchContentsBox>
         {searchKeyword ? (
-          <Highlight text={searchResult} query={searchKeyword}></Highlight>
+          searchResult.map((el, index) => (
+            <SearchResult item={el} query={searchKeyword} key={index} />
+          ))
         ) : (
           // searchResult.map((keyword, index) => (
           //   <SearchContents keyword={keyword} key={index} />

@@ -27,3 +27,8 @@ export const selectedStation = atom({
   key: "selectedStation",
   default: null,
 });
+
+export const favoritesList = atom({
+  key: "favorites",
+  default: [],
+});
