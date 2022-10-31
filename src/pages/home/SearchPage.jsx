@@ -24,12 +24,12 @@ function SearchPage() {
 
   useEffect(() => {
     if (isSuccess) {
-      const searchR = busStopInfo.map((stopInfo) => [
+      const searchResultArray = busStopInfo.map((stopInfo) => [
         stopInfo.name,
         stopInfo.no,
       ]);
-      console.log(searchR);
-      editBusStopData(searchR);
+      console.log(searchResultArray);
+      editBusStopData(searchResultArray);
       // setSearchResult(busStopInfo);
       // console.log(busStopInfo);
     }
@@ -81,14 +81,16 @@ const SearchInputBox = styled.div`
   padding: 1rem;
   width: 100%;
   border-bottom: 1px solid #8c8d96;
+  position: relative;
   svg {
     color: #8c8d96;
     font-size: 1.5rem;
   }
   .cancel-btn {
     color: #a6a6a6;
-    font-size: 1.2rem;
-    margin-left: 8rem;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 3%;
   }
 `;
 

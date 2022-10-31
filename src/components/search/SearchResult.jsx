@@ -1,15 +1,12 @@
 import styled from "styled-components";
-// import starIcon from "@static/svg/star-icon.svg";
 import { FiStar } from "react-icons/fi";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { favorites } from "@recoil/home";
 
 const SearchResult = ({ item, query, no }) => {
   const [clickToggle, setClickToggle] = useState(false);
 
   const addFavorites = (e) => {
-    setClickToggle(!clickToggle);
+    setClickToggle((prev) => !prev);
     console.log(e.currentTarget.outerText);
   };
 
@@ -21,7 +18,23 @@ const SearchResult = ({ item, query, no }) => {
         {item.split(query)[1]}
         <span className='stop-num'>{no}</span>
       </List>
-      <ImgBox>
+      <ImgBox onClick={addFavorites}>
+        {clickToggle ? (
+          <FiStar alt={"starBtn"} color='#f2e528' fill='#f2e528' />
+        ) : (
+          <FiStar alt={"starBtn"} />
+        )}
+      </ImgBox>
+    </SearchContentsList>
+  ) : no.includes(query) ? (
+    <SearchContentsList>
+      <List onClick={addFavorites}>
+        <span className='stop-num'>{item}</span>
+        {no.split(query)[0]}
+        <span style={{ color: "#3186C4" }}>{query}</span>
+        {no.split(query)[1]}
+      </List>
+      <ImgBox onClick={addFavorites}>
         {clickToggle ? (
           <FiStar alt={"starBtn"} color='#f2e528' fill='#f2e528' />
         ) : (
@@ -30,12 +43,12 @@ const SearchResult = ({ item, query, no }) => {
       </ImgBox>
     </SearchContentsList>
   ) : (
-    <></>
+    ""
   );
 };
 
 const List = styled.li`
-  padding: 1.5rem 1rem;
+  padding: 1rem;
   .stop-num {
     display: block;
     color: #8c8d96;
@@ -44,7 +57,8 @@ const List = styled.li`
 
 const ImgBox = styled.div`
   padding: 1.5rem;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  color: #b2b3b9;
 `;
 const SearchContentsList = styled.div`
   display: flex;

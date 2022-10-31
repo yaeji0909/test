@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 import BusStopInfo from "@components/home/BusStopInfo";
-import starIcon from "@static/svg/star-icon.svg";
 import MainResponsive from "@components/main/MainResponsive";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { FiStar } from "react-icons/fi";
 
 function BusStopInfoPage() {
   return (
@@ -13,7 +13,7 @@ function BusStopInfoPage() {
       </Helmet>
       <Inner>
         <MdOutlineArrowBackIosNew />
-        <img src={starIcon} alt={"starBtn"} />
+        <FiStar />
       </Inner>
       <BusStopInfo />
     </>

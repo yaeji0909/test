@@ -6,7 +6,6 @@ import palette from "@lib/styles/palette";
 import useToggle from "@lib/hooks/useToggle";
 import useInput from "@lib/hooks/useInput";
 import { debounce } from "throttle-debounce";
-import { useNavigate } from "react-router-dom";
 
 const SearchInputBlock = styled.div`
   display: flex;

@@ -3,7 +3,7 @@ import SearchInput from "@components/search/SearchInput";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import palette from "@lib/styles/palette";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const StyledSearchInput = styled(SearchInput)`
   margin-top: 2rem;
@@ -29,21 +29,9 @@ const Block = styled.div`
 `;
 
 const LargeSearchInput = ({ history, initialKeyword }) => {
-  const navigate = useNavigate();
-
   const onSearch = useCallback((keyword) => {
     console.log(keyword);
   }, []);
-
-  // const onKeyPress = useCallback((e) => {
-  //   if (e.key === "Enter") {
-  //     navigate(`/search`, {
-  //       state: {
-  //         key: searchKeyword,
-  //       },
-  //     });
-  //   }
-  // });
 
   return (
     <Block>

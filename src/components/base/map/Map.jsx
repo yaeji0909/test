@@ -7,9 +7,11 @@ import {
   stations,
   selectedStation,
 } from "@recoil/home";
+import styled, { css } from "styled-components";
 import { useQuery } from "react-query";
 import EventMarker from "./EventMarker";
 import { getBusStopByLocation, getClickedBusInfo } from "@api/mapApi";
+import { MdOutlineMyLocation } from "react-icons/md";
 
 const MapContainer = () => {
   const [mapState, setMapState] = useRecoilState(currentMapState);
@@ -22,6 +24,7 @@ const MapContainer = () => {
   // 현 위치 조회
   const getCurrentPos = () => {
     navigator.geolocation.getCurrentPosition((position) => {
+      console.log("get position");
       setMapState({
         // center: {
         //   lat: position.coords.latitude, // 위도
@@ -100,8 +103,37 @@ const MapContainer = () => {
             marker={marker}
           />
         ))}
+        <LocationBtn onClick={() => getCurrentPos}>
+          <MdOutlineMyLocation />
+        </LocationBtn>
       </Map>
     </>
   );
 };
+
+const LocationBtn = styled.div`
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #006ffd;
+  z-index: 1;
+  position: absolute;
+  bottom: 12%;
+  display: flex;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  align-items: center;
+  right: 5%;
+  width: 3rem;
+  height: 3rem;
+  svg {
+    font-size: 1.6rem;
+  }
+  ${(props) =>
+    props.refreshToggle &&
+    css`
+      color: #ffffff;
+      background-color: #006ffd;
+    `}
+`;
+
 export default MapContainer;
