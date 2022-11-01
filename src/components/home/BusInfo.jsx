@@ -1,31 +1,24 @@
 import styled from "styled-components";
-import { getClickedBusInfo, getBusRouteInfo } from "@api/mapApi";
-import { useRecoilState } from "recoil";
-import { selectedStation } from "@recoil/home";
+import { getClickedBusInfo } from "@api/mapApi";
 import { useQuery } from "react-query";
 import { useEffect } from "react";
 import Timer from "./utils/Timer";
 
-function BusInfo({ busStop }) {
-  const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
-
-  const { data: busArrivalInfo = [], isSuccess } = useQuery(
+const BusInfo = ({ busStop, clickedBusStop }) => {
+  const { data: busArrivalInfo = [] } = useQuery(
     ["busArrivalInfo", busStop.routeid],
     () => getClickedBusInfo(clickedBusStop.stopId, busStop.routeid),
     {
       enabled: !!busStop.routeid,
     }
   );
-  // console.log(busArrivalInfo);
-
-  const { data: busRouteData = [] } = useQuery(
-    ["busRouteInfo", 1],
-    () => getBusRouteInfo(busStop.routeid),
-    {
-      enabled: !!busStop.routeid,
-    }
-  );
-  console.log(busRouteData);
+  // const { data: busRouteData = [] } = useQuery(
+  //   ["busRouteInfo", 1],
+  //   () => getBusRouteInfo(busStop.routeid),
+  //   {
+  //     enabled: !!busStop.routeid,
+  //   }
+  // );
 
   const editSecondsToMinutes = (time = []) => {
     const result = time / 60;
@@ -34,9 +27,12 @@ function BusInfo({ busStop }) {
 
   const result = editSecondsToMinutes(busArrivalInfo.arrtime);
 
-  useEffect(() => {});
+  useEffect(() => {}, [busStop]);
+  console.log(busStop, "busStop");
+
   return (
     <Wrapper>
+      {console.log(busStop, "busStop")}
       {busStop.routetp === "간선버스" ? (
         <>
           <BusInfoBox>
@@ -64,7 +60,7 @@ function BusInfo({ busStop }) {
       )}
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.div``;
 

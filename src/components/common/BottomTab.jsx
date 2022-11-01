@@ -4,15 +4,14 @@ import { IoMdSettings } from "react-icons/io";
 import { MdDirectionsBus } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-function BottomTab({ props }) {
+function BottomTab() {
   return (
-    // <Sticky top={118}>
     <Block>
       <Link to='/search'>
-        <Left>
+        <LeftBox>
           <AiOutlineSearch />
           <TextBox>최근 검색</TextBox>
-        </Left>
+        </LeftBox>
       </Link>
       <Link to='/home'>
         <Center>
@@ -20,13 +19,12 @@ function BottomTab({ props }) {
         </Center>
       </Link>
       <Link to='/settings'>
-        <Right>
+        <RightBox>
           <IoMdSettings />
           <TextBox>설정</TextBox>
-        </Right>
+        </RightBox>
       </Link>
     </Block>
-    // </Sticky>
   );
 }
 
@@ -47,18 +45,19 @@ const Block = styled.div`
   box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
 `;
 
-const Left = styled.div`
+const LeftBox = styled.div`
   svg {
     font-size: 1.5rem;
     margin-left: 0.8rem;
   }
 `;
+
 const Center = styled.div`
   width: 3rem;
   height: 3rem;
   position: absolute;
   bottom: 50%;
-  left: 45%;
+  left: 44.5%;
   border-radius: 10px;
   background: linear-gradient(180deg, #4c80f1 0%, #0051d9 100%);
   display: flex;
@@ -69,14 +68,16 @@ const Center = styled.div`
     color: #ffffff;
   }
 `;
+
+const RightBox = styled.div`
+  svg {
+    font-size: 1.5rem;
+  }
+`;
+
 const TextBox = styled.p`
   font-size: 12px;
   font-weight: 300;
 `;
 
-const Right = styled.div`
-  svg {
-    font-size: 1.5rem;
-  }
-`;
 export default BottomTab;

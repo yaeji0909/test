@@ -10,7 +10,7 @@ const BottomSheetHeader = ({ customAction, onClick }) => (
     display='flex'
     flex='0 0 auto'
     alignitems='center'
-    style={{ backgroundColor: "white", height: "7vh" }}
+    style={{ backgroundColor: "white", height: "8vh" }}
   >
     <div flex='0 0 auto' display='flex' alignitems='center' marginright={2}>
       <GiHamburgerMenu style={{ color: "transparent" }} />

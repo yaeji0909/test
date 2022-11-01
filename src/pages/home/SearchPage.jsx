@@ -3,7 +3,6 @@ import SearchInput from "../../components/search/SearchInput";
 import styled from "styled-components";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
-// import SearchContents from "../../components/search/SearchContents";
 import { useCallback, useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { searchBusStop } from "@api/BusServiceApi";
@@ -30,8 +29,6 @@ function SearchPage() {
       ]);
       console.log(searchResultArray);
       editBusStopData(searchResultArray);
-      // setSearchResult(busStopInfo);
-      // console.log(busStopInfo);
     }
   }, [busStopInfo]);
 
@@ -48,7 +45,7 @@ function SearchPage() {
   return (
     <Wrapper>
       <Helmet>
-        <title>SearchPage</title>
+        <title>search page</title>
       </Helmet>
       <SearchInputBox>
         <MdOutlineArrowBackIosNew />

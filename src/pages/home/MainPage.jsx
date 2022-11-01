@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import useDebounce from "@components/home/hooks/useDebounce";
@@ -21,40 +21,30 @@ function MainPage() {
     }
   };
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-
   return (
     <>
       <Helmet>
-        <title>MainPage</title>
+        <title>main page</title>
       </Helmet>
       <LargeSearchInput />
       <Map />
-
       <BottomSheet
         open
         blocking={false}
         ref={sheetRef}
-        scrollLocking={true}
+        scrollLocking={false}
         snapPoints={({ headerHeight, maxHeight }) => [
           headerHeight,
           (maxHeight - 56) * 0.65,
           maxHeight - 56,
         ]}
-        defaultSnap={({ lastSnap, snapPoints }) =>
-          console.log(lastSnap, snapPoints)
-        }
         onSpringStart={(event) => event.type === "SNAP" && setLoadingOpen(true)}
         header={
-          <div>
-            <BottomSheetHeader
-              onClick={() => {
-                handleButtonSheet();
-              }}
-            />
-          </div>
+          <BottomSheetHeader
+            onClick={() => {
+              handleButtonSheet();
+            }}
+          />
         }
       >
         {open ? <BottomSheetBody /> : <div>loading...</div>}

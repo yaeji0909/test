@@ -1,10 +1,8 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import useStayScrolled from "react-stay-scrolled";
-// import useInterval from "@components/home/hooks/useInterval";
 import styled from "styled-components";
 import { BottomSheetBodyBox, Wrapper } from "./bottomSheetStyles";
 import { MdOutlineRefresh } from "react-icons/md";
-import { HiOutlineArrowUp } from "react-icons/hi";
 import exampleImg from "@static/images/favorites-example.png";
 
 // const initialMessages = [message, message];
@@ -12,12 +10,6 @@ import exampleImg from "@static/images/favorites-example.png";
 const BottomSheetBody = () => {
   const feedRef = useRef(null);
   const { stayScrolled, scrollBottom } = useStayScrolled(feedRef);
-  //   const [feed, setFeed] = useState(initialMessages);
-  //   const length = feed?.length;
-
-  //   useInterval(() => {
-  //     setFeed((prevMessages) => prevMessages.concat([message]));
-  //   }, 500);
 
   useLayoutEffect(() => {
     scrollBottom();
@@ -26,7 +18,7 @@ const BottomSheetBody = () => {
   //   useLayoutEffect(() => {
   //     stayScrolled();
   //   }, [length, stayScrolled]);
-  const contents = "";
+  const contents = [1, 2, 3, 4, 5, 6];
   return (
     <Wrapper>
       <BottomSheetBodyBox ref={feedRef}>

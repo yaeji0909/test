@@ -1,35 +1,24 @@
 import { MapMarker } from "react-kakao-maps-sdk";
-import { useState, useEffect } from "react";
-import busStopIcon from "@static/images/bus-stop-icon.png";
-import { useRecoilState } from "recoil";
-import { positionMarkers, selectedStation } from "@recoil/home";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import busStopIcon from "@static/images/bus-stop-icon.png";
 
-// 이벤트 등록이 된 마커 오버레이
-const EventMarker = ({ marker, handleToggle }) => {
+const EventMarker = ({ marker, markers }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [markers, setMarkers] = useRecoilState(positionMarkers);
-  const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
 
   const searchBusStopInfo = (clickedMarker) => {
     const marker = markers.filter(
       (marker) => marker.stopId === clickedMarker.stopId
     );
-    setClickedStation(marker[0]);
-    navigate("/bus-stop");
-    console.log(clickedBusStop);
+    const clickedBusStop = marker[0];
+    navigate("/bus-stop", {
+      state: {
+        value: clickedBusStop,
+      },
+    });
   };
 
-  // if (isSuccess) {
-  //   // console.log(stopData);
-  //   // getBusStopInfo();
-  //   // searchBusStopInfo();
-  // }
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // getClickedStopInfo();
-  }, []);
 
   return (
     <>
@@ -52,7 +41,7 @@ const EventMarker = ({ marker, handleToggle }) => {
           },
         }}
       >
-        {isVisible && marker.content}
+        {isVisible && marker}
       </MapMarker>
     </>
   );

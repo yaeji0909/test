@@ -20,6 +20,7 @@ module.exports = {
           "@recoil": "./src/recoil",
           "@static": "./src/static",
           "@images": "./src/static/images",
+          "@constants": "./src/constants",
         },
       },
     },

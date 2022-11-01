@@ -89,23 +89,23 @@ export const getClickedBusInfo = async (clickedStation, routeId) => {
   }
 };
 
-export const getBusRouteInfo = async (routeId) => {
-  // 특정 노선에 대한 정보
-  try {
-    const param = objectToParam({
-      serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
-      cityCode: 39,
-      routeId: routeId,
-      numOfRows: 10,
-      pageNo: 1,
-      _type: "json",
-    });
+// export const getBusRouteInfo = async (routeId) => {
+//   // 특정 노선에 대한 정보
+//   try {
+//     const param = objectToParam({
+//       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
+//       cityCode: 39,
+//       routeId: routeId,
+//       numOfRows: 10,
+//       pageNo: 1,
+//       _type: "json",
+//     });
 
-    const { data } = await govAxios.get(
-      `BusRouteInfoInqireService/getRouteNoList${param}`
-    );
-    return data.response.body.items || [];
-  } catch (err) {
-    throw new Error(err.response.status);
-  }
-};
+//     const { data } = await govAxios.get(
+//       `BusRouteInfoInqireService/getRouteNoList${param}`
+//     );
+//     return data.response.body.items || [];
+//   } catch (err) {
+//     throw new Error(err.response.status);
+//   }
+// };

@@ -1,26 +1,22 @@
+import { useEffect, useRef, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
-import { useEffect, useRef } from "react";
-import { useRecoilState } from "recoil";
-import {
-  currentMapState,
-  positionMarkers,
-  stations,
-  selectedStation,
-} from "@recoil/home";
+import EventMarker from "./EventMarker";
 import styled, { css } from "styled-components";
 import { useQuery } from "react-query";
-import EventMarker from "./EventMarker";
-import { getBusStopByLocation, getClickedBusInfo } from "@api/mapApi";
+import { getBusStopByLocation } from "@api/mapApi";
 import { MdOutlineMyLocation } from "react-icons/md";
+import { MapMarker } from "react-kakao-maps-sdk";
+import userIcon from "@static/svg/user-position-icon.svg";
 
 const MapContainer = () => {
-  const [mapState, setMapState] = useRecoilState(currentMapState);
-  const [station, setStation] = useRecoilState(stations);
-  const [markers, setMarkers] = useRecoilState(positionMarkers);
-  const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
+  const [mapState, setMapState] = useState({
+    center: { lat: 33.452613, lng: 126.570888 },
+    isPanto: true,
+  });
+  const [station, setStation] = useState([]);
+  const [markers, setMarkers] = useState([]);
 
   const map = useRef();
-
   // 현 위치 조회
   const getCurrentPos = () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -40,16 +36,7 @@ const MapContainer = () => {
 
   // response data를 마커객체로 수정
   const editDataToMarker = () => {
-    let markers = [];
     if (station) {
-      const userPosition = {
-        content: <div>here!</div>,
-        latlng: {
-          lat: mapState.center.lat,
-          lng: mapState.center.lng,
-        },
-      };
-      markers.push(userPosition);
       for (let {
         nodenm: name,
         gpslati: lat,
@@ -57,7 +44,6 @@ const MapContainer = () => {
         nodeid: stopId,
       } of station) {
         let markerObj = {
-          // content: <div style={{ color: "tomato" }}>{name}</div>,
           name,
           stopId,
           latlng: { lat, lng },
@@ -72,20 +58,17 @@ const MapContainer = () => {
     enabled: mapState.center.lat !== 33.452613,
   });
 
-  const focusMap = () => {};
-
   useEffect(() => {
     getCurrentPos();
     setStation(positionData);
     setMarkers(editDataToMarker());
-  }, [positionData, station, clickedBusStop]);
+  }, [positionData, station]);
 
   return (
     <>
       <Map
         center={mapState.center}
         isPanto={mapState.isPanto}
-        onTouchStart={focusMap}
         ref={map}
         style={{
           // 지도의 크기
@@ -101,8 +84,28 @@ const MapContainer = () => {
             key={`EventMarker-${marker.latlng.lat}-${marker.latlng.lng}`}
             position={marker.latlng}
             marker={marker}
+            markers={markers}
           />
         ))}
+        <MapMarker
+          position={{
+            lat: mapState.center.lat,
+            lng: mapState.center.lng,
+          }}
+          image={{
+            src: userIcon,
+            size: {
+              width: 90,
+              height: 90,
+            },
+            options: {
+              offset: {
+                x: 10,
+                y: 10,
+              },
+            },
+          }}
+        ></MapMarker>
         <LocationBtn onClick={() => getCurrentPos}>
           <MdOutlineMyLocation />
         </LocationBtn>

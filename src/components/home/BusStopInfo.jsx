@@ -1,50 +1,51 @@
 import styled from "styled-components";
 import { getStopInfo } from "@api/mapApi";
-import { useRecoilState } from "recoil";
-import { selectedStation } from "@recoil/home";
 import { useQuery } from "react-query";
-import { useEffect } from "react";
 import { IoMdMap } from "react-icons/io";
 import BusInfo from "@components/home/BusInfo";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function BusStopInfo() {
-  const [clickedBusStop, setClickedStation] = useRecoilState(selectedStation);
-
-  const { data: busStopData = [], isSuccess } = useQuery(
-    "route",
-    () => getStopInfo(clickedBusStop.stopId),
-    {
-      enabled: !!clickedBusStop,
-    }
-  );
-  if (isSuccess) {
-    console.log(busStopData);
-  }
-
+const BusStopInfo = () => {
+  const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
+  const { data: busStopData = [] } = useQuery(
+    ["route", location.state.value],
+    () => getStopInfo(location.state.value.stopId),
+    {
+      enabled: !!location.state.value,
+    }
+  );
+
+  let busStops = Array.from(busStopData);
+
+  console.log(busStops.length);
+
   return (
     <BusStopInfoBox>
       <BusStopInfoTextBox>
         <BusStopInfoText>
-          <p>{clickedBusStop ? clickedBusStop.name : ""}</p>
-          <p>{clickedBusStop ? clickedBusStop.startnodenm : ""}</p>
-          <p>{clickedBusStop ? clickedBusStop.endnodenm : ""}</p>
+          <p>{location.state.value ? location.state.value.name : ""}</p>
+          <p>{location.state.value ? location.state.value.startnodenm : ""}</p>
+          <p>{location.state.value ? location.state.value.endnodenm : ""}</p>
         </BusStopInfoText>
         <MapBtn onClick={() => navigate(-1)}>
           <IoMdMap />
         </MapBtn>
       </BusStopInfoTextBox>
-      {busStopData.map((busStop) => (
-        <BusListBox key={`${busStop.routeid}`}>
-          <BusInfo busStop={busStop} />
-        </BusListBox>
-      ))}
+      {console.log(busStops)}
+      {busStops.length === 0 ? (
+        <BusInfo busStop={busStopData} clickedBusStop={location.state.value} />
+      ) : (
+        busStops.map((busStop) => (
+          <div key={`${busStop.routeid}`}>
+            <BusInfo busStop={busStop} clickedBusStop={location.state.value} />
+          </div>
+        ))
+      )}
     </BusStopInfoBox>
   );
-}
+};
 
 const BusStopInfoBox = styled.div`
   width: 100%;
@@ -76,7 +77,5 @@ const MapBtn = styled.div`
     top: 20%;
   }
 `;
-
-const BusListBox = styled.div``;
 
 export default BusStopInfo;
