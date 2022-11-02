@@ -22,7 +22,7 @@ const Timer = ({ mm, ss }) => {
   }, [minutes, seconds]);
 
   return (
-    <div>
+    <>
       {minutes <= 0 && seconds <= 0 ? (
         <>도착정보 없음</>
       ) : (
@@ -30,7 +30,7 @@ const Timer = ({ mm, ss }) => {
           {minutes}분{seconds < 10 ? `0${seconds}` : seconds}초
         </>
       )}
-    </div>
+    </>
   );
 };
 

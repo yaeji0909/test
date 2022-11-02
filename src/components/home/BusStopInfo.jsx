@@ -33,22 +33,48 @@ const BusStopInfo = () => {
           <IoMdMap />
         </MapBtn>
       </BusStopInfoTextBox>
-      {console.log(busStops)}
-      {busStops.length === 0 ? (
-        <BusInfo busStop={busStopData} clickedBusStop={location.state.value} />
-      ) : (
-        busStops.map((busStop) => (
-          <div key={`${busStop.routeid}`}>
-            <BusInfo busStop={busStop} clickedBusStop={location.state.value} />
-          </div>
-        ))
-      )}
+      <Wrapper>
+        {busStops.length === 0 && (
+          <BusInfo
+            busStop={busStopData}
+            clickedBusStop={location.state.value}
+          />
+        )}
+        {busStops.length > 0 &&
+          busStops.map((busStop) => (
+            <div key={`${busStop.routeid}`}>
+              <BusInfo
+                busStop={busStop}
+                clickedBusStop={location.state.value}
+              />
+            </div>
+          ))}
+      </Wrapper>
     </BusStopInfoBox>
   );
 };
 
 const BusStopInfoBox = styled.div`
   width: 100%;
+`;
+
+const Wrapper = styled.div`
+  overflow-y: scroll;
+  height: 80vh;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 10px;
+    height: 15%;
+  }
 `;
 
 const BusStopInfoTextBox = styled.div`

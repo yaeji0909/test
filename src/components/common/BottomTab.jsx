@@ -57,7 +57,7 @@ const Center = styled.div`
   height: 3rem;
   position: absolute;
   bottom: 50%;
-  left: 44.5%;
+  left: 44%;
   border-radius: 10px;
   background: linear-gradient(180deg, #4c80f1 0%, #0051d9 100%);
   display: flex;

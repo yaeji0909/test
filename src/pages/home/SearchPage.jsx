@@ -43,7 +43,7 @@ function SearchPage() {
   };
 
   return (
-    <Wrapper>
+    <div>
       <Helmet>
         <title>search page</title>
       </Helmet>
@@ -68,10 +68,9 @@ function SearchPage() {
           </BeforeSearch>
         )}
       </SearchContentsBox>
-    </Wrapper>
+    </div>
   );
 }
-const Wrapper = styled.div``;
 const SearchInputBox = styled.div`
   display: flex;
   align-items: center;
@@ -96,8 +95,9 @@ const SearchContentsBox = styled.ul`
 `;
 
 const BeforeSearch = styled.div`
-  padding: 50% 25%;
-  height: 100%;
+  position: absolute;
+  left: 25%;
+  top: 30%;
 `;
 
 export default SearchPage;

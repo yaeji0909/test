@@ -7,7 +7,7 @@ import { FiStar } from "react-icons/fi";
 
 function BusStopInfoPage() {
   return (
-    <>
+    <Wrapper>
       <Helmet>
         <title>BusStopInfoPage</title>
       </Helmet>
@@ -16,7 +16,7 @@ function BusStopInfoPage() {
         <FiStar />
       </Inner>
       <BusStopInfo />
-    </>
+    </Wrapper>
   );
 }
 
@@ -26,5 +26,5 @@ const Inner = styled(MainResponsive)`
   align-items: center;
   justify-content: space-between;
 `;
-
+const Wrapper = styled.div``;
 export default BusStopInfoPage;

@@ -5,13 +5,13 @@ const govAxios = axios.create({
   baseURL: "http://apis.data.go.kr/1613000",
 });
 
-export const getBusStopByLocation = async () => {
+export const getBusStopByLocation = async (lat, lng) => {
   // 현 위치를 기준으로 근처 500m이내의 정류소 조회
   try {
     const param = objectToParam({
       serviceKey: process.env.REACT_APP_SEARCH_BUS_WITH_LOC_KEY,
-      gpsLati: "33.450701",
-      gpsLong: "126.570667",
+      gpsLati: lat,
+      gpsLong: lng,
       numOfRows: 10,
       pageNo: 1,
       _type: "json",
