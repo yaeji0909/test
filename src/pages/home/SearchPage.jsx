@@ -8,13 +8,15 @@ import { useQuery } from "react-query";
 import { searchBusStop } from "@api/BusServiceApi";
 import busStop from "@static/images/bus-stop.png";
 import SearchResult from "../../components/search/SearchResult";
+import { useNavigate } from "react-router-dom";
 
 function SearchPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const navigate = useNavigate();
 
   const { data: busStopInfo = [], isSuccess } = useQuery(
-    ["busArrivalInfo", 1],
+    ["busArrivalInfo", searchKeyword],
     () => searchBusStop(searchKeyword),
     {
       enabled: !!searchKeyword,
@@ -27,7 +29,6 @@ function SearchPage() {
         stopInfo.name,
         stopInfo.no,
       ]);
-      console.log(searchResultArray);
       editBusStopData(searchResultArray);
     }
   }, [busStopInfo]);
@@ -39,7 +40,6 @@ function SearchPage() {
 
   const editBusStopData = (searchResult) => {
     setSearchResult(searchResult);
-    console.log(typeof searchResult);
   };
 
   return (
@@ -48,9 +48,9 @@ function SearchPage() {
         <title>search page</title>
       </Helmet>
       <SearchInputBox>
-        <MdOutlineArrowBackIosNew />
+        <MdOutlineArrowBackIosNew onClick={() => navigate(-1)} />
         <SearchInput searchAsYouType onSearch={onSearch} />
-        <MdCancel className='cancel-btn' />
+        <MdCancel className='cancel-btn' onClick={() => setSearchKeyword("")} />
       </SearchInputBox>
       <SearchContentsBox>
         {searchKeyword ? (
