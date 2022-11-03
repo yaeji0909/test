@@ -27,11 +27,11 @@ const ToggleBtn = styled.button`
 `;
 const Circle = styled.div`
   background-color: white;
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50px;
   position: absolute;
-  left: 10%;
+  left: 9%;
   transition: all 0.5s ease-in-out;
   ${(props) =>
     props.autoSetting &&

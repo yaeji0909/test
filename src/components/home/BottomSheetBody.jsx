@@ -4,8 +4,15 @@ import styled from "styled-components";
 import { BottomSheetBodyBox, Wrapper } from "./bottomSheetStyles";
 import { MdOutlineRefresh } from "react-icons/md";
 import exampleImg from "@static/images/favorites-example.png";
-
+import FavoriteList from "./FavoriteList";
 // const initialMessages = [message, message];
+import {
+  getFavoriteList,
+  addFavoriteList,
+  deleteFavoriteList,
+} from "@api/favoriteApi";
+import { useQuery } from "react-query";
+import { useEffect } from "react";
 
 const BottomSheetBody = () => {
   const feedRef = useRef(null);
@@ -18,14 +25,20 @@ const BottomSheetBody = () => {
   //   useLayoutEffect(() => {
   //     stayScrolled();
   //   }, [length, stayScrolled]);
-  const contents = [1, 2, 3, 4, 5, 6];
+
+  const { data: favoriteList = [], isSuccess } = useQuery(
+    ["favoriteList", 1],
+    () => getFavoriteList()
+  );
+  if (isSuccess) {
+    console.log(favoriteList);
+  }
+
   return (
     <Wrapper>
       <BottomSheetBodyBox ref={feedRef}>
-        {contents ? (
-          contents.map((content, index) => (
-            <Contents key={index}>{content}</Contents>
-          ))
+        {favoriteList ? (
+          <FavoriteList favoriteList={favoriteList} />
         ) : (
           <ExampleImgBox>
             <img src={exampleImg} alt='example-img' />
@@ -48,17 +61,9 @@ const BottomSheetBody = () => {
   );
 };
 
-const Contents = styled.div`
-  height: 19vh;
-  padding: 1rem;
-  margin: 0.5rem;
-  box-shadow: 0px 4px 15px rgba(65, 97, 119, 0.2);
-  border-radius: 10px;
-`;
-
 const ExampleImgBox = styled.div`
   width: 100%;
-  padding: 6rem;
+  padding: 5rem;
   p {
     font-size: 12px;
     color: #8c8d96;

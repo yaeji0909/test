@@ -23,7 +23,7 @@ const Block = styled.div`
     height: 3rem;
     position: absolute;
     left: 9%;
-    top: 3.7%;
+    top: 3.3%;
     z-index: 3;
   }
 `;

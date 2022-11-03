@@ -5,21 +5,24 @@ import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 import { useCallback, useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { searchBusStop } from "@api/BusServiceApi";
+import { searchBusStop } from "@api/busServiceApi";
 import busStop from "@static/images/bus-stop.png";
 import SearchResult from "../../components/search/SearchResult";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { selectedCity } from "../../recoil/home";
 
 function SearchPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const navigate = useNavigate();
+  const [city, setCity] = useRecoilState(selectedCity);
 
   const { data: busStopInfo = [], isSuccess } = useQuery(
     ["busArrivalInfo", searchKeyword],
-    () => searchBusStop(searchKeyword),
+    () => searchBusStop(city, searchKeyword),
     {
-      enabled: !!searchKeyword,
+      enabled: !!searchKeyword && !!city,
     }
   );
 

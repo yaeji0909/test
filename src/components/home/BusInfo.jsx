@@ -1,24 +1,28 @@
 import styled from "styled-components";
-import { getClickedBusInfo } from "@api/mapApi";
+import { getClickedBusInfo, getBusArrivalInfo } from "@api/mapApi";
 import { useQuery } from "react-query";
-import { useEffect } from "react";
 import Timer from "./utils/Timer";
 
-const BusInfo = ({ busStop, clickedBusStop }) => {
-  const { data: busArrivalInfo = [] } = useQuery(
-    ["busArrivalInfo", busStop.routeid],
-    () => getClickedBusInfo(clickedBusStop.stopId, busStop.routeid),
-    {
-      enabled: !!busStop.routeid,
-    }
-  );
-  // const { data: busRouteData = [] } = useQuery(
-  //   ["busRouteInfo", 1],
-  //   () => getBusRouteInfo(busStop.routeid),
+const BusInfo = ({
+  busStop = [],
+  clickedBusStop = [],
+  stationId = [],
+  busId = [],
+}) => {
+  // const { data: busArrivalInfo = [] } = useQuery(
+  //   ["busArrivalInfo", busStop.routeid],
+  //   () => getClickedBusInfo(clickedBusStop.stopId, busStop.routeid),
   //   {
   //     enabled: !!busStop.routeid,
   //   }
   // );
+  const { data: busArrivalInfo = [] } = useQuery(
+    ["busArrivalInfo", 1],
+    () => getClickedBusInfo(stationId, busId),
+    {
+      enabled: !!busId && !!busId,
+    }
+  );
 
   const editSecondsToMinutes = (time = []) => {
     const result = time / 60;
