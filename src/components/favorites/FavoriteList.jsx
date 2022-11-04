@@ -2,30 +2,27 @@ import busBadge from "@static/svg/bus-badge.svg";
 import styled from "styled-components";
 import Bus from "./Bus";
 import busStopIcon from "@static/svg/bus-stop-icon.svg";
-import BusInfo from "./BusInfo";
-import { useState } from "react";
-import BusStopInfo from "./BusStopInfo";
 import { useNavigate } from "react-router-dom";
 
 const FavoriteList = ({ favoriteList }) => {
   const navigate = useNavigate();
-
   const clickToggle = (e) => {
-    // const filteredList = favoriteList.filter(
-    //   (city) => city.name === e.currentTarget.name
-    // );
+    const filteredList = favoriteList.filter(
+      (city) => city.name === e.currentTarget.name
+    );
     navigate("/bus-stop", {
       state: {
-        list: favoriteList,
+        list: filteredList,
       },
     });
   };
+
   return (
     <>
       {favoriteList.map((list, index) => (
         <Wrapper key={index}>
           <ListTitleBox>
-            <img src={busBadge} alt='' />
+            <img src={busBadge} alt='bus-badge' />
             <p>{list.name}</p>
           </ListTitleBox>
           <AddBusButton onClick={clickToggle} name={list.name}>
@@ -34,11 +31,8 @@ const FavoriteList = ({ favoriteList }) => {
           <ListSubTitle></ListSubTitle>
           <BusListBox>
             <img src={busStopIcon} alt='' className='bus-stop' />
-            {list.bus.map((bus, index) => (
-              <div key={index}>
-                <Bus bus={bus} />
-                {/* <BusInfo stationId={list.station} busId={bus.id} /> */}
-              </div>
+            {list.bus.map((el, index) => (
+              <Bus list={list} bus={el} key={index} />
             ))}
           </BusListBox>
           <Rectangle></Rectangle>
@@ -62,6 +56,9 @@ const ListTitleBox = styled.div`
   display: flex;
   font-weight: 500;
   font-size: 18px;
+  p {
+    padding-left: 5px;
+  }
 `;
 const AddBusButton = styled.button`
   position: absolute;

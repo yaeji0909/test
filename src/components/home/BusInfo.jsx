@@ -1,78 +1,40 @@
 import styled from "styled-components";
-import { getClickedBusInfo, getBusArrivalInfo } from "@api/mapApi";
-import { useQuery } from "react-query";
-import Timer from "./utils/Timer";
+import CheckBox from "../common/CheckBox";
+import { useState } from "react";
 
 const BusInfo = ({
   busStop = [],
   clickedBusStop = [],
-  stationId = [],
-  busId = [],
+  setSelectedList = [],
 }) => {
-  // const { data: busArrivalInfo = [] } = useQuery(
-  //   ["busArrivalInfo", busStop.routeid],
-  //   () => getClickedBusInfo(clickedBusStop.stopId, busStop.routeid),
-  //   {
-  //     enabled: !!busStop.routeid,
-  //   }
-  // );
-  const { data: busArrivalInfo = [] } = useQuery(
-    ["busArrivalInfo", 1],
-    () => getClickedBusInfo(stationId, busId),
-    {
-      enabled: !!busId && !!busId,
-    }
-  );
-
-  const editSecondsToMinutes = (time = []) => {
-    const result = time / 60;
-    return result;
+  const [clickToggle, setClickToggle] = useState(false);
+  const addFavorites = (e) => {
+    setClickToggle((prev) => !prev);
+    console.log(e.currentTarget.outerText);
   };
-
-  const result = editSecondsToMinutes(busArrivalInfo.arrtime);
-  const count = busArrivalInfo.arrprevstationcnt;
 
   return (
     <Wrapper>
-      {busStop.routetp === "간선버스" ? (
-        <BusInfoBox>
-          <LeftBox>
-            <BusBadge style={{ backgroundColor: "#59BE0A" }}>
-              <span>간선</span>
-            </BusBadge>
-            <BusList style={{ color: "#59BE0A" }}>{busStop.routeno}</BusList>
-          </LeftBox>
-          <BusArrivalInfo>
-            {result ? <Timer mm={result} ss={0} /> : <div>도착정보 없음</div>}
-            {count ? (
-              <CountRestStop style={{ color: "#8C8D96", fontSize: "14px" }}>
-                [{count}번째 전]
-              </CountRestStop>
-            ) : (
-              ""
-            )}
-          </BusArrivalInfo>
-        </BusInfoBox>
-      ) : (
-        <BusInfoBox>
-          <LeftBox>
-            <BusBadge style={{ backgroundColor: "#1E7ADB" }}>
-              <span>급행</span>
-            </BusBadge>
-            <BusList style={{ color: "#1E7ADB" }}>{busStop.routeno}</BusList>
-          </LeftBox>
-          <BusArrivalInfo>
-            {result ? <Timer mm={result} ss={0} /> : <div>도착정보 없음</div>}
-            {count ? (
-              <CountRestStop style={{ color: "#8C8D96", fontSize: "14px" }}>
-                [{count}번째 전]
-              </CountRestStop>
-            ) : (
-              <></>
-            )}
-          </BusArrivalInfo>
-        </BusInfoBox>
-      )}
+      <BusInfoBox>
+        <LeftBox>
+          {busStop.routetp === "간선버스" ? (
+            <>
+              <BusBadge style={{ backgroundColor: "#59BE0A" }}>
+                <span>간선</span>
+              </BusBadge>
+              <BusList style={{ color: "#59BE0A" }}>{busStop.routeno}</BusList>
+            </>
+          ) : (
+            <>
+              <BusBadge style={{ backgroundColor: "#1E7ADB" }}>
+                <span>급행</span>
+              </BusBadge>
+              <BusList style={{ color: "#1E7ADB" }}>{busStop.routeno}</BusList>
+            </>
+          )}
+        </LeftBox>
+        <CheckBox data={busStop} setSelectedList={setSelectedList} />
+      </BusInfoBox>
     </Wrapper>
   );
 };
@@ -103,10 +65,5 @@ const BusList = styled.li`
   margin: 0 1rem;
 `;
 const Wrapper = styled.div``;
-const CountRestStop = styled.span`
-  margin-left: 10px;
-`;
-const BusArrivalInfo = styled.div`
-  width: 40%;
-`;
+
 export default BusInfo;

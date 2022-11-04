@@ -85,7 +85,7 @@ export const getClickedBusInfo = async (stationId, busId) => {
     );
     return data.response.body.items.item || [];
   } catch (err) {
-    throw new Error(err.response.status);
+    throw new Error(err.response);
   }
 };
 

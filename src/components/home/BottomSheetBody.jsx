@@ -1,42 +1,31 @@
-import React, { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import useStayScrolled from "react-stay-scrolled";
 import styled from "styled-components";
 import { BottomSheetBodyBox, Wrapper } from "./bottomSheetStyles";
+import { HiOutlineArrowUp } from "react-icons/hi";
 import { MdOutlineRefresh } from "react-icons/md";
 import exampleImg from "@static/images/favorites-example.png";
-import FavoriteList from "./FavoriteList";
-// const initialMessages = [message, message];
+import FavoriteList from "@components/favorites/FavoriteList";
+import { useQuery } from "react-query";
 import {
   getFavoriteList,
   addFavoriteList,
   deleteFavoriteList,
 } from "@api/favoriteApi";
-import { useQuery } from "react-query";
-import { useEffect } from "react";
 
 const BottomSheetBody = () => {
-  const feedRef = useRef(null);
-  const { stayScrolled, scrollBottom } = useStayScrolled(feedRef);
-
+  const bottomBody = useRef(null);
+  const { scrollBottom } = useStayScrolled(bottomBody);
   useLayoutEffect(() => {
     scrollBottom();
   }, [scrollBottom]);
-
-  //   useLayoutEffect(() => {
-  //     stayScrolled();
-  //   }, [length, stayScrolled]);
-
-  const { data: favoriteList = [], isSuccess } = useQuery(
-    ["favoriteList", 1],
-    () => getFavoriteList()
+  const { data: favoriteList = "" } = useQuery(["favoriteList", 1], () =>
+    getFavoriteList()
   );
-  if (isSuccess) {
-    console.log(favoriteList);
-  }
 
   return (
     <Wrapper>
-      <BottomSheetBodyBox ref={feedRef}>
+      <BottomSheetBodyBox ref={bottomBody}>
         {favoriteList ? (
           <FavoriteList favoriteList={favoriteList} />
         ) : (
@@ -53,9 +42,6 @@ const BottomSheetBody = () => {
           {/* <HiOutlineArrowUp className='to-top-btn' /> */}
           <MdOutlineRefresh className='refresh-btn' />
         </ButtonBox>
-        {/* {feed.map((u, index) => (
-          <p key={index}>{u.text}</p>
-        ))} */}
       </BottomSheetBodyBox>
     </Wrapper>
   );

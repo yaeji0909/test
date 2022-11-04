@@ -5,12 +5,14 @@ import busStopIcon from "@static/images/bus-stop-icon.png";
 
 const EventMarker = ({ marker, markers }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   const searchBusStopInfo = (clickedMarker) => {
     const marker = markers.filter(
       (marker) => marker.stopId === clickedMarker.stopId
     );
     const clickedBusStop = marker[0];
+
     navigate("/bus-stop", {
       state: {
         value: clickedBusStop,
@@ -18,15 +20,11 @@ const EventMarker = ({ marker, markers }) => {
     });
   };
 
-  const navigate = useNavigate();
-
   return (
     <>
       <MapMarker
         position={marker.latlng} // 마커를 표시할 위치
         onClick={() => searchBusStopInfo(marker)}
-        onMouseOver={() => setIsVisible(true)}
-        onMouseOut={() => setIsVisible(false)}
         image={{
           src: busStopIcon,
           size: {

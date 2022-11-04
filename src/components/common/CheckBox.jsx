@@ -2,20 +2,21 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { selectedCity } from "@recoil/home";
 
-const CheckBox = ({ city }) => {
+const CheckBox = ({ data = [], setSelectedList = "" }) => {
   const [checkItems, setCheckItems] = useRecoilState(selectedCity);
 
+  console.log(data);
   // 체크박스 단일 선택
   const handleSingleCheck = (checked) => {
-    if (city.id === checked) setCheckItems(city.num);
-    console.log(checkItems);
+    if (data.id === checked) setCheckItems(data.num);
+    setSelectedList(checked);
   };
 
   return (
     <Wrapper>
       <input
         type='checkbox'
-        name={`${city.id}`}
+        name={`${data.routeno}` || `${data.id}`}
         onChange={(e) => handleSingleCheck(e.currentTarget.name)}
       />
     </Wrapper>

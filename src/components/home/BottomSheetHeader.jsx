@@ -1,6 +1,5 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import styled from "styled-components";
-
 import React from "react";
 
 const BottomSheetHeader = ({ customAction, onClick }) => (
@@ -15,7 +14,7 @@ const BottomSheetHeader = ({ customAction, onClick }) => (
     <div flex='0 0 auto' display='flex' alignitems='center' marginright={2}>
       <GiHamburgerMenu style={{ color: "transparent" }} />
     </div>
-    <Title color='textPrimary'>즐겨찾기</Title>
+    <Title>즐겨찾기</Title>
   </div>
 );
 const Title = styled.div`

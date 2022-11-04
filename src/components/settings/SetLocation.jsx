@@ -25,7 +25,7 @@ const SetLocation = () => {
         ? cities.map((city, index) => (
             <CitiesBox key={index}>
               <p>{city.id}</p>
-              <CheckBox city={city} />
+              <CheckBox data={city} />
             </CitiesBox>
           ))
         : ""}

@@ -14,10 +14,18 @@ const MapContainer = () => {
   });
   const [station, setStation] = useState([]);
   const [markers, setMarkers] = useState([]);
-  // const [onToggle, setToggle] = useState(false);
+  const [onToggle, setToggle] = useState(false);
   const map = useRef();
-  // 현 위치 조회
 
+  const { data: positionData } = useQuery(
+    ["locations", mapState],
+    () => getBusStopByLocation(mapState.center.lat, mapState.center.lng),
+    {
+      enabled: mapState.center.lat !== 33.452613,
+    }
+  );
+
+  // 현 위치 조회
   const getCurrentPos = () => {
     // navigator.geolocation.getCurrentPosition((position) => {
     //   console.log("get position");
@@ -66,14 +74,6 @@ const MapContainer = () => {
     return markers;
   };
 
-  const { data: positionData } = useQuery(
-    ["locations", mapState],
-    () => getBusStopByLocation(mapState.center.lat, mapState.center.lng),
-    {
-      enabled: mapState.center.lat !== 33.452613,
-    }
-  );
-
   useEffect(() => {
     getCurrentPos();
     setStation(positionData);
@@ -120,8 +120,8 @@ const MapContainer = () => {
             },
           },
         }}
-      ></MapMarker>
-      <PositionButton />
+      />
+      <PositionButton onToggle={onToggle} />
     </Map>
   );
 };
