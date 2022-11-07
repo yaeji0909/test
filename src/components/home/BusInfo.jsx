@@ -23,7 +23,7 @@ const BusInfo = ({ list = [], busStop = [] }) => {
   // );
 
   const selectBus = (x) => {
-    setSelectedBus(x);
+    setSelectedBus((prev) => [...prev, x]);
     console.log(selectedBus);
   };
 

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { addFavoriteList } from "@api/favoriteApi";
 import { addFavorite } from "@recoil/favorite";
 import { useRecoilState } from "recoil";
+import { useEffect } from "react";
 
 const FavoriteList = ({ favoriteList }) => {
   const [selectedBus, setSelectedBus] = useRecoilState(addFavorite);
@@ -23,11 +24,16 @@ const FavoriteList = ({ favoriteList }) => {
     });
     console.log("filteredList", filteredList);
   };
+  console.log(selectedBus);
+  const busArr = ["JEB405320214", "JEB405245514"];
+  const mutation = useMutation(() => addFavoriteList(busArr));
 
-  const { isSuccess, isError } = useMutation(
-    addFavoriteList(selectedBus.routeid),
-    { enabled: !!selectedBus }
-  );
+  const setData = [...new Set(selectedBus)];
+  console.log(setData);
+
+  useEffect(() => {
+    // mutation.mutate();
+  }, []);
 
   return (
     <>
