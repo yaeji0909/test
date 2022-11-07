@@ -6,39 +6,42 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getStopInfo } from "@api/mapApi";
 import { useState } from "react";
 
-const BusStopInfo = ({ loc }) => {
+const BusStopInfo = ({ list }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [selectedList, setSelectedList] = useState([]);
+  // const [selectedList, setSelectedList] = useState([]);
 
   // 지도에서 해당 페이지 이동시 실행되는 쿼리
   const { data: busStopData = [] } = useQuery(
-    ["route", location.state.value],
-    () => getStopInfo(location.state.value.stopId),
+    ["route", location.state.selectedBusStop],
+    () => getStopInfo(location.state.selectedBusStop.stopId),
     {
-      enabled: !!location.state.value,
+      enabled: !!location.state.selectedBusStop,
     }
   );
 
   // 즐겨찾기에서 해당 페이지 이동시 실행되는 쿼리
   const { data: busStopDataSecond = [] } = useQuery(
-    ["route", location.state.list],
-    () => getStopInfo(location.state.list[0].station),
+    ["route", list],
+    () => getStopInfo(list.station),
     {
-      enabled: !!location.state.list,
+      enabled: !!list,
     }
   );
 
-  let busStops = Array.from(busStopData);
-
+  let busList = Array.from(busStopData);
   return (
     <BusStopInfoBox>
       <BusStopInfoTextBox>
         <BusStopInfoText>
-          {loc ? (
-            <p>{loc.name}</p>
+          {list ? (
+            <p>{list.name}</p>
           ) : (
-            <p>{location.state.value ? location.state.value.name : ""}</p>
+            <p>
+              {location.state.selectedBusStop
+                ? location.state.selectedBusStop.name
+                : ""}
+            </p>
           )}
         </BusStopInfoText>
         <MapBtn onClick={() => navigate(-1)}>
@@ -46,28 +49,27 @@ const BusStopInfo = ({ loc }) => {
         </MapBtn>
       </BusStopInfoTextBox>
       <Wrapper>
-        {loc ? (
+        {list ? (
           <>
             {busStopDataSecond.map((bus, index) => (
-              <BusInfo clickedBusStop={loc.station} key={index} busStop={bus} />
+              <BusInfo busStop={list.station} key={index} list={bus} />
             ))}
           </>
         ) : (
           <>
             {/* response가 1개일 경우 객체로 오고, 여러개일 경우 배열형태로 와서 하단과 같이 처리함 */}
-            {busStops.length === 0 && (
+            {busList.length === 0 && (
               <BusInfo
-                setSelectedList={setSelectedList}
-                busStop={busStopData}
-                clickedBusStop={location.state.value}
+                list={busStopData}
+                busStop={location.state.selectedBusStop}
               />
             )}
-            {busStops.length > 0 &&
-              busStops.map((busStop) => (
-                <div key={`${busStop.routeid}`}>
+            {busList.length > 0 &&
+              busList.map((list) => (
+                <div key={`${list.routeid}`}>
                   <BusInfo
-                    busStop={busStop}
-                    clickedBusStop={location.state.value}
+                    list={list}
+                    busStop={location.state.selectedBusStop}
                   />
                 </div>
               ))}

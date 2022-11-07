@@ -2,11 +2,17 @@ import busBadge from "@static/svg/bus-badge.svg";
 import styled from "styled-components";
 import Bus from "./Bus";
 import busStopIcon from "@static/svg/bus-stop-icon.svg";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { addFavoriteList } from "@api/favoriteApi";
+import { addFavorite } from "@recoil/favorite";
+import { useRecoilState } from "recoil";
 
 const FavoriteList = ({ favoriteList }) => {
+  const [selectedBus, setSelectedBus] = useRecoilState(addFavorite);
   const navigate = useNavigate();
-  const clickToggle = (e) => {
+
+  const clickHandler = (e) => {
     const filteredList = favoriteList.filter(
       (city) => city.name === e.currentTarget.name
     );
@@ -15,7 +21,13 @@ const FavoriteList = ({ favoriteList }) => {
         list: filteredList,
       },
     });
+    console.log("filteredList", filteredList);
   };
+
+  const { isSuccess, isError } = useMutation(
+    addFavoriteList(selectedBus.routeid),
+    { enabled: !!selectedBus }
+  );
 
   return (
     <>
@@ -25,7 +37,7 @@ const FavoriteList = ({ favoriteList }) => {
             <img src={busBadge} alt='bus-badge' />
             <p>{list.name}</p>
           </ListTitleBox>
-          <AddBusButton onClick={clickToggle} name={list.name}>
+          <AddBusButton onClick={clickHandler} name={list.name}>
             +버스
           </AddBusButton>
           <ListSubTitle></ListSubTitle>

@@ -10,7 +10,7 @@ function BusInfoPage() {
       <Header />
       <div>
         <h3>BusInfoPage</h3>
-      </div>{" "}
+      </div>
     </>
   );
 }

@@ -21,7 +21,7 @@ function BusStopInfoPage() {
       {/* 즐겨찾기 유무에 따른 분기처리 */}
       {location.state.list ? (
         location.state.list.map((el, index) => (
-          <BusStopInfo loc={el} key={index} />
+          <BusStopInfo list={el} key={index} />
         ))
       ) : (
         <BusStopInfo />

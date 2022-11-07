@@ -1,15 +1,11 @@
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import { selectedCity } from "@recoil/home";
 
-const CheckBox = ({ data = [], setSelectedList = "" }) => {
-  const [checkItems, setCheckItems] = useRecoilState(selectedCity);
-
-  console.log(data);
+const CheckBox = ({ data = [], selectBus }) => {
   // 체크박스 단일 선택
   const handleSingleCheck = (checked) => {
-    if (data.id === checked) setCheckItems(data.num);
-    setSelectedList(checked);
+    if (checked == data.routeno) {
+      selectBus(data);
+    }
   };
 
   return (
