@@ -1,26 +1,40 @@
 import styled from "styled-components";
+import { useRef, useState, useEffect } from "react";
 
-const CheckBox = ({ data = [], selectBus }) => {
-  // 체크박스 단일 선택
-  const handleSingleCheck = (checked) => {
-    if (checked == data.routeno) {
-      selectBus(data);
-    }
+const CheckBox = ({
+  defaultChecked,
+  checkedItemHandler,
+  bus,
+  busListInFavList,
+}) => {
+  const [bChecked, setChecked] = useState(false);
+  const checkBoxRef = useRef();
+
+  const checkHandler = ({ target }) => {
+    setChecked(!bChecked);
+    checkedItemHandler(bus, target.checked);
   };
+
+  useEffect(() => {
+    busListInFavList.map((e) =>
+      e.no === checkBoxRef.current.name ? setChecked(true) : ""
+    );
+  }, []);
 
   return (
     <Wrapper>
       <input
+        ref={checkBoxRef}
         type='checkbox'
-        name={`${data.routeno}` || `${data.id}`}
-        onChange={(e) => handleSingleCheck(e.currentTarget.name)}
+        name={`${bus.routeno}`}
+        checked={bChecked}
+        onChange={(e) => checkHandler(e)}
       />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  display: inline-block;
   input {
     width: 1rem;
     height: 1rem;

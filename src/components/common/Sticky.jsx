@@ -1,10 +1,8 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import { getScrollTop } from '../../lib/utils';
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import styled from "styled-components";
+import { getScrollTop } from "../../lib/utils";
 
 const StickyBlock = styled.div``;
-
-
 
 const Sticky = ({ className, top, children }) => {
   const [y, setY] = useState(0);
@@ -31,9 +29,9 @@ const Sticky = ({ className, top, children }) => {
 
   // register scroll event
   useEffect(() => {
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll);
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [onScroll]);
 
@@ -42,7 +40,7 @@ const Sticky = ({ className, top, children }) => {
       ref={element}
       className={className}
       style={{
-        position: fixed ? 'fixed' : undefined,
+        position: fixed ? "fixed" : undefined,
         top: fixed ? top : undefined,
       }}
     >

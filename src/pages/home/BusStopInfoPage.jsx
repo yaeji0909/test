@@ -4,29 +4,41 @@ import BusStopInfo from "@components/home/BusStopInfo";
 import MainResponsive from "@components/main/MainResponsive";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { FiStar } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function BusStopInfoPage() {
   const location = useLocation();
+  const navigate = useNavigate();
 
+  const clickHandler = () => {
+    navigate(-1);
+  };
   return (
-    <Wrapper>
+    <>
       <Helmet>
         <title>BusStopInfoPage</title>
       </Helmet>
       <Inner>
-        <MdOutlineArrowBackIosNew />
+        <MdOutlineArrowBackIosNew onClick={clickHandler} />
         <FiStar />
       </Inner>
-      {/* 즐겨찾기 유무에 따른 분기처리 */}
       {location.state.list ? (
-        location.state.list.map((el, index) => (
-          <BusStopInfo list={el} key={index} />
-        ))
+        // 즐겨찾기 유무에 따른 페이지 이동
+        location.state.type ? (
+          // 즐겨찾기탭에서 버스 정류장 페이지로 이동
+          location.state.list.map((el, index) => (
+            <BusStopInfo list={el} key={index} type={location.state.type} />
+          ))
+        ) : (
+          // 즐겨찾기에서 버스 추가 페이지로 이동
+          location.state.list.map((el, index) => (
+            <BusStopInfo list={el} key={index} />
+          ))
+        )
       ) : (
         <BusStopInfo />
       )}
-    </Wrapper>
+    </>
   );
 }
 
@@ -36,5 +48,5 @@ const Inner = styled(MainResponsive)`
   align-items: center;
   justify-content: space-between;
 `;
-const Wrapper = styled.div``;
+
 export default BusStopInfoPage;

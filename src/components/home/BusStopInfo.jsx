@@ -4,14 +4,15 @@ import { IoMdMap } from "react-icons/io";
 import BusInfo from "@components/home/BusInfo";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getStopInfo } from "@api/mapApi";
+import CheckBox from "../common/CheckBox";
 import { useState } from "react";
 
-const BusStopInfo = ({ list }) => {
+const BusStopInfo = ({ list, type = [] }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const [selectedList, setSelectedList] = useState([]);
+  const [checkedItems, setCheckedItems] = useState(new Set());
 
-  // 지도에서 해당 페이지 이동시 실행되는 쿼리
+  // 주변정류장-마커클릭시 실행되는 쿼리
   const { data: busStopData = [] } = useQuery(
     ["route", location.state.selectedBusStop],
     () => getStopInfo(location.state.selectedBusStop.stopId),
@@ -20,8 +21,8 @@ const BusStopInfo = ({ list }) => {
     }
   );
 
-  // 즐겨찾기에서 해당 페이지 이동시 실행되는 쿼리
-  const { data: busStopDataSecond = [] } = useQuery(
+  // 즐겨찾기에서 접근시 실행되는 쿼리
+  const { data: busListInFavorite = [] } = useQuery(
     ["route", list],
     () => getStopInfo(list.station),
     {
@@ -29,19 +30,28 @@ const BusStopInfo = ({ list }) => {
     }
   );
 
-  let busList = Array.from(busStopData);
+  const busList = Array.from(busStopData);
+  const clickedBusStop = location.state.selectedBusStop;
+
+  const checkedItemHandler = (target, isChecked) => {
+    if (isChecked) {
+      checkedItems.add(target);
+      setCheckedItems(checkedItems);
+    } else if (!isChecked && checkedItems.has(target)) {
+      checkedItems.delete(target);
+      setCheckedItems(checkedItems);
+    }
+    console.log(checkedItems);
+  };
+
   return (
     <BusStopInfoBox>
       <BusStopInfoTextBox>
         <BusStopInfoText>
-          {list ? (
-            <p>{list.name}</p>
+          {clickedBusStop ? (
+            <p>{clickedBusStop ? clickedBusStop.name : ""}</p>
           ) : (
-            <p>
-              {location.state.selectedBusStop
-                ? location.state.selectedBusStop.name
-                : ""}
-            </p>
+            <p>{list.name}</p>
           )}
         </BusStopInfoText>
         <MapBtn onClick={() => navigate(-1)}>
@@ -49,30 +59,39 @@ const BusStopInfo = ({ list }) => {
         </MapBtn>
       </BusStopInfoTextBox>
       <Wrapper>
-        {list ? (
-          <>
-            {busStopDataSecond.map((bus, index) => (
-              <BusInfo busStop={list.station} key={index} list={bus} />
-            ))}
-          </>
-        ) : (
+        {clickedBusStop ? (
           <>
             {/* response가 1개일 경우 객체로 오고, 여러개일 경우 배열형태로 와서 하단과 같이 처리함 */}
             {busList.length === 0 && (
-              <BusInfo
-                list={busStopData}
-                busStop={location.state.selectedBusStop}
-              />
+              <BusInfo list={busStopData} busStop={clickedBusStop} />
             )}
             {busList.length > 0 &&
               busList.map((list) => (
                 <div key={`${list.routeid}`}>
-                  <BusInfo
-                    list={list}
-                    busStop={location.state.selectedBusStop}
-                  />
+                  <BusInfo list={list} busStop={clickedBusStop} />
                 </div>
               ))}
+          </>
+        ) : (
+          <>
+            {busListInFavorite.map((bus, index) => (
+              <FavListBox key={index}>
+                {type === "BusInfo" ? (
+                  <BusInfo busStop={list.station} list={bus} type={type} />
+                ) : (
+                  <>
+                    <BusInfo busStop={list.station} list={bus} />
+                    <CheckBoxContents>
+                      <CheckBox
+                        bus={bus}
+                        checkedItemHandler={checkedItemHandler}
+                        busListInFavList={list.bus}
+                      />
+                    </CheckBoxContents>
+                  </>
+                )}
+              </FavListBox>
+            ))}
           </>
         )}
       </Wrapper>
@@ -101,7 +120,14 @@ const Wrapper = styled.div`
     height: 15%;
   }
 `;
-
+const CheckBoxContents = styled.div`
+  position: absolute;
+  right: 5%;
+  top: 35%;
+`;
+const FavListBox = styled.div`
+  position: relative;
+`;
 const BusStopInfoTextBox = styled.div`
   display: flex;
   justify-content: center;

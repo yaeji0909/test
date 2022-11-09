@@ -13,7 +13,7 @@ const SetLocation = () => {
   const [autoSetting, setAutoSetting] = useState(false);
 
   return (
-    <Wrapper>
+    <>
       <AutoSetLocation>
         검색지역 자동설정
         <ToggleSwitch
@@ -29,12 +29,10 @@ const SetLocation = () => {
             </CitiesBox>
           ))
         : ""}
-    </Wrapper>
+    </>
   );
 };
-const Wrapper = styled.div`
-  width: 100%;
-`;
+
 const AutoSetLocation = styled.div`
   padding: 1.3rem 1rem;
   display: flex;

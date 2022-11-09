@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Bus from "./Bus";
 import busStopIcon from "@static/svg/bus-stop-icon.svg";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { addFavoriteList } from "@api/favoriteApi";
 import { addFavorite } from "@recoil/favorite";
 import { useRecoilState } from "recoil";
@@ -15,7 +15,7 @@ const FavoriteList = ({ favoriteList }) => {
 
   const clickHandler = (e) => {
     const filteredList = favoriteList.filter(
-      (city) => city.name === e.currentTarget.name
+      (city) => city.name === e.currentTarget.getAttribute("name")
     );
     navigate("/bus-stop", {
       state: {
@@ -24,12 +24,23 @@ const FavoriteList = ({ favoriteList }) => {
     });
     console.log("filteredList", filteredList);
   };
-  console.log(selectedBus);
+
+  const moveToBusInfoPage = (e) => {
+    const filteredList = favoriteList.filter(
+      (city) => city.name === e.currentTarget.getAttribute("name")
+    );
+    navigate("/bus-stop", {
+      state: {
+        list: filteredList,
+        type: "BusInfo",
+      },
+    });
+  };
+
   const busArr = ["JEB405320214", "JEB405245514"];
   const mutation = useMutation(() => addFavoriteList(busArr));
-
   const setData = [...new Set(selectedBus)];
-  console.log(setData);
+  // console.log(setData);
 
   useEffect(() => {
     // mutation.mutate();
@@ -38,28 +49,28 @@ const FavoriteList = ({ favoriteList }) => {
   return (
     <>
       {favoriteList.map((list, index) => (
-        <Wrapper key={index}>
-          <ListTitleBox>
+        <FavoriteListBox key={index}>
+          <ListTitle>
             <img src={busBadge} alt='bus-badge' />
             <p>{list.name}</p>
-          </ListTitleBox>
+          </ListTitle>
           <AddBusButton onClick={clickHandler} name={list.name}>
             +버스
           </AddBusButton>
           <ListSubTitle></ListSubTitle>
-          <BusListBox>
+          <BusListBox name={list.name} onClick={moveToBusInfoPage}>
             <img src={busStopIcon} alt='' className='bus-stop' />
             {list.bus.map((el, index) => (
               <Bus list={list} bus={el} key={index} />
             ))}
           </BusListBox>
           <Rectangle></Rectangle>
-        </Wrapper>
+        </FavoriteListBox>
       ))}
     </>
   );
 };
-const Wrapper = styled.div`
+const FavoriteListBox = styled.div`
   height: 20vh;
   margin: 0.4rem;
   box-shadow: 0px 4px 15px rgba(65, 97, 119, 0.2);
@@ -68,7 +79,7 @@ const Wrapper = styled.div`
   padding: 1.2rem 0;
 `;
 
-const ListTitleBox = styled.div`
+const ListTitle = styled.div`
   height: 3vh;
   margin: 0.2rem 0.5rem;
   display: flex;

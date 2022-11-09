@@ -18,7 +18,7 @@ const MapContainer = () => {
   const map = useRef();
 
   const { data: positionData } = useQuery(
-    ["locations", mapState],
+    ["locations", 1],
     () => getBusStopByLocation(mapState.center.lat, mapState.center.lng),
     {
       enabled: mapState.center.lat !== 33.452613,

@@ -9,7 +9,7 @@ const RadioButtonGroup = ({ value }) => {
     setSelect(val);
   };
   return (
-    <Wrapper>
+    <>
       <Item>
         <RadioButton
           type='radio'
@@ -20,11 +20,9 @@ const RadioButtonGroup = ({ value }) => {
         />
         <RadioButtonLabel />
       </Item>
-    </Wrapper>
+    </>
   );
 };
-
-const Wrapper = styled.div``;
 
 const Item = styled.div`
   display: flex;

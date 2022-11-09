@@ -5,11 +5,6 @@ export const userInfo = atom({
   default: {},
 });
 
-export const favoritesList = atom({
-  key: "favorites",
-  default: [],
-});
-
 export const selectedCity = atom({
   key: "selectedCity",
   default: 31100,

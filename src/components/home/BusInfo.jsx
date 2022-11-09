@@ -7,8 +7,13 @@ import { addFavoriteList } from "@api/favoriteApi";
 import Timer from "../home/utils/Timer";
 import { useRecoilState } from "recoil";
 import { addFavorite } from "@recoil/favorite";
-const BusInfo = ({ list = [], busStop = [] }) => {
-  const [clickToggle, setClickToggle] = useState(false);
+
+const BusInfo = ({
+  list = [],
+  busStop = [],
+  busListFromFavList = [],
+  type,
+}) => {
   const [selectedBus, setSelectedBus] = useRecoilState(addFavorite);
 
   const { data: busArrivalInfo = [] } = useQuery(
@@ -17,25 +22,25 @@ const BusInfo = ({ list = [], busStop = [] }) => {
     { enabled: !!busStop.stopId && !!list.routeid }
   );
 
+  const { data: busArrival = [] } = useQuery(
+    ["busArrival", list.routeno],
+    () => getClickedBusInfo(busStop, list.routeid),
+    { enabled: !!busStop && !!list.routeid }
+  );
+
   // const { isSuccess, isError } = useMutation(
   //   addFavoriteList(selectedBus.routeid),
   //   { enabled: !selectedBus === [] }
   // );
 
-  const selectBus = (x) => {
-    setSelectedBus((prev) => [...prev, x]);
-    console.log(selectedBus);
-  };
-
   const editSecondsToMinutes = (time = []) => {
     const result = time / 60;
     return result;
   };
-
+  const test = editSecondsToMinutes(busArrival.arrtime);
   const result = editSecondsToMinutes(busArrivalInfo.arrtime);
-
   return (
-    <Wrapper>
+    <>
       <BusInfoBox>
         <LeftBox>
           {list.routetp === "간선버스" ? (
@@ -54,13 +59,13 @@ const BusInfo = ({ list = [], busStop = [] }) => {
             </>
           )}
         </LeftBox>
-        {typeof busStop === "string" ? (
-          <CheckBox data={list} selectBus={selectBus} />
+        {type ? (
+          <Timer mm={test} ss={0} />
         ) : (
-          <Timer mm={result} ss={0} />
+          <>{typeof busStop === "object" ? <Timer mm={result} ss={0} /> : ""}</>
         )}
       </BusInfoBox>
-    </Wrapper>
+    </>
   );
 };
 
@@ -89,6 +94,5 @@ const BusList = styled.li`
   font-size: 1.2rem;
   margin: 0 1rem;
 `;
-const Wrapper = styled.div``;
 
 export default BusInfo;
