@@ -5,13 +5,13 @@ const favoriteAxios = axios.create({
   baseURL: "http://localhost:8090",
 });
 
-export const addFavoriteList = async (busArr) => {
+export const addFavoriteList = async (cityCode, stationId, busIdList) => {
   const param = {
     user: 801,
-    city: 39,
-    station: "JEB405000646",
+    city: cityCode,
+    station: stationId,
     seq: 13,
-    bus: busArr,
+    bus: busIdList,
   };
   const { data } = await favoriteAxios.put(`favorite`, param);
   return data || [];

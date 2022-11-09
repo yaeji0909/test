@@ -5,12 +5,16 @@ import BusInfo from "@components/home/BusInfo";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getStopInfo } from "@api/mapApi";
 import CheckBox from "../common/CheckBox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useMutation } from "react-query";
+import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
 
 const BusStopInfo = ({ list, type = [] }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [checkedItems, setCheckedItems] = useState(new Set());
+  const [busListData, setBusListData] = useState([]);
+  const [checkedBusList, setCheckedBusList] = useState([]);
 
   // 주변정류장-마커클릭시 실행되는 쿼리
   const { data: busStopData = [] } = useQuery(
@@ -30,8 +34,14 @@ const BusStopInfo = ({ list, type = [] }) => {
     }
   );
 
-  const busList = Array.from(busStopData);
   const clickedBusStop = location.state.selectedBusStop;
+
+  // put / delete mutation query
+  const putMutation = useMutation(() =>
+    addFavoriteList(list.city, list.station, checkedBusList)
+  );
+
+  const deleteMutation = useMutation(() => deleteFavoriteList());
 
   const checkedItemHandler = (target, isChecked) => {
     if (isChecked) {
@@ -43,6 +53,65 @@ const BusStopInfo = ({ list, type = [] }) => {
     }
     console.log(checkedItems);
   };
+
+  const editBusObj = (busObjInListArray) => {
+    const busList = [];
+    for (let {
+      routeid: id,
+      routeno: no,
+      startnodenm: start,
+      endnodenm: end,
+      routetp: ty,
+    } of busObjInListArray) {
+      let busObj = {
+        id,
+        no: no.toString(),
+        start,
+        end,
+        ty,
+      };
+      busList.push(busObj);
+      setBusListData(busList);
+    }
+  };
+
+  useEffect(() => {
+    for (let busItem of list.bus) {
+      checkedItems.add(busItem);
+    }
+    const busListInFavData = busListInFavorite.map((e) => e);
+    const busObjList = busStopData.map((e) => e);
+    editBusObj(busListInFavData);
+    editBusObj(busObjList);
+  }, []);
+
+  // const addBusStopInFavList = () => {
+  //   // mutation.mutate();
+  //   if (checkedItems) {
+  //     console.log(checkedItems);
+  //   }
+  // };
+
+  // const editBusStopInFavList = () => {
+  //   // mutation.mutate();
+  //   if (checkedItems) {
+  //     console.log(checkedItems);
+  //   }
+  // };
+
+  // const deleteBusInFavList = () => {
+  //   // mutation.mutate();
+  //   if (checkedItems) {
+  //     console.log(checkedItems);
+  //   }
+  // };
+
+  // const deleteBusStopInFavList = () => {
+  //   // mutation.mutate();
+  //   if (checkedItems) {
+  //     console.log(checkedItems);
+  //   }
+  // };
 
   return (
     <BusStopInfoBox>
@@ -59,39 +128,42 @@ const BusStopInfo = ({ list, type = [] }) => {
         </MapBtn>
       </BusStopInfoTextBox>
       <Wrapper>
-        {clickedBusStop ? (
+        {clickedBusStop && busListData ? (
           <>
             {/* response가 1개일 경우 객체로 오고, 여러개일 경우 배열형태로 와서 하단과 같이 처리함 */}
-            {busList.length === 0 && (
-              <BusInfo list={busStopData} busStop={clickedBusStop} />
+            {busListData.length === 0 && (
+              <BusInfo list={busListData} busStop={clickedBusStop} />
             )}
-            {busList.length > 0 &&
-              busList.map((list) => (
-                <div key={`${list.routeid}`}>
+            {busListData.length > 0 &&
+              busListData.map((list) => (
+                <div key={`${list.no}`}>
                   <BusInfo list={list} busStop={clickedBusStop} />
                 </div>
               ))}
           </>
         ) : (
           <>
-            {busListInFavorite.map((bus, index) => (
-              <FavListBox key={index}>
-                {type === "BusInfo" ? (
-                  <BusInfo busStop={list.station} list={bus} type={type} />
-                ) : (
-                  <>
-                    <BusInfo busStop={list.station} list={bus} />
-                    <CheckBoxContents>
-                      <CheckBox
-                        bus={bus}
-                        checkedItemHandler={checkedItemHandler}
-                        busListInFavList={list.bus}
-                      />
-                    </CheckBoxContents>
-                  </>
-                )}
-              </FavListBox>
-            ))}
+            {busListData &&
+              busListData?.map((bus, index) => (
+                <FavListBox key={index}>
+                  {type === "BusInfo" ? (
+                    <BusInfo busStop={list.station} list={bus} type={type} />
+                  ) : (
+                    <>
+                      <BusInfo busStop={list.station} list={bus} />
+                      <CheckBoxContents>
+                        <CheckBox
+                          bus={bus}
+                          checkedItemHandler={checkedItemHandler}
+                          // setAlreadyAddedBusList={setAlreadyAddedBusList}
+                          alreadySelectedBusList={list.bus}
+                          // editBusListInFavBusStop={editBusListInFavBusStop}
+                        />
+                      </CheckBoxContents>
+                    </>
+                  )}
+                </FavListBox>
+              ))}
           </>
         )}
       </Wrapper>

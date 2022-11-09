@@ -2,9 +2,7 @@ import busBadge from "@static/svg/bus-badge.svg";
 import styled from "styled-components";
 import Bus from "./Bus";
 import busStopIcon from "@static/svg/bus-stop-icon.svg";
-import { useMutation } from "react-query";
 import { useNavigate, Link } from "react-router-dom";
-import { addFavoriteList } from "@api/favoriteApi";
 import { addFavorite } from "@recoil/favorite";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
@@ -37,10 +35,7 @@ const FavoriteList = ({ favoriteList }) => {
     });
   };
 
-  const busArr = ["JEB405320214", "JEB405245514"];
-  const mutation = useMutation(() => addFavoriteList(busArr));
   const setData = [...new Set(selectedBus)];
-  // console.log(setData);
 
   useEffect(() => {
     // mutation.mutate();
@@ -60,7 +55,8 @@ const FavoriteList = ({ favoriteList }) => {
           <ListSubTitle></ListSubTitle>
           <BusListBox name={list.name} onClick={moveToBusInfoPage}>
             <img src={busStopIcon} alt='' className='bus-stop' />
-            {list.bus.map((el, index) => (
+            {console.log(list.bus)}
+            {list.bus?.map((el, index) => (
               <Bus list={list} bus={el} key={index} />
             ))}
           </BusListBox>

@@ -28,7 +28,7 @@ const Bus = ({ list, bus }) => {
     <Wrapper>
       <ArrivalInfoBox>
         <BusArrivalInfo>
-          {bus.routetp === "간선버스" ? (
+          {bus.ty === "간선버스" ? (
             <span className='bus-num' style={{ color: "#59BE0A" }}>
               {bus.no}
             </span>

@@ -1,9 +1,6 @@
 import styled from "styled-components";
-import CheckBox from "../common/CheckBox";
-import { useState } from "react";
 import { useQuery, useMutation } from "react-query";
 import { getClickedBusInfo } from "@api/mapApi";
-import { addFavoriteList } from "@api/favoriteApi";
 import Timer from "../home/utils/Timer";
 import { useRecoilState } from "recoil";
 import { addFavorite } from "@recoil/favorite";
@@ -17,15 +14,15 @@ const BusInfo = ({
   const [selectedBus, setSelectedBus] = useRecoilState(addFavorite);
 
   const { data: busArrivalInfo = [] } = useQuery(
-    ["busArrivalInfo", list.routeid],
-    () => getClickedBusInfo(busStop.stopId, list.routeid),
-    { enabled: !!busStop.stopId && !!list.routeid }
+    ["busArrivalInfo", list.id],
+    () => getClickedBusInfo(busStop.stopId, list.id),
+    { enabled: !!busStop.stopId && !!list.id }
   );
 
   const { data: busArrival = [] } = useQuery(
-    ["busArrival", list.routeno],
-    () => getClickedBusInfo(busStop, list.routeid),
-    { enabled: !!busStop && !!list.routeid }
+    ["busArrival", list.no],
+    () => getClickedBusInfo(busStop, list.id),
+    { enabled: !!busStop && !!list.id }
   );
 
   // const { isSuccess, isError } = useMutation(
@@ -43,19 +40,19 @@ const BusInfo = ({
     <>
       <BusInfoBox>
         <LeftBox>
-          {list.routetp === "간선버스" ? (
+          {list.ty === "간선버스" ? (
             <>
               <BusBadge style={{ backgroundColor: "#59BE0A" }}>
                 <span>간선</span>
               </BusBadge>
-              <BusList style={{ color: "#59BE0A" }}>{list.routeno}</BusList>
+              <BusList style={{ color: "#59BE0A" }}>{list.no}</BusList>
             </>
           ) : (
             <>
               <BusBadge style={{ backgroundColor: "#1E7ADB" }}>
                 <span>급행</span>
               </BusBadge>
-              <BusList style={{ color: "#1E7ADB" }}>{list.routeno}</BusList>
+              <BusList style={{ color: "#1E7ADB" }}>{list.no}</BusList>
             </>
           )}
         </LeftBox>
