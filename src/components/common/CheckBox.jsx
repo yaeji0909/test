@@ -11,11 +11,16 @@ const CheckBox = ({ checkedItemHandler, bus, alreadySelectedBusList }) => {
   };
 
   useEffect(() => {
-    console.log("render");
     alreadySelectedBusList?.map((e) =>
       e.id === checkBoxRef.current.name ? setChecked(true) : ""
     );
   }, []);
+
+  useEffect(() => {
+    if (setChecked) {
+      checkedItemHandler(bus, checkBoxRef.current.checked);
+    }
+  }, [bChecked]);
 
   return (
     <Wrapper>

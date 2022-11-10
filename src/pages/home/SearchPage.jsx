@@ -19,7 +19,7 @@ function SearchPage() {
   const [city, setCity] = useRecoilState(selectedCity);
 
   const { data: busStopInfo = [], isSuccess } = useQuery(
-    ["busArrivalInfo", searchKeyword],
+    ["searchBusStop", searchKeyword],
     () => searchBusStop(city, searchKeyword),
     {
       enabled: !!searchKeyword && !!city,
@@ -28,11 +28,7 @@ function SearchPage() {
 
   useEffect(() => {
     if (isSuccess) {
-      const searchResultArray = busStopInfo.map((stopInfo) => [
-        stopInfo.name,
-        stopInfo.no,
-      ]);
-      editBusStopData(searchResultArray);
+      setSearchResult(busStopInfo);
     }
   }, [busStopInfo]);
 
@@ -41,9 +37,9 @@ function SearchPage() {
     setSearchKeyword(keyword);
   }, []);
 
-  const editBusStopData = (searchResult) => {
-    setSearchResult(searchResult);
-  };
+  // const editBusStopData = (searchResult) => {
+  //   setSearchResult(searchResult);
+  // };
 
   return (
     <div>
@@ -58,12 +54,7 @@ function SearchPage() {
       <SearchContentsBox>
         {searchKeyword ? (
           searchResult.map((el, index) => (
-            <SearchResult
-              item={el[0]}
-              no={el[1]}
-              query={searchKeyword}
-              key={index}
-            />
+            <SearchResult resultList={el} query={searchKeyword} key={index} />
           ))
         ) : (
           <BeforeSearch>

@@ -1,6 +1,11 @@
 import { atom } from "recoil";
 
-export const addFavorite = atom({
-  key: "addFavorite",
+export const favBusStopList = atom({
+  key: "favBusStopList",
+  default: [],
+});
+
+export const favBusList = atom({
+  key: "favBusList",
   default: [],
 });

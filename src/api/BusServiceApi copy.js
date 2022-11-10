@@ -8,7 +8,7 @@ const busAxios = axios.create({
 export const busApi = {
   searchBusStop: async (pageParam) => {
     const param = objectToParam({
-      city: 31230,
+      city: 39,
       key: "학교",
     });
 

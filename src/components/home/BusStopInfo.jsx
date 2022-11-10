@@ -3,43 +3,44 @@ import { useQuery } from "react-query";
 import { IoMdMap } from "react-icons/io";
 import BusInfo from "@components/home/BusInfo";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getStopInfo } from "@api/mapApi";
+import { getBusStopInfo } from "@api/mapApi";
 import CheckBox from "../common/CheckBox";
 import { useState, useEffect } from "react";
 import { useMutation } from "react-query";
 import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { FiStar } from "react-icons/fi";
+import MainResponsive from "@components/main/MainResponsive";
 
-const BusStopInfo = ({ list, type = [] }) => {
+const BusStopInfo = ({ list = [], type = [] }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [busListData, setBusListData] = useState([]);
-  const [checkedBusList, setCheckedBusList] = useState([]);
+  const [selectedBusList, setSelectedBusList] = useState([]);
 
   // 주변정류장-마커클릭시 실행되는 쿼리
   const { data: busStopData = [] } = useQuery(
     ["route", location.state.selectedBusStop],
-    () => getStopInfo(location.state.selectedBusStop.stopId),
+    () => getBusStopInfo(location.state.selectedBusStop.stopId),
     {
       enabled: !!location.state.selectedBusStop,
     }
   );
-
   // 즐겨찾기에서 접근시 실행되는 쿼리
   const { data: busListInFavorite = [] } = useQuery(
-    ["route", list],
-    () => getStopInfo(list.station),
+    ["route", list.station],
+    () => getBusStopInfo(list.station),
     {
       enabled: !!list,
     }
   );
-
   const clickedBusStop = location.state.selectedBusStop;
 
   // put / delete mutation query
-  const putMutation = useMutation(() =>
-    addFavoriteList(list.city, list.station, checkedBusList)
-  );
+  const putMutation = useMutation(() => {
+    addFavoriteList(list.city, list.station, selectedBusList);
+  });
 
   const deleteMutation = useMutation(() => deleteFavoriteList());
 
@@ -51,7 +52,15 @@ const BusStopInfo = ({ list, type = [] }) => {
       checkedItems.delete(target);
       setCheckedItems(checkedItems);
     }
-    console.log(checkedItems);
+
+    let busList = [];
+    checkedItems.forEach((e) => busList.push(e.id));
+    setSelectedBusList(busList);
+    if (selectedBusList !== []) {
+      setTimeout(() => {
+        putMutation.mutate(list.city, list.station, selectedBusList);
+      }, 5000);
+    }
   };
 
   const editBusObj = (busObjInListArray) => {
@@ -75,22 +84,16 @@ const BusStopInfo = ({ list, type = [] }) => {
     }
   };
 
+  const clickHandler = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
-    for (let busItem of list.bus) {
-      checkedItems.add(busItem);
-    }
     const busListInFavData = busListInFavorite.map((e) => e);
     const busObjList = busStopData.map((e) => e);
     editBusObj(busListInFavData);
     editBusObj(busObjList);
   }, []);
-
-  // const addBusStopInFavList = () => {
-  //   // mutation.mutate();
-  //   if (checkedItems) {
-  //     console.log(checkedItems);
-  //   }
-  // };
 
   // const editBusStopInFavList = () => {
   //   // mutation.mutate();
@@ -99,75 +102,65 @@ const BusStopInfo = ({ list, type = [] }) => {
   //   }
   // };
 
-  // const deleteBusInFavList = () => {
-  //   // mutation.mutate();
-  //   if (checkedItems) {
-  //     console.log(checkedItems);
-  //   }
-  // };
-
-  // const deleteBusStopInFavList = () => {
-  //   // mutation.mutate();
-  //   if (checkedItems) {
-  //     console.log(checkedItems);
-  //   }
-  // };
-
   return (
-    <BusStopInfoBox>
-      <BusStopInfoTextBox>
-        <BusStopInfoText>
-          {clickedBusStop ? (
-            <p>{clickedBusStop ? clickedBusStop.name : ""}</p>
-          ) : (
-            <p>{list.name}</p>
-          )}
-        </BusStopInfoText>
-        <MapBtn onClick={() => navigate(-1)}>
-          <IoMdMap />
-        </MapBtn>
-      </BusStopInfoTextBox>
-      <Wrapper>
-        {clickedBusStop && busListData ? (
-          <>
-            {/* response가 1개일 경우 객체로 오고, 여러개일 경우 배열형태로 와서 하단과 같이 처리함 */}
-            {busListData.length === 0 && (
-              <BusInfo list={busListData} busStop={clickedBusStop} />
+    <>
+      <Inner>
+        <MdOutlineArrowBackIosNew onClick={clickHandler} />
+        <FiStar />
+      </Inner>
+      <BusStopInfoBox>
+        <BusStopInfoTextBox>
+          <BusStopInfoText>
+            {clickedBusStop ? (
+              <p>{clickedBusStop ? clickedBusStop.name : ""}</p>
+            ) : (
+              <p>{list.name}</p>
             )}
-            {busListData.length > 0 &&
-              busListData.map((list) => (
-                <div key={`${list.no}`}>
-                  <BusInfo list={list} busStop={clickedBusStop} />
-                </div>
-              ))}
-          </>
-        ) : (
-          <>
-            {busListData &&
-              busListData?.map((bus, index) => (
-                <FavListBox key={index}>
-                  {type === "BusInfo" ? (
-                    <BusInfo busStop={list.station} list={bus} type={type} />
-                  ) : (
-                    <>
-                      <BusInfo busStop={list.station} list={bus} />
-                      <CheckBoxContents>
-                        <CheckBox
-                          bus={bus}
-                          checkedItemHandler={checkedItemHandler}
-                          // setAlreadyAddedBusList={setAlreadyAddedBusList}
-                          alreadySelectedBusList={list.bus}
-                          // editBusListInFavBusStop={editBusListInFavBusStop}
-                        />
-                      </CheckBoxContents>
-                    </>
-                  )}
-                </FavListBox>
-              ))}
-          </>
-        )}
-      </Wrapper>
-    </BusStopInfoBox>
+          </BusStopInfoText>
+          <MapBtn onClick={() => navigate(-1)}>
+            <IoMdMap />
+          </MapBtn>
+        </BusStopInfoTextBox>
+        <Wrapper>
+          {clickedBusStop && busListData ? (
+            <>
+              {/* response가 1개일 경우 객체로 오고, 여러개일 경우 배열형태로 와서 하단과 같이 처리함 */}
+              {busListData.length === 0 && (
+                <BusInfo list={busListData} busStop={clickedBusStop} />
+              )}
+              {busListData.length > 0 &&
+                busListData.map((list) => (
+                  <div key={`${list.no}`}>
+                    <BusInfo list={list} busStop={clickedBusStop} />
+                  </div>
+                ))}
+            </>
+          ) : (
+            <>
+              {busListData &&
+                busListData?.map((bus, index) => (
+                  <FavListBox key={index}>
+                    {type === "BusInfo" ? (
+                      <BusInfo busStop={list.station} list={bus} type={type} />
+                    ) : (
+                      <>
+                        <BusInfo busStop={list.station} list={bus} />
+                        <CheckBoxContents>
+                          <CheckBox
+                            bus={bus}
+                            checkedItemHandler={checkedItemHandler}
+                            alreadySelectedBusList={list.bus}
+                          />
+                        </CheckBoxContents>
+                      </>
+                    )}
+                  </FavListBox>
+                ))}
+            </>
+          )}
+        </Wrapper>
+      </BusStopInfoBox>
+    </>
   );
 };
 
@@ -225,6 +218,13 @@ const MapBtn = styled.div`
     left: 22%;
     top: 20%;
   }
+`;
+
+const Inner = styled(MainResponsive)`
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export default BusStopInfo;

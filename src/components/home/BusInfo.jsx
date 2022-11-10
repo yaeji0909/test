@@ -1,18 +1,9 @@
 import styled from "styled-components";
-import { useQuery, useMutation } from "react-query";
+import { useQuery } from "react-query";
 import { getClickedBusInfo } from "@api/mapApi";
 import Timer from "../home/utils/Timer";
-import { useRecoilState } from "recoil";
-import { addFavorite } from "@recoil/favorite";
 
-const BusInfo = ({
-  list = [],
-  busStop = [],
-  busListFromFavList = [],
-  type,
-}) => {
-  const [selectedBus, setSelectedBus] = useRecoilState(addFavorite);
-
+const BusInfo = ({ list = [], busStop = [], type }) => {
   const { data: busArrivalInfo = [] } = useQuery(
     ["busArrivalInfo", list.id],
     () => getClickedBusInfo(busStop.stopId, list.id),
@@ -22,13 +13,8 @@ const BusInfo = ({
   const { data: busArrival = [] } = useQuery(
     ["busArrival", list.no],
     () => getClickedBusInfo(busStop, list.id),
-    { enabled: !!busStop && !!list.id }
+    { enabled: !!busStop && !!list.id && !!type !== [] }
   );
-
-  // const { isSuccess, isError } = useMutation(
-  //   addFavoriteList(selectedBus.routeid),
-  //   { enabled: !selectedBus === [] }
-  // );
 
   const editSecondsToMinutes = (time = []) => {
     const result = time / 60;

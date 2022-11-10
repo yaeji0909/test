@@ -2,13 +2,10 @@ import busBadge from "@static/svg/bus-badge.svg";
 import styled from "styled-components";
 import Bus from "./Bus";
 import busStopIcon from "@static/svg/bus-stop-icon.svg";
-import { useNavigate, Link } from "react-router-dom";
-import { addFavorite } from "@recoil/favorite";
-import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const FavoriteList = ({ favoriteList }) => {
-  const [selectedBus, setSelectedBus] = useRecoilState(addFavorite);
   const navigate = useNavigate();
 
   const clickHandler = (e) => {
@@ -35,32 +32,31 @@ const FavoriteList = ({ favoriteList }) => {
     });
   };
 
-  const setData = [...new Set(selectedBus)];
-
   useEffect(() => {
     // mutation.mutate();
   }, []);
 
   return (
     <>
-      {favoriteList.map((list, index) => (
+      {favoriteList?.map((list, index) => (
         <FavoriteListBox key={index}>
           <ListTitle>
             <img src={busBadge} alt='bus-badge' />
             <p>{list.name}</p>
           </ListTitle>
-          <AddBusButton onClick={clickHandler} name={list.name}>
-            +버스
-          </AddBusButton>
-          <ListSubTitle></ListSubTitle>
-          <BusListBox name={list.name} onClick={moveToBusInfoPage}>
-            <img src={busStopIcon} alt='' className='bus-stop' />
-            {console.log(list.bus)}
-            {list.bus?.map((el, index) => (
-              <Bus list={list} bus={el} key={index} />
-            ))}
-          </BusListBox>
-          <Rectangle></Rectangle>
+          <>
+            <AddBusButton onClick={clickHandler} name={list.name}>
+              +버스
+            </AddBusButton>
+            <ListSubTitle></ListSubTitle>
+            <BusListBox name={list.name} onClick={moveToBusInfoPage}>
+              <img src={busStopIcon} alt='' className='bus-stop' />
+              {list.bus?.map((el, index) => (
+                <Bus list={list} bus={el} key={index} />
+              ))}
+            </BusListBox>
+            <Rectangle></Rectangle>
+          </>
         </FavoriteListBox>
       ))}
     </>

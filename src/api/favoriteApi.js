@@ -27,10 +27,10 @@ export const deleteFavoriteList = async () => {
   return data || [];
 };
 
-export const getFavoriteList = async () => {
+export const getFavoriteList = async (cityCode) => {
   const param = objectToParam({
     user: 801,
-    city: 39,
+    city: cityCode,
   });
   const { data } = await favoriteAxios.get(`favorite/list${param}`);
   return data || [];

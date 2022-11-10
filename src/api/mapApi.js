@@ -25,7 +25,7 @@ export const getBusStopByLocation = async (lat, lng) => {
   }
 };
 
-export const getStopInfo = async (clickedStation) => {
+export const getBusStopInfo = async (clickedStation) => {
   // 버스 정류장 운행중인 노선 정보
   try {
     const param = objectToParam({

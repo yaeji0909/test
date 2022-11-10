@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useEffect } from "react";
 import useStayScrolled from "react-stay-scrolled";
 import styled from "styled-components";
 import { BottomSheetBodyBox, Wrapper } from "./bottomSheetStyles";
@@ -7,21 +7,31 @@ import { MdOutlineRefresh } from "react-icons/md";
 import exampleImg from "@static/images/favorites-example.png";
 import FavoriteList from "@components/favorites/FavoriteList";
 import { useQuery } from "react-query";
-import {
-  getFavoriteList,
-  addFavoriteList,
-  deleteFavoriteList,
-} from "@api/favoriteApi";
+import { getFavoriteList } from "@api/favoriteApi";
+import { useRecoilState } from "recoil";
+import { favBusStopList } from "@recoil/favorite";
+import { selectedCity } from "../../recoil/home";
 
 const BottomSheetBody = () => {
+  const [city, setCity] = useRecoilState(selectedCity);
+
+  const [favoriteBusStopList, setFavoriteBusStopList] =
+    useRecoilState(favBusStopList);
+
   const bottomBody = useRef(null);
   const { scrollBottom } = useStayScrolled(bottomBody);
+
   useLayoutEffect(() => {
     scrollBottom();
   }, [scrollBottom]);
+
   const { data: favoriteList = "" } = useQuery(["favoriteList", 1], () =>
-    getFavoriteList()
+    getFavoriteList(city)
   );
+
+  useEffect(() => {
+    setFavoriteBusStopList(favoriteList);
+  }, [favoriteBusStopList]);
 
   return (
     <Wrapper>

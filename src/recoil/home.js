@@ -7,5 +7,5 @@ export const userInfo = atom({
 
 export const selectedCity = atom({
   key: "selectedCity",
-  default: 31100,
+  default: 39,
 });
