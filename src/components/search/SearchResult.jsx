@@ -26,25 +26,17 @@ const SearchResult = ({ resultList, query, busStopIdFromFavList }) => {
     deleteFavoriteList(resultList.city, resultList.id);
   });
 
-  const addBusStopInFavList = () => {
-    setTimeout(() => {
-      putMutation.mutate(resultList.city, resultList.id);
-    }, 3000);
-  };
-
-  const deleteBusStopInFavList = () => {
-    setTimeout(() => {
-      deleteMutation.mutate(resultList.city, resultList.id);
-    }, 3000);
-  };
-
   const editFavList = (clickToggle) => {
     if (clickToggle) {
       console.log(clickToggle);
-      addBusStopInFavList();
+      setTimeout(() => {
+        putMutation.mutate(resultList.city, resultList.id);
+      }, 1000);
     } else if (!clickToggle) {
       console.log(clickToggle);
-      deleteBusStopInFavList();
+      setTimeout(() => {
+        deleteMutation.mutate(resultList.city, resultList.id);
+      }, 1000);
     }
   };
 

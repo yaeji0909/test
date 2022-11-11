@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 
-const CheckBox = ({ checkedItemHandler, bus, alreadySelectedBusList }) => {
+const CheckBox = ({ checkedItemHandler, bus, alreadySelectedBusList = [] }) => {
   const [bChecked, setChecked] = useState(false);
   const checkBoxRef = useRef();
 
@@ -11,8 +11,8 @@ const CheckBox = ({ checkedItemHandler, bus, alreadySelectedBusList }) => {
   };
 
   useEffect(() => {
-    alreadySelectedBusList?.map((e) =>
-      e.id === checkBoxRef.current.name ? setChecked(true) : ""
+    alreadySelectedBusList.map((bus) =>
+      bus.id === checkBoxRef.current.name ? setChecked(true) : ""
     );
   }, []);
 

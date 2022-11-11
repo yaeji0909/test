@@ -1,5 +1,5 @@
 import busBadge from "@static/svg/bus-badge.svg";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Bus from "./Bus";
 import busStopIcon from "@static/svg/bus-stop-icon.svg";
 import { useNavigate } from "react-router-dom";
@@ -32,32 +32,50 @@ const FavoriteList = ({ favoriteList }) => {
     });
   };
 
-  useEffect(() => {
-    // mutation.mutate();
-  }, []);
-
   return (
     <>
       {favoriteList?.map((list, index) => (
-        <FavoriteListBox key={index}>
-          <ListTitle>
-            <img src={busBadge} alt='bus-badge' />
-            <p>{list.name}</p>
-          </ListTitle>
-          <>
-            <AddBusButton onClick={clickHandler} name={list.name}>
-              +버스
-            </AddBusButton>
-            <ListSubTitle></ListSubTitle>
-            <BusListBox name={list.name} onClick={moveToBusInfoPage}>
-              <img src={busStopIcon} alt='' className='bus-stop' />
-              {list.bus?.map((el, index) => (
-                <Bus list={list} bus={el} key={index} />
-              ))}
-            </BusListBox>
-            <Rectangle></Rectangle>
-          </>
-        </FavoriteListBox>
+        <>
+          {list.bus ? (
+            <>
+              <FavoriteListBox key={index}>
+                <ListTitle>
+                  <img src={busBadge} alt='bus-badge' />
+                  <p>{list.name}</p>
+                </ListTitle>
+                <>
+                  <>
+                    <AddBusButton onClick={clickHandler} name={list.name}>
+                      + 버스
+                    </AddBusButton>
+                    <ListSubTitle></ListSubTitle>
+                    <BusListBox
+                      name={list.name}
+                      onClick={moveToBusInfoPage}
+                      onlyList
+                    >
+                      <img src={busStopIcon} alt='' className='bus-stop' />
+                      {list.bus?.map((el, index) => (
+                        <Bus list={list} bus={el} key={index} />
+                      ))}
+                    </BusListBox>
+                    <Rectangle></Rectangle>
+                  </>
+                </>
+              </FavoriteListBox>
+            </>
+          ) : (
+            <FavoriteListBox onlyBusStop>
+              <ListTitle onlyBusStop>
+                <img src={busBadge} alt='bus-badge' />
+                <p>{list.name}</p>
+              </ListTitle>
+              <AddBusButton onClick={clickHandler} name={list.name} active>
+                + 버스
+              </AddBusButton>
+            </FavoriteListBox>
+          )}
+        </>
       ))}
     </>
   );
@@ -69,17 +87,27 @@ const FavoriteListBox = styled.div`
   border-radius: 10px;
   position: relative;
   padding: 1.2rem 0;
+  ${(props) =>
+    props.onlyBusStop &&
+    css`
+      height: 10vh;
+    `}
 `;
 
 const ListTitle = styled.div`
   height: 3vh;
   margin: 0.2rem 0.5rem;
   display: flex;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 18px;
   p {
     padding-left: 5px;
   }
+  ${(props) =>
+    props.onlyBusStop &&
+    css`
+      margin: 0.5rem;
+    `}
 `;
 const AddBusButton = styled.button`
   position: absolute;
@@ -89,8 +117,20 @@ const AddBusButton = styled.button`
   border: 1px solid #e0e2e7;
   border-radius: 3px;
   color: #b2b3b9;
-  padding: 0.4rem;
+  padding: 0.5rem;
   z-index: 3;
+  font-weight: 300;
+  font-size: 14px;
+  ${(props) =>
+    props.active &&
+    css`
+      top: 30%;
+      border: none;
+      color: #ffffff;
+      background: #006ffd;
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    `}
 `;
 const ListSubTitle = styled.div``;
 

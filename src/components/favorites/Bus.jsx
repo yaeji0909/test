@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { getBusStopInfo, getClickedBusInfo } from "@api/mapApi";
 import Timer from "../home/utils/Timer";
 
-const Bus = ({ list, bus }) => {
+const Bus = ({ list = [], bus = [] }) => {
   const { data: busStopData = [] } = useQuery(["route", list.station], () =>
     getBusStopInfo(list.station)
   );
@@ -68,7 +68,7 @@ const ArrivalInfoBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 25vw;
+  width: 26vw;
   padding: 0 0.5rem;
 `;
 const BusArrivalInfo = styled.div`

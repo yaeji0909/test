@@ -42,6 +42,10 @@ const BusStopInfo = ({ list = [], type = [] }) => {
     addFavoriteList(list.city, list.station, selectedBusList);
   });
 
+  const deleteMutation = useMutation(() => {
+    deleteFavoriteList();
+  });
+
   const checkedItemHandler = (target, isChecked) => {
     if (isChecked) {
       checkedItems.add(target);
@@ -82,10 +86,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
     }
   };
 
-  const clickHandler = () => {
-    navigate(-1);
-  };
-
   useEffect(() => {
     const busListInFavData = busListInFavorite.map((e) => e);
     const busObjList = busStopData.map((e) => e);
@@ -95,10 +95,10 @@ const BusStopInfo = ({ list = [], type = [] }) => {
 
   return (
     <>
-      <Inner>
-        <MdOutlineArrowBackIosNew onClick={clickHandler} />
+      <Header>
+        <MdOutlineArrowBackIosNew onClick={() => navigate(-1)} />
         <FiStar />
-      </Inner>
+      </Header>
       <BusStopInfoBox>
         <BusStopInfoTextBox>
           <BusStopInfoText>
@@ -149,6 +149,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
                             alreadySelectedBusList={list.bus}
                           />
                         </CheckBoxContents>
+                        {console.log(checkedItems)}
                       </>
                     )}
                   </FavListBox>
@@ -217,11 +218,15 @@ const MapBtn = styled.div`
   }
 `;
 
-const Inner = styled(MainResponsive)`
+const Header = styled(MainResponsive)`
+  padding: 1rem;
   height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  svg {
+    font-size: 1.3rem;
+  }
 `;
 
 export default BusStopInfo;
