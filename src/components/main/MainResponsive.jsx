@@ -17,7 +17,7 @@ const Block = styled.div`
     width: 1024px;
   }
   ${mediaQuery(1056)} {
-    width: calc(100% - 2rem);
+    width: 100%;
   }
 `;
 

@@ -9,15 +9,11 @@ import FavoriteList from "@components/favorites/FavoriteList";
 import { useQuery } from "react-query";
 import { getFavoriteList } from "@api/favoriteApi";
 import { useRecoilState } from "recoil";
-import { favBusStopList } from "@recoil/favorite";
+
 import { selectedCity } from "../../recoil/home";
 
 const BottomSheetBody = () => {
   const [city, setCity] = useRecoilState(selectedCity);
-
-  const [favoriteBusStopList, setFavoriteBusStopList] =
-    useRecoilState(favBusStopList);
-
   const bottomBody = useRef(null);
   const { scrollBottom } = useStayScrolled(bottomBody);
 
@@ -25,19 +21,15 @@ const BottomSheetBody = () => {
     scrollBottom();
   }, [scrollBottom]);
 
-  const { data: favoriteList = "" } = useQuery(["favoriteList", 1], () =>
+  const { data: favoriteListData = "" } = useQuery(["favoriteList", 0], () =>
     getFavoriteList(city)
   );
-
-  useEffect(() => {
-    setFavoriteBusStopList(favoriteList);
-  }, [favoriteBusStopList]);
 
   return (
     <Wrapper>
       <BottomSheetBodyBox ref={bottomBody}>
-        {favoriteList ? (
-          <FavoriteList favoriteList={favoriteList} />
+        {favoriteListData ? (
+          <FavoriteList favoriteList={favoriteListData} />
         ) : (
           <ExampleImgBox>
             <img src={exampleImg} alt='example-img' />

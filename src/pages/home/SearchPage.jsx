@@ -1,24 +1,27 @@
 import { Helmet } from "react-helmet-async";
-import SearchInput from "../../components/search/SearchInput";
 import styled from "styled-components";
-import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import { MdCancel } from "react-icons/md";
 import { useCallback, useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { searchBusStop } from "@api/busServiceApi";
-import busStop from "@static/images/bus-stop.png";
-import SearchResult from "../../components/search/SearchResult";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { selectedCity } from "../../recoil/home";
+import { searchBusStop } from "@api/busServiceApi";
+import SearchInput from "@components/search/SearchInput";
+import SearchResult from "@components/search/SearchResult";
+import { favBusStopList } from "@recoil/favorite";
+import { selectedCity } from "@recoil/home";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { MdCancel } from "react-icons/md";
+import busStop from "@static/images/bus-stop.png";
 
 function SearchPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const navigate = useNavigate();
   const [city, setCity] = useRecoilState(selectedCity);
+  const [favoriteBusStopList, setFavoriteBusStopList] =
+    useRecoilState(favBusStopList);
 
-  const { data: busStopInfo = [], isSuccess } = useQuery(
+  const { data: searchListData = [], isSuccess } = useQuery(
     ["searchBusStop", searchKeyword],
     () => searchBusStop(city, searchKeyword),
     {
@@ -26,20 +29,18 @@ function SearchPage() {
     }
   );
 
+  const busStopIdFromFavList = favoriteBusStopList?.map((e) => e.station);
+
   useEffect(() => {
     if (isSuccess) {
-      setSearchResult(busStopInfo);
+      setSearchResult(searchListData);
     }
-  }, [busStopInfo]);
+  }, [searchListData]);
 
   const onSearch = useCallback((keyword) => {
     console.log(keyword);
     setSearchKeyword(keyword);
   }, []);
-
-  // const editBusStopData = (searchResult) => {
-  //   setSearchResult(searchResult);
-  // };
 
   return (
     <div>
@@ -54,7 +55,12 @@ function SearchPage() {
       <SearchContentsBox>
         {searchKeyword ? (
           searchResult.map((el, index) => (
-            <SearchResult resultList={el} query={searchKeyword} key={index} />
+            <SearchResult
+              busStopIdFromFavList={busStopIdFromFavList}
+              resultList={el}
+              query={searchKeyword}
+              key={index}
+            />
           ))
         ) : (
           <BeforeSearch>

@@ -17,12 +17,13 @@ export const addFavoriteList = async (cityCode, stationId, busIdList) => {
   return data || [];
 };
 
-export const deleteFavoriteList = async () => {
+export const deleteFavoriteList = async (cityCode, stationId) => {
   const param = objectToParam({
     user: 801,
-    city: 39,
-    station: "JEB405000646",
+    city: cityCode,
+    station: stationId,
   });
+
   const { data } = await favoriteAxios.delete(`favorite${param}`);
   return data || [];
 };

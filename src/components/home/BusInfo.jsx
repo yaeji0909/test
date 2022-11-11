@@ -43,7 +43,7 @@ const BusInfo = ({ list = [], busStop = [], type }) => {
           )}
         </LeftBox>
         {type ? (
-          <Timer mm={test} ss={0} />
+          <Timer style={{ position: "absolute" }} mm={test} ss={0} />
         ) : (
           <>{typeof busStop === "object" ? <Timer mm={result} ss={0} /> : ""}</>
         )}

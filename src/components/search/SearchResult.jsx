@@ -1,53 +1,61 @@
 import styled from "styled-components";
 import { FiStar } from "react-icons/fi";
 import { useState, useEffect } from "react";
-import { useQuery, useMutation } from "react-query";
-import { addFavoriteList } from "@api/favoriteApi";
-import { getBusStopInfo } from "@api/mapApi";
+import { useMutation } from "react-query";
+import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
 // import { useRecoilState } from "recoil";
 // import { selectedCity } from "../../recoil/home";
+import useToggle from "@lib/hooks/useToggle";
 
-const SearchResult = ({ resultList, query }) => {
-  const [clickToggle, setClickToggle] = useState(false);
-  const [clickedBusStop, setClickedBusStop] = useState([]);
+const SearchResult = ({ resultList, query, busStopIdFromFavList }) => {
+  const [clickToggle, setClickToggle] = useToggle(false);
+  const [clickedBusStop, setClickedBusStop] = useState("");
   // const [city, setCity] = useRecoilState(selectedCity);
+
+  useEffect(() => {
+    if (busStopIdFromFavList.includes(resultList.id)) {
+      setClickToggle(true);
+    }
+  }, []);
 
   const putMutation = useMutation(() => {
     addFavoriteList(resultList.city, resultList.id);
   });
 
-  const { data: busListInSelectedBusStop = [] } = useQuery(
-    ["route", clickedBusStop],
-    () => getBusStopInfo(clickedBusStop),
-    {
-      enabled: !!clickedBusStop !== [],
+  const deleteMutation = useMutation(() => {
+    deleteFavoriteList(resultList.city, resultList.id);
+  });
+
+  const addBusStopInFavList = () => {
+    setTimeout(() => {
+      putMutation.mutate(resultList.city, resultList.id);
+    }, 3000);
+  };
+
+  const deleteBusStopInFavList = () => {
+    setTimeout(() => {
+      deleteMutation.mutate(resultList.city, resultList.id);
+    }, 3000);
+  };
+
+  const editFavList = (clickToggle) => {
+    if (clickToggle) {
+      console.log(clickToggle);
+      addBusStopInFavList();
+    } else if (!clickToggle) {
+      console.log(clickToggle);
+      deleteBusStopInFavList();
     }
-  );
+  };
 
   const clickHandler = () => {
     setClickToggle(!clickToggle);
+    setClickedBusStop(resultList);
+    editFavList(!clickToggle);
+    console.log(resultList);
   };
 
-  const addBusStopInFavList = (e) => {
-    if (clickToggle) {
-      setClickedBusStop(resultList);
-    } else {
-      setClickedBusStop([]);
-    }
-    // setTimeout(() => {
-    // putMutation.mutate(resultList.city, resultList.id);
-    // }, 5000);
-  };
-
-  useEffect(() => {
-    console.log(clickToggle);
-    if (clickToggle) {
-      addBusStopInFavList();
-      console.log(clickedBusStop);
-    } else return;
-  }, [clickToggle]);
-
-  return resultList?.name.includes(query) || resultList?.no.includes(query) ? (
+  return resultList.name?.includes(query) || resultList.no?.includes(query) ? (
     <SearchContentsList onClick={clickHandler}>
       <List>
         {resultList?.name.includes(query) ? (
@@ -72,6 +80,7 @@ const SearchResult = ({ resultList, query }) => {
         {clickToggle ? (
           <FiStar alt={"starBtn"} color='#f2e528' fill='#f2e528' />
         ) : (
+          // <FiStar alt={"starBtn"} color='#f2e528' fill='#f2e528' />
           <FiStar alt={"starBtn"} />
         )}
       </ImgBox>

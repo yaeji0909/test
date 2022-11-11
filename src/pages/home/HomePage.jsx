@@ -14,24 +14,24 @@ const HomePage = () => {
 
   return (
     <MainTemplate>
-      {/* <MainResponsive> */}
-      <HomeLayout
-        main={
-          <>
-            <Routes location={location}>
-              <Route path='/' element={<Navigate replace to='home' />} />
-              <Route path='home' element={<MainPage />} />
-              <Route path='search' element={<SearchPage />} />
-              <Route path='bus' element={<BusInfoPage />} />
-              <Route path='bus-stop' element={<BusStopInfoPage />} />
-              <Route path='recent' element={<RecentSearchPage />} />
-              <Route path='settings' element={<SettingPage />} />
-            </Routes>
-            <BottomTab />
-          </>
-        }
-      />
-      {/* </MainResponsive> */}
+      <MainResponsive>
+        <HomeLayout
+          main={
+            <>
+              <Routes location={location}>
+                <Route path='/' element={<Navigate replace to='home' />} />
+                <Route path='home' element={<MainPage />} />
+                <Route path='search' element={<SearchPage />} />
+                <Route path='bus' element={<BusInfoPage />} />
+                <Route path='bus-stop' element={<BusStopInfoPage />} />
+                <Route path='recent' element={<RecentSearchPage />} />
+                <Route path='settings' element={<SettingPage />} />
+              </Routes>
+              <BottomTab />
+            </>
+          }
+        />
+      </MainResponsive>
     </MainTemplate>
   );
 };

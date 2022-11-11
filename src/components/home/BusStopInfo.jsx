@@ -21,7 +21,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
 
   // 주변정류장-마커클릭시 실행되는 쿼리
   const { data: busStopData = [] } = useQuery(
-    ["route", location.state.selectedBusStop],
+    ["route", location.state.selectedBusStop?.stopId],
     () => getBusStopInfo(location.state.selectedBusStop.stopId),
     {
       enabled: !!location.state.selectedBusStop,
@@ -41,8 +41,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
   const putMutation = useMutation(() => {
     addFavoriteList(list.city, list.station, selectedBusList);
   });
-
-  const deleteMutation = useMutation(() => deleteFavoriteList());
 
   const checkedItemHandler = (target, isChecked) => {
     if (isChecked) {
@@ -95,13 +93,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
     editBusObj(busObjList);
   }, []);
 
-  // const editBusStopInFavList = () => {
-  //   // mutation.mutate();
-  //   if (checkedItems) {
-  //     console.log(checkedItems);
-  //   }
-  // };
-
   return (
     <>
       <Inner>
@@ -141,7 +132,13 @@ const BusStopInfo = ({ list = [], type = [] }) => {
                 busListData?.map((bus, index) => (
                   <FavListBox key={index}>
                     {type === "BusInfo" ? (
-                      <BusInfo busStop={list.station} list={bus} type={type} />
+                      <>
+                        <BusInfo
+                          busStop={list.station}
+                          list={bus}
+                          type={type}
+                        />
+                      </>
                     ) : (
                       <>
                         <BusInfo busStop={list.station} list={bus} />

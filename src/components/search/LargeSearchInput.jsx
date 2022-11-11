@@ -19,11 +19,11 @@ const Block = styled.div`
     color: ${palette.gray7};
   }
   .hamburgerBtn {
-    width: 1.2rem;
-    height: 3rem;
     position: absolute;
-    left: 9%;
-    top: 3.3%;
+    width: 1.2rem;
+    height: 2rem;
+    left: 10%;
+    top: 4.5%;
     z-index: 3;
   }
 `;
