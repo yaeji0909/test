@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { keyframes, css } from "styled-components";
 
-function Skeleton({
+const Skeleton = ({
   width,
   height,
   flex,
@@ -10,7 +10,7 @@ function Skeleton({
   circle,
   className,
   borderRadius,
-}) {
+}) => {
   return (
     <Block
       style={{ width, height, flex, marginRight, borderRadius }}
@@ -19,7 +19,7 @@ function Skeleton({
       className={className}
     />
   );
-}
+};
 
 const shining = keyframes`
   0% {

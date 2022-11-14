@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import BusStopInfo from "@components/home/bus-stop/BusStopInfo";
+import BusStopInfo from "@components/bus-stop/BusStopInfo";
 
 import { useLocation } from "react-router-dom";
 

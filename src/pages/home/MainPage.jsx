@@ -8,11 +8,11 @@ import { favBusStopList } from "@recoil/favorite";
 import { selectedCity } from "@recoil/home";
 import { useQuery } from "react-query";
 import useDebounce from "@components/home/hooks/useDebounce";
-import BottomSheetHeader from "@components/home/BottomSheetHeader";
-import BottomSheetBody from "@components/home/BottomSheetBody";
+import BottomSheetHeader from "@components/home/bottom-sheet/BottomSheetHeader";
+import BottomSheetBody from "@components/home/bottom-sheet/BottomSheetBody";
 import LargeSearchInput from "@components/search/LargeSearchInput";
 import MainMap from "@components/base/map/MainMap";
-import BottomSheetBodySkeleton from "../../components/home/BottomSheetBodySkeleton";
+import BottomSheetBodySkeleton from "../../components/home/bottom-sheet/BottomSheetBodySkeleton";
 
 function MainPage() {
   const [loadingOpen, setLoadingOpen] = useState(false);

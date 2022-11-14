@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { IoMdMap } from "react-icons/io";
-import BusInfo from "@components/home/bus-stop/BusInfo";
+import BusInfo from "@components/bus-stop/BusInfo";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getBusStopInfo } from "@api/mapApi";
 import CheckBox from "@components/common/CheckBox";
