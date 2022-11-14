@@ -1,20 +1,22 @@
 import { MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
 import busStopIcon from "@static/images/bus-stop-icon.png";
-
+import { useRecoilState } from "recoil";
+import { clickedBusStop } from "@recoil/home";
 const EventMarker = ({ marker, markers }) => {
   const navigate = useNavigate();
+  const [selectedBusStop, setSelectedBusStop] = useRecoilState(clickedBusStop);
 
   const searchBusStopInfo = (clickedMarker) => {
     const marker = markers.filter(
       (marker) => marker.stopId === clickedMarker.stopId
     );
-    const clickedBusStop = marker[0];
+    setSelectedBusStop(marker[0]);
 
     navigate("/bus-stop", {
-      state: {
-        selectedBusStop: clickedBusStop,
-      },
+      // state: {
+      //   selectedBusStop: clickedBusStop,
+      // },
     });
   };
 

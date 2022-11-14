@@ -11,6 +11,8 @@ import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { FiStar } from "react-icons/fi";
 import MainResponsive from "@components/main/MainResponsive";
+import { useRecoilState } from "recoil";
+import { clickedBusStop } from "@recoil/home";
 
 const BusStopInfo = ({ list = [], type = [] }) => {
   const navigate = useNavigate();
@@ -18,15 +20,18 @@ const BusStopInfo = ({ list = [], type = [] }) => {
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [busListData, setBusListData] = useState([]);
   const [selectedBusList, setSelectedBusList] = useState([]);
+  const [clickedBusStation, setClickedBusStation] =
+    useRecoilState(clickedBusStop);
 
   // 주변정류장-마커클릭시 실행되는 쿼리
   const { data: busStopData = [] } = useQuery(
-    ["route", location.state.selectedBusStop?.stopId],
-    () => getBusStopInfo(location.state.selectedBusStop.stopId),
+    ["route", clickedBusStation.stopId],
+    () => getBusStopInfo(clickedBusStation.stopId),
     {
-      enabled: !!location.state.selectedBusStop,
+      enabled: !!clickedBusStation,
     }
   );
+
   // 즐겨찾기에서 접근시 실행되는 쿼리
   const { data: busListInFavorite = [] } = useQuery(
     ["route", list.station],
@@ -35,7 +40,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       enabled: !!list,
     }
   );
-  const clickedBusStop = location.state.selectedBusStop;
 
   // put / delete mutation query
   const putMutation = useMutation(() => {
@@ -88,7 +92,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
 
   useEffect(() => {
     const busListInFavData = busListInFavorite.map((e) => e);
-    const busObjList = busStopData.map((e) => e);
+    const busObjList = busStopData?.map((e) => e);
     editBusObj(busListInFavData);
     editBusObj(busObjList);
   }, []);
@@ -102,8 +106,8 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       <BusStopInfoBox>
         <BusStopInfoTextBox>
           <BusStopInfoText>
-            {clickedBusStop ? (
-              <p>{clickedBusStop ? clickedBusStop.name : ""}</p>
+            {clickedBusStation ? (
+              <p>{clickedBusStation ? clickedBusStation.name : ""}</p>
             ) : (
               <p>{list.name}</p>
             )}
@@ -113,16 +117,18 @@ const BusStopInfo = ({ list = [], type = [] }) => {
           </MapBtn>
         </BusStopInfoTextBox>
         <Wrapper>
-          {clickedBusStop && busListData ? (
+          {clickedBusStation && busListData ? (
             <>
               {/* response가 1개일 경우 객체로 오고, 여러개일 경우 배열형태로 와서 하단과 같이 처리함 */}
               {busListData.length === 0 && (
-                <BusInfo list={busListData} busStop={clickedBusStop} />
+                <BusInfo list={busListData} busStop={clickedBusStation} />
               )}
               {busListData.length > 0 &&
-                busListData.map((list) => (
+                busListData?.map((list) => (
                   <div key={`${list.no}`}>
-                    <BusInfo list={list} busStop={clickedBusStop} />
+                    {console.log(list)}
+
+                    <BusInfo list={list} busStop={clickedBusStation} />
                   </div>
                 ))}
             </>
@@ -141,8 +147,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
                       </>
                     ) : (
                       <>
-                        {console.log(list)}
-
                         <BusInfo busStop={list.station} list={bus} />
                         <CheckBoxContents>
                           <CheckBox
