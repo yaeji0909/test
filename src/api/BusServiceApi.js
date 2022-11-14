@@ -1,4 +1,4 @@
-import { objectToParam } from "@utils/utils.js";
+import { objectToParam } from "@lib/utils/utils.js";
 import axios from "axios";
 
 const busAxios = axios.create({

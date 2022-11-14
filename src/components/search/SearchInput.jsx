@@ -6,6 +6,7 @@ import palette from "@lib/styles/palette";
 import useToggle from "@lib/hooks/useToggle";
 import useInput from "@lib/hooks/useInput";
 import { debounce } from "throttle-debounce";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const SearchInputBlock = styled.div`
   display: flex;
@@ -79,10 +80,15 @@ const SearchInputBlock = styled.div`
           margin-right: 0.75rem;
         }
         input {
+          position: relative;
           flex: 1;
           font-size: 1.125rem;
           line-height: 1.5;
           height: auto;
+          color: transparent;
+          &:focus {
+            outline: none;
+          }
         }
       }
     `}
@@ -145,6 +151,7 @@ const SearchInput = ({
         value={value}
         autoFocus
       />
+      {large && <GiHamburgerMenu className='hamburgerBtn' />}
     </SearchInputBlock>
   );
 };

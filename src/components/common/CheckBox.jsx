@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 
-const CheckBox = ({ checkedItemHandler, bus, alreadySelectedBusList = [] }) => {
+const CheckBox = ({
+  checkedItemHandler,
+  bus = [],
+  alreadySelectedBusList = [],
+}) => {
   const [bChecked, setChecked] = useState(false);
   const checkBoxRef = useRef();
 
@@ -11,13 +15,15 @@ const CheckBox = ({ checkedItemHandler, bus, alreadySelectedBusList = [] }) => {
   };
 
   useEffect(() => {
-    alreadySelectedBusList.map((bus) =>
-      bus.id === checkBoxRef.current.name ? setChecked(true) : ""
-    );
+    if (alreadySelectedBusList) {
+      alreadySelectedBusList.map((bus) =>
+        bus.id === checkBoxRef.current.name ? setChecked(true) : ""
+      );
+    }
   }, []);
 
   useEffect(() => {
-    if (setChecked) {
+    if (setChecked && checkedItemHandler) {
       checkedItemHandler(bus, checkBoxRef.current.checked);
     }
   }, [bChecked]);
@@ -27,7 +33,7 @@ const CheckBox = ({ checkedItemHandler, bus, alreadySelectedBusList = [] }) => {
       <input
         ref={checkBoxRef}
         type='checkbox'
-        name={`${bus.id}`}
+        name={bus ? `${bus.id}` : null}
         checked={bChecked}
         onChange={(e) => checkHandler(e)}
       />

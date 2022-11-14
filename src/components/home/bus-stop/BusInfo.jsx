@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { getClickedBusInfo } from "@api/mapApi";
-import Timer from "../home/utils/Timer";
+import Timer from "@components/home/utils/Timer";
 
-const BusInfo = ({ list = [], busStop = [], type }) => {
+const BusInfo = ({ list, busStop, type }) => {
   const { data: busArrivalInfo = [] } = useQuery(
     ["busArrivalInfo", list.id],
     () => getClickedBusInfo(busStop.stopId, list.id),
@@ -13,15 +13,19 @@ const BusInfo = ({ list = [], busStop = [], type }) => {
   const { data: busArrival = [] } = useQuery(
     ["busArrival", list.no],
     () => getClickedBusInfo(busStop, list.id),
-    { enabled: !!busStop && !!list.id && !!type !== [] }
+    { enabled: !!busStop !== [] && !!list.id !== [] && !!type !== [] }
   );
+
+  console.log(list);
 
   const editSecondsToMinutes = (time = []) => {
     const result = time / 60;
     return result;
   };
+
   const test = editSecondsToMinutes(busArrival.arrtime);
   const result = editSecondsToMinutes(busArrivalInfo.arrtime);
+
   return (
     <>
       <BusInfoBox>

@@ -22,13 +22,13 @@
 //   return format(d, "yyyy년 M월 d일");
 // };
 
-// export const getScrollTop = () => {
-//   if (!document.body) return 0;
-//   const scrollTop = document.documentElement
-//     ? document.documentElement.scrollTop || document.body.scrollTop
-//     : document.body.scrollTop;
-//   return scrollTop;
-// };
+export const getScrollTop = () => {
+  if (!document.body) return 0;
+  const scrollTop = document.documentElement
+    ? document.documentElement.scrollTop || document.body.scrollTop
+    : document.body.scrollTop;
+  return scrollTop;
+};
 
 // export const getScrollBottom = () => {
 //   if (!document.body) return 0;

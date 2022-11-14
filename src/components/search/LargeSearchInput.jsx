@@ -1,8 +1,6 @@
 import { useCallback } from "react";
 import SearchInput from "@components/search/SearchInput";
 import styled from "styled-components";
-import { GiHamburgerMenu } from "react-icons/gi";
-import palette from "@lib/styles/palette";
 import { Link } from "react-router-dom";
 
 const StyledSearchInput = styled(SearchInput)`
@@ -12,18 +10,13 @@ const StyledSearchInput = styled(SearchInput)`
   z-index: 2;
   position: absolute;
   left: 6%;
-`;
-
-const Block = styled.div`
-  .user-search-description {
-    color: ${palette.gray7};
-  }
   .hamburgerBtn {
+    fill: #191a20;
     position: absolute;
     width: 1.2rem;
     height: 2rem;
-    left: 10%;
-    top: 4.5%;
+    left: 5%;
+    top: 12%;
     z-index: 3;
   }
 `;
@@ -34,10 +27,7 @@ const LargeSearchInput = ({ history, initialKeyword }) => {
   }, []);
 
   return (
-    <Block>
-      <div className='user-search-description'>
-        <GiHamburgerMenu className='hamburgerBtn' />
-      </div>
+    <>
       <Link to='/search'>
         <StyledSearchInput
           onSearch={onSearch}
@@ -46,7 +36,7 @@ const LargeSearchInput = ({ history, initialKeyword }) => {
           searchAsYouType
         />
       </Link>
-    </Block>
+    </>
   );
 };
 

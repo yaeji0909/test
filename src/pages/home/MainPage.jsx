@@ -11,7 +11,8 @@ import useDebounce from "@components/home/hooks/useDebounce";
 import BottomSheetHeader from "@components/home/BottomSheetHeader";
 import BottomSheetBody from "@components/home/BottomSheetBody";
 import LargeSearchInput from "@components/search/LargeSearchInput";
-import Map from "@components/base/map/Map";
+import MainMap from "@components/base/map/MainMap";
+import BottomSheetBodySkeleton from "../../components/home/BottomSheetBodySkeleton";
 
 function MainPage() {
   const [loadingOpen, setLoadingOpen] = useState(false);
@@ -44,7 +45,7 @@ function MainPage() {
         <title>main page</title>
       </Helmet>
       <LargeSearchInput />
-      <Map />
+      <MainMap />
       <BottomSheet
         open
         blocking={false}
@@ -64,11 +65,7 @@ function MainPage() {
           />
         }
       >
-        {open ? (
-          <BottomSheetBody favoriteList={favoriteBusStopList} />
-        ) : (
-          <div>loading...</div>
-        )}
+        {open ? <BottomSheetBody /> : <BottomSheetBodySkeleton />}
       </BottomSheet>
     </>
   );

@@ -1,6 +1,5 @@
-import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
-import { themedPalette } from '../../lib/styles/themes';
+import React from "react";
+import styled, { keyframes, css } from "styled-components";
 
 function Skeleton({
   width,
@@ -35,7 +34,7 @@ const shining = keyframes`
 `;
 
 const Block = styled.span`
-  background: ${themedPalette.bg_element4};
+  background: #e0e0e0;
   animation: ${shining} 1s ease-in-out infinite;
   display: inline-block;
   border-radius: 4px;

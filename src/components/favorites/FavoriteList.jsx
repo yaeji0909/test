@@ -3,7 +3,8 @@ import styled, { css } from "styled-components";
 import Bus from "./Bus";
 import busStopIcon from "@static/svg/bus-stop-icon.svg";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Fragment } from "react";
+import Button from "../common/Button";
 
 const FavoriteList = ({ favoriteList }) => {
   const navigate = useNavigate();
@@ -35,47 +36,45 @@ const FavoriteList = ({ favoriteList }) => {
   return (
     <>
       {favoriteList?.map((list, index) => (
-        <>
+        <Fragment key={index}>
           {list.bus ? (
-            <>
-              <FavoriteListBox key={index}>
-                <ListTitle>
-                  <img src={busBadge} alt='bus-badge' />
-                  <p>{list.name}</p>
-                </ListTitle>
+            <FavoriteListBox>
+              <ListTitle>
+                <img src={busBadge} alt='bus-badge' />
+                <p>{list.name}</p>
+              </ListTitle>
+              <>
                 <>
-                  <>
-                    <AddBusButton onClick={clickHandler} name={list.name}>
-                      + 버스
-                    </AddBusButton>
-                    <ListSubTitle></ListSubTitle>
-                    <BusListBox
-                      name={list.name}
-                      onClick={moveToBusInfoPage}
-                      onlyList
-                    >
-                      <img src={busStopIcon} alt='' className='bus-stop' />
-                      {list.bus?.map((el, index) => (
-                        <Bus list={list} bus={el} key={index} />
-                      ))}
-                    </BusListBox>
-                    <Rectangle></Rectangle>
-                  </>
+                  <AddBusButton onClick={clickHandler} name={list.name}>
+                    + 버스
+                  </AddBusButton>
+                  <ListSubTitle></ListSubTitle>
+                  <BusListBox
+                    name={list.name}
+                    onClick={moveToBusInfoPage}
+                    onlyList
+                  >
+                    <img src={busStopIcon} alt='' className='bus-stop' />
+                    {list.bus?.map((el, index) => (
+                      <Bus list={list} bus={el} key={index} />
+                    ))}
+                  </BusListBox>
+                  <Rectangle></Rectangle>
                 </>
-              </FavoriteListBox>
-            </>
+              </>
+            </FavoriteListBox>
           ) : (
             <FavoriteListBox onlyBusStop>
               <ListTitle onlyBusStop>
                 <img src={busBadge} alt='bus-badge' />
                 <p>{list.name}</p>
               </ListTitle>
-              <AddBusButton onClick={clickHandler} name={list.name} active>
+              <AddBusButton onClick={clickHandler} name={list.name} blue>
                 + 버스
               </AddBusButton>
             </FavoriteListBox>
           )}
-        </>
+        </Fragment>
       ))}
     </>
   );
@@ -109,7 +108,7 @@ const ListTitle = styled.div`
       margin: 0.5rem;
     `}
 `;
-const AddBusButton = styled.button`
+const AddBusButton = styled(Button)`
   position: absolute;
   right: 5%;
   top: 8%;
@@ -122,7 +121,7 @@ const AddBusButton = styled.button`
   font-weight: 300;
   font-size: 14px;
   ${(props) =>
-    props.active &&
+    props.blue &&
     css`
       top: 30%;
       border: none;

@@ -14,7 +14,7 @@ const MapContainer = () => {
   });
   const [station, setStation] = useState([]);
   const [markers, setMarkers] = useState([]);
-  const [onToggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const map = useRef();
 
   const { data: positionData } = useQuery(
@@ -25,6 +25,10 @@ const MapContainer = () => {
     }
   );
 
+  const toggleHandler = (e) => {
+    setToggle(!toggle);
+    console.log(toggle);
+  };
   // 현 위치 조회
   const getCurrentPos = () => {
     // navigator.geolocation.getCurrentPosition((position) => {
@@ -40,19 +44,17 @@ const MapContainer = () => {
       },
       isPanto: true,
     });
-    // test()
-    // });
   };
 
-  const test = () => {
-    setMapState({
-      center: {
-        lat: "33.5104135", // 위도
-        lng: "126.4913534", // 경도
-      },
-      isPanto: true,
-    });
-  };
+  // const test = () => {
+  //   setMapState({
+  //     center: {
+  //       lat: "33.5104135", // 위도
+  //       lng: "126.4913534", // 경도
+  //     },
+  //     isPanto: true,
+  //   });
+  // };
 
   // response data를 마커객체로 수정
   const editDataToMarker = () => {
@@ -121,7 +123,7 @@ const MapContainer = () => {
           },
         }}
       />
-      <PositionButton onToggle={onToggle} />
+      <PositionButton toggleHandler={toggleHandler} toggle={toggle} />
     </Map>
   );
 };

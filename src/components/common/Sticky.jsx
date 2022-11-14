@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { getScrollTop } from "../../lib/utils";
+import { getScrollTop } from "@lib/utils/utils.js";
 
 const StickyBlock = styled.div``;
 

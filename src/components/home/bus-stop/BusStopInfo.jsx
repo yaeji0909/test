@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { IoMdMap } from "react-icons/io";
-import BusInfo from "@components/home/BusInfo";
+import BusInfo from "@components/home/bus-stop/BusInfo";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getBusStopInfo } from "@api/mapApi";
-import CheckBox from "../common/CheckBox";
+import CheckBox from "@components/common/CheckBox";
 import { useState, useEffect } from "react";
 import { useMutation } from "react-query";
 import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
@@ -141,6 +141,8 @@ const BusStopInfo = ({ list = [], type = [] }) => {
                       </>
                     ) : (
                       <>
+                        {console.log(list)}
+
                         <BusInfo busStop={list.station} list={bus} />
                         <CheckBoxContents>
                           <CheckBox

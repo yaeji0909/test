@@ -1,14 +1,20 @@
 import { MdOutlineMyLocation } from "react-icons/md";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-const PositionButton = ({ onToggle }) => {
+const PositionButton = ({ toggleHandler, toggle }) => {
+  const clickHandler = (e) => {
+    toggleHandler(e);
+  };
+
   return (
-    <Button>
-      <MdOutlineMyLocation />
-    </Button>
+    <Wrapper>
+      <Button onClick={clickHandler} className={toggle ? "true" : null}>
+        <MdOutlineMyLocation />
+      </Button>
+    </Wrapper>
   );
 };
-
+const Wrapper = styled.div``;
 const Button = styled.button`
   border-radius: 50%;
   background-color: #ffffff;
@@ -26,11 +32,9 @@ const Button = styled.button`
   svg {
     font-size: 1.6rem;
   }
-  ${(props) =>
-    props.onToggle &&
-    css`
-      color: #ffffff;
-      background-color: #006ffd;
-    `}
+  &.true {
+    color: #ffffff;
+    background-color: #006ffd;
+  }
 `;
 export default PositionButton;

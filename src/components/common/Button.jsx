@@ -1,27 +1,19 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { buttonColorMap } from "../../lib/styles/palette";
+import palette from "@lib/styles/palette";
 import media from "../../lib/styles/media";
-import { themedPalette } from "../../lib/styles/themes";
 
 const ButtonBlock = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
   cursor: pointer;
-  outline: none;
-  border: none;
-  color: white;
-  background: ${(props) => buttonColorMap[props.color].background};
-  color: ${(props) => buttonColorMap[props.color].color};
   &:hover,
   &:focus {
-    background: ${(props) => buttonColorMap[props.color].hoverBackground};
+    background: #b2b3b9;
+    color: #ffffff;
   }
   border-radius: 4px;
-  padding-top: 0;
-  padding-bottom: 0;
   ${(props) =>
     props.inline &&
     css`
@@ -64,11 +56,11 @@ const ButtonBlock = styled.button`
 
     &:disabled {
     cursor: not-allowed;
-    background: ${themedPalette.bg_element4};
-    color: ${themedPalette.text3};
+    background: ${palette.gary6};
+    color: ${palette.gray0};
     &:hover {
-      background: ${themedPalette.bg_element4};
-      color: ${themedPalette.text3};
+      background: ${palette.gary6};
+      color: ${palette.gray0};
     }
   }
 `;

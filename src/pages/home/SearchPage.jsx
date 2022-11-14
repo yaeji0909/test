@@ -12,6 +12,7 @@ import { selectedCity } from "@recoil/home";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 import busStop from "@static/images/bus-stop.png";
+import Button from "../../components/common/Button";
 
 function SearchPage() {
   const [searchKeyword, setSearchKeyword] = useState("");

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function BottomTab() {
   return (
-    <Block>
+    <Block top={100}>
       <Link to='/search'>
         <LeftBox>
           <AiOutlineSearch />
@@ -19,35 +19,34 @@ function BottomTab() {
         </Center>
       </Link>
       <Link to='/settings'>
-        <RightBox>
+        <>
           <IoMdSettings />
           <TextBox>설정</TextBox>
-        </RightBox>
+        </>
       </Link>
     </Block>
   );
 }
 
 const Block = styled.div`
-  position: fixed;
   width: 100%;
-  height: 7%;
-  background-color: #ffffff;
-  z-index: 5;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  padding: 0.8rem 3rem;
-  justify-content: space-around;
+  height: 4rem;
+  position: fixed;
   bottom: 0%;
+  display: flex;
+  justify-content: space-around;
+  z-index: 5;
+  padding: 0.8rem 3rem;
+  background-color: #ffffff;
   color: #8c8d96;
   box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
+  svg {
+    font-size: 1.5rem;
+  }
 `;
 
 const LeftBox = styled.div`
   svg {
-    font-size: 1.5rem;
     margin-left: 0.8rem;
   }
 `;
@@ -58,20 +57,14 @@ const Center = styled.div`
   position: absolute;
   bottom: 50%;
   left: 44%;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #4c80f1 0%, #0051d9 100%);
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #4c80f1 0%, #0051d9 100%);
   svg {
     font-size: 2rem;
     color: #ffffff;
-  }
-`;
-
-const RightBox = styled.div`
-  svg {
-    font-size: 1.5rem;
   }
 `;
 

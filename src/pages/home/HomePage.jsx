@@ -5,7 +5,6 @@ import SearchPage from "./SearchPage";
 import RecentSearchPage from "./RecentPage";
 import MainPage from "./MainPage";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
-import BusInfoPage from "./BusInfoPage";
 import BusStopInfoPage from "./BusStopInfoPage";
 import BottomTab from "@components/common/BottomTab";
 import SettingPage from "./SettingPage";
@@ -22,7 +21,6 @@ const HomePage = () => {
                 <Route path='/' element={<Navigate replace to='home' />} />
                 <Route path='home' element={<MainPage />} />
                 <Route path='search' element={<SearchPage />} />
-                <Route path='bus' element={<BusInfoPage />} />
                 <Route path='bus-stop' element={<BusStopInfoPage />} />
                 <Route path='recent' element={<RecentSearchPage />} />
                 <Route path='settings' element={<SettingPage />} />

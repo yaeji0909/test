@@ -27,26 +27,23 @@ const RadioButtonGroup = ({ value }) => {
 const Item = styled.div`
   display: flex;
   align-items: center;
-  height: 3rem;
+  height: 5vh;
   position: relative;
 `;
 
 const RadioButtonLabel = styled.label`
   position: absolute;
   top: 25%;
-  left: 4px;
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: 50%;
   background: white;
   border: 2px solid #bebebe;
 `;
+
 const RadioButton = styled.input`
   opacity: 0;
   z-index: 1;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
   margin-right: 10px;
   cursor: pointer;
   &:hover ~ ${RadioButtonLabel} {
@@ -68,8 +65,8 @@ const RadioButton = styled.input`
         content: "";
         display: block;
         border-radius: 50%;
-        width: 14px;
-        height: 14px;
+        width: 0.9rem;
+        height: 0.85rem;
         margin: 3px;
         background: linear-gradient(180deg, #4C80F1 0%, #0051D9 100%);
       }

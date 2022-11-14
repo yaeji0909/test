@@ -1,10 +1,8 @@
 import { MapMarker } from "react-kakao-maps-sdk";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import busStopIcon from "@static/images/bus-stop-icon.png";
 
 const EventMarker = ({ marker, markers }) => {
-  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
   const searchBusStopInfo = (clickedMarker) => {
@@ -21,27 +19,23 @@ const EventMarker = ({ marker, markers }) => {
   };
 
   return (
-    <>
-      <MapMarker
-        position={marker.latlng} // 마커를 표시할 위치
-        onClick={() => searchBusStopInfo(marker)}
-        image={{
-          src: busStopIcon,
-          size: {
-            width: 22,
-            height: 30,
+    <MapMarker
+      position={marker.latlng} // 마커를 표시할 위치
+      onClick={() => searchBusStopInfo(marker)}
+      image={{
+        src: busStopIcon,
+        size: {
+          width: 22,
+          height: 30,
+        },
+        options: {
+          offset: {
+            x: 12,
+            y: 43,
           },
-          options: {
-            offset: {
-              x: 12,
-              y: 43,
-            },
-          },
-        }}
-      >
-        {isVisible && marker}
-      </MapMarker>
-    </>
+        },
+      }}
+    />
   );
 };
 

@@ -9,7 +9,6 @@ import FavoriteList from "@components/favorites/FavoriteList";
 import { useQuery } from "react-query";
 import { getFavoriteList } from "@api/favoriteApi";
 import { useRecoilState } from "recoil";
-
 import { selectedCity } from "../../recoil/home";
 
 const BottomSheetBody = () => {
