@@ -5,6 +5,7 @@ import busStopIcon from "@static/svg/bus-stop-icon.svg";
 import { useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 import Button from "../common/Button";
+import zIndexes from "@lib/styles/zIndexes";
 
 const FavoriteList = ({ favoriteList }) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const FavoriteList = ({ favoriteList }) => {
     navigate("/bus-stop", {
       state: {
         list: filteredList,
-        type: "BusInfo",
+        type: "FAVORITE_LIST",
       },
     });
   };
@@ -117,7 +118,7 @@ const AddBusButton = styled(Button)`
   border-radius: 3px;
   color: #b2b3b9;
   padding: 0.5rem;
-  z-index: 3;
+  z-index: ${zIndexes.FavAddButton};
   font-weight: 300;
   font-size: 14px;
   ${(props) =>

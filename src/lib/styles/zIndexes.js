@@ -1,7 +1,8 @@
 const zIndexes = {
-  OpaqueLayer: 10,
-  AuthModal: 20,
-  Toolbar: 10,
+  FloatButton: 10,
+  BottomTab: 50,
+  FavAddButton: 30,
+  TopSheetButton: 40,
   Popup: 60,
   WriteFooter: 10,
   PublishScreen: 15,

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import RadioButton from "../common/RadioButton";
+import zIndexes from "@lib/styles/zIndexes";
 
 const times = ["새로고침 안함", "10초", "20초", "30초", "40초", "60초"];
 
@@ -34,7 +35,7 @@ const BottomBox = styled.div`
   border: 1px solid #f0f0f0f0;
   width: 27rem;
   height: 6vh;
-  z-index: 8;
+  z-index: ${zIndexes.FavAddButton};
 `;
 const Button = styled.button`
   width: 50%;

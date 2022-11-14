@@ -16,8 +16,6 @@ const BusInfo = ({ list, busStop, type }) => {
     { enabled: !!busStop !== [] && !!list.id !== [] && !!type !== [] }
   );
 
-  console.log(list);
-
   const editSecondsToMinutes = (time = []) => {
     const result = time / 60;
     return result;

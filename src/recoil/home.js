@@ -5,6 +5,11 @@ export const userInfo = atom({
   default: {},
 });
 
+export const clickedBusStop = atom({
+  key: "clickedBusStop",
+  default: [],
+});
+
 export const selectedCity = atom({
   key: "selectedCity",
   default: 39,

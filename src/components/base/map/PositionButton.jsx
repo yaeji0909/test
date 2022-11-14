@@ -1,6 +1,6 @@
 import { MdOutlineMyLocation } from "react-icons/md";
 import styled from "styled-components";
-
+import zIndexes from "@lib/styles/zIndexes";
 const PositionButton = ({ toggleHandler, toggle }) => {
   const clickHandler = (e) => {
     toggleHandler(e);
@@ -19,7 +19,7 @@ const Button = styled.button`
   border-radius: 50%;
   background-color: #ffffff;
   color: #006ffd;
-  z-index: 1;
+  z-index: ${zIndexes.FloatButton};
   position: absolute;
   bottom: 12%;
   display: flex;

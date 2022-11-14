@@ -1,26 +1,25 @@
-import { useLayoutEffect, useRef } from "react";
-import useStayScrolled from "react-stay-scrolled";
+import { useRef } from "react";
 import styled, { css } from "styled-components";
 import { BottomSheetBodyBox, Wrapper } from "./bottomSheetStyles";
-import FavoriteList from "@components/favorites/FavoriteList";
 import { useRecoilState } from "recoil";
 import { favBusStopList } from "@recoil/favorite";
 import Skeleton from "../../common/Skeleton";
 import { Fragment } from "react";
-import SkeletonTexts from "../../common/SkeletonTexts";
 
 const BottomSheetBodySkeleton = () => {
   const [favoriteBusStopList, setFavoriteBusStopList] =
     useRecoilState(favBusStopList);
+
   const bottomBody = useRef(null);
+
   return (
     <Wrapper>
       <BottomSheetBodyBox ref={bottomBody}>
         {favoriteBusStopList
           ? favoriteBusStopList.map((list, index) => (
-              <Fragment>
+              <Fragment key={index}>
                 {list.bus ? (
-                  <FavoriteListBox key={index}>
+                  <FavoriteListBox>
                     <div className='row'>
                       <Skeleton className='title-skeleton' marginRight='3rem' />
                       <Skeleton className='button-skeleton' />

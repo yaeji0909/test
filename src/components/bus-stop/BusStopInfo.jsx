@@ -131,7 +131,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
               {busListData &&
                 busListData?.map((bus, index) => (
                   <FavListBox key={index}>
-                    {type === "BusInfo" ? (
+                    {type === "FAVORITE_LIST" ? (
                       <>
                         <BusInfo
                           busStop={list.station}

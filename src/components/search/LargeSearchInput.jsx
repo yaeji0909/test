@@ -1,13 +1,14 @@
 import { useCallback } from "react";
 import SearchInput from "@components/search/SearchInput";
 import styled from "styled-components";
+import zIndexes from "@lib/styles/zIndexes";
 import { Link } from "react-router-dom";
 
 const StyledSearchInput = styled(SearchInput)`
   margin-top: 2rem;
   margin-bottom: 0.5rem;
   height: 3rem;
-  z-index: 2;
+  z-index: ${zIndexes.FavAddButton};
   position: absolute;
   left: 6%;
   .hamburgerBtn {
@@ -17,7 +18,7 @@ const StyledSearchInput = styled(SearchInput)`
     height: 2rem;
     left: 5%;
     top: 12%;
-    z-index: 3;
+    z-index: ${zIndexes.FavAddButton};
   }
 `;
 

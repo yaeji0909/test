@@ -11,7 +11,6 @@ function BusStopInfoPage() {
       <Helmet>
         <title>BusStopInfoPage</title>
       </Helmet>
-
       {location.state.list ? (
         // 즐겨찾기 유무에 따른 페이지 이동
         location.state.type ? (

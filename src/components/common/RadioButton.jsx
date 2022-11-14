@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import zIndexes from "@lib/styles/zIndexes";
 
 const RadioButtonGroup = ({ value }) => {
   const [select, setSelect] = useState("");
@@ -43,7 +44,7 @@ const RadioButtonLabel = styled.label`
 
 const RadioButton = styled.input`
   opacity: 0;
-  z-index: 1;
+  z-index: ${zIndexes.FloatButton};
   margin-right: 10px;
   cursor: pointer;
   &:hover ~ ${RadioButtonLabel} {

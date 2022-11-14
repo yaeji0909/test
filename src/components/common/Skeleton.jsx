@@ -34,7 +34,7 @@ const shining = keyframes`
 `;
 
 const Block = styled.span`
-  background: #e0e0e0;
+  background: #f7f8fa;
   animation: ${shining} 1s ease-in-out infinite;
   display: inline-block;
   border-radius: 4px;

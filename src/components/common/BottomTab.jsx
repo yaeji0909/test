@@ -3,6 +3,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdSettings } from "react-icons/io";
 import { MdDirectionsBus } from "react-icons/md";
 import { Link } from "react-router-dom";
+import zIndexes from "@lib/styles/zIndexes";
 
 function BottomTab() {
   return (
@@ -35,7 +36,7 @@ const Block = styled.div`
   bottom: 0%;
   display: flex;
   justify-content: space-around;
-  z-index: 5;
+  z-index: ${zIndexes.BottomTab};
   padding: 0.8rem 3rem;
   background-color: #ffffff;
   color: #8c8d96;
