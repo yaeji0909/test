@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { IoMdMap } from "react-icons/io";
 import BusInfo from "@components/bus-stop/BusInfo";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getBusStopInfo } from "@api/mapApi";
 import CheckBox from "@components/common/CheckBox";
 import { useState, useEffect } from "react";
@@ -16,14 +16,14 @@ import { clickedBusStop } from "@recoil/home";
 
 const BusStopInfo = ({ list = [], type = [] }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [checkedItems, setCheckedItems] = useState(new Set());
-  const [busListData, setBusListData] = useState([]);
   const [selectedBusList, setSelectedBusList] = useState([]);
+  const [busListData, setBusListData] = useState([]);
+  const [checkedItems, setCheckedItems] = useState(new Set());
+
+  // 주변 정류장 클릭시
   const [clickedBusStation, setClickedBusStation] =
     useRecoilState(clickedBusStop);
-
-  // 주변정류장-마커클릭시 실행되는 쿼리
+  console.log(clickedBusStation);
   const { data: busStopData = [] } = useQuery(
     ["route", clickedBusStation.stopId],
     () => getBusStopInfo(clickedBusStation.stopId),
@@ -49,6 +49,16 @@ const BusStopInfo = ({ list = [], type = [] }) => {
   const deleteMutation = useMutation(() => {
     deleteFavoriteList();
   });
+
+  useEffect(() => {
+    if (busStopData) {
+      const busObjList = busStopData?.map((e) => e);
+      editBusObj(busObjList);
+    } else if (busListInFavorite) {
+      const busListInFavData = busListInFavorite.map((e) => e);
+      editBusObj(busListInFavData);
+    }
+  }, []);
 
   const checkedItemHandler = (target, isChecked) => {
     if (isChecked) {
@@ -89,13 +99,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       setBusListData(busList);
     }
   };
-
-  useEffect(() => {
-    const busListInFavData = busListInFavorite.map((e) => e);
-    const busObjList = busStopData?.map((e) => e);
-    editBusObj(busListInFavData);
-    editBusObj(busObjList);
-  }, []);
 
   return (
     <>

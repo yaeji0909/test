@@ -13,11 +13,7 @@ const EventMarker = ({ marker, markers }) => {
     );
     setSelectedBusStop(marker[0]);
 
-    navigate("/bus-stop", {
-      // state: {
-      //   selectedBusStop: clickedBusStop,
-      // },
-    });
+    navigate("/bus-stop");
   };
 
   return (

@@ -5,29 +5,34 @@ import { useLocation } from "react-router-dom";
 function BusStopInfoPage() {
   const location = useLocation();
 
+  // 주변 정류소 클릭시
   if (!location.state?.list && !location.state?.type) {
     return (
       <>
+        <Helmet>
+          <title>BusStopInfoPage</title>
+        </Helmet>
         <BusStopInfo />
       </>
     );
   }
 
+  // 즐겨찾기 클릭시
   return (
     <>
       <Helmet>
         <title>BusStopInfoPage</title>
       </Helmet>
-      {/* // 즐겨찾기 유무에 따른 페이지 이동 */}
-      {location.state.type
-        ? // 즐겨찾기탭에서 버스 정류장 페이지로 이동
-          location.state.list.map((el, index) => (
-            <BusStopInfo list={el} key={index} type={location.state.type} />
-          ))
-        : // 즐겨찾기에서 버스 추가 페이지로 이동
-          location.state.list.map((el, index) => (
-            <BusStopInfo list={el} key={index} />
-          ))}
+      {
+        // 버스 정류장 상세페이지로 이동시 type 전달
+        location.state.list.map((el, index) => (
+          <BusStopInfo
+            list={el}
+            key={index}
+            type={location.state.type ? location.state.type : ""}
+          />
+        ))
+      }
     </>
   );
 }
