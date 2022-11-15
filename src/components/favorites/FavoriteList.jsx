@@ -14,7 +14,7 @@ const FavoriteList = ({ favoriteList }) => {
     const filteredList = favoriteList.filter(
       (city) => city.name === e.currentTarget.getAttribute("name")
     );
-    navigate("/bus-stop", {
+    navigate("/bus-edit", {
       state: {
         list: filteredList,
       },
@@ -26,7 +26,7 @@ const FavoriteList = ({ favoriteList }) => {
     const filteredList = favoriteList.filter(
       (city) => city.name === e.currentTarget.getAttribute("name")
     );
-    navigate("/bus-stop", {
+    navigate("/bus-edit", {
       state: {
         list: filteredList,
         type: "FAVORITE_LIST",
@@ -118,7 +118,7 @@ const AddBusButton = styled(Button)`
   border-radius: 3px;
   color: #b2b3b9;
   padding: 0.5rem;
-  z-index: ${zIndexes.FavAddButton};
+  z-index: ${zIndexes.BottomTab};
   font-weight: 300;
   font-size: 14px;
   ${(props) =>

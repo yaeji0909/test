@@ -11,26 +11,12 @@ import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { FiStar } from "react-icons/fi";
 import MainResponsive from "@components/main/MainResponsive";
-import { useRecoilState } from "recoil";
-import { clickedBusStop } from "@recoil/home";
 
 const BusStopInfo = ({ list = [], type = [] }) => {
   const navigate = useNavigate();
   const [selectedBusList, setSelectedBusList] = useState([]);
   const [busListData, setBusListData] = useState([]);
   const [checkedItems, setCheckedItems] = useState(new Set());
-
-  // 주변 정류장 클릭시
-  const [clickedBusStation, setClickedBusStation] =
-    useRecoilState(clickedBusStop);
-  console.log(clickedBusStation);
-  const { data: busStopData = [] } = useQuery(
-    ["route", clickedBusStation.stopId],
-    () => getBusStopInfo(clickedBusStation.stopId),
-    {
-      enabled: !!clickedBusStation,
-    }
-  );
 
   // 즐겨찾기에서 접근시 실행되는 쿼리
   const { data: busListInFavorite = [] } = useQuery(
@@ -51,12 +37,10 @@ const BusStopInfo = ({ list = [], type = [] }) => {
   });
 
   useEffect(() => {
-    if (busStopData) {
-      const busObjList = busStopData?.map((e) => e);
-      editBusObj(busObjList);
-    } else if (busListInFavorite) {
-      const busListInFavData = busListInFavorite.map((e) => e);
-      editBusObj(busListInFavData);
+    if (busListInFavorite !== []) {
+      console.log(busListInFavorite);
+      const busListInFav = busListInFavorite?.map((e) => e);
+      editBusObj(busListInFav);
     }
   }, []);
 
@@ -68,7 +52,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       checkedItems.delete(target);
       setCheckedItems(checkedItems);
     }
-
     let busList = [];
     checkedItems.forEach((e) => busList.push(e.id));
     setSelectedBusList(busList);
@@ -109,62 +92,36 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       <BusStopInfoBox>
         <BusStopInfoTextBox>
           <BusStopInfoText>
-            {clickedBusStation ? (
-              <p>{clickedBusStation ? clickedBusStation.name : ""}</p>
-            ) : (
-              <p>{list.name}</p>
-            )}
+            <p>{list.name}</p>
           </BusStopInfoText>
           <MapBtn onClick={() => navigate(-1)}>
             <IoMdMap />
           </MapBtn>
         </BusStopInfoTextBox>
         <Wrapper>
-          {clickedBusStation && busListData ? (
-            <>
-              {/* response가 1개일 경우 객체로 오고, 여러개일 경우 배열형태로 와서 하단과 같이 처리함 */}
-              {busListData.length === 0 && (
-                <BusInfo list={busListData} busStop={clickedBusStation} />
-              )}
-              {busListData.length > 0 &&
-                busListData?.map((list) => (
-                  <div key={`${list.no}`}>
-                    {console.log(list)}
-
-                    <BusInfo list={list} busStop={clickedBusStation} />
-                  </div>
-                ))}
-            </>
-          ) : (
-            <>
-              {busListData &&
-                busListData?.map((bus, index) => (
-                  <FavListBox key={index}>
-                    {type === "FAVORITE_LIST" ? (
-                      <>
-                        <BusInfo
-                          busStop={list.station}
-                          list={bus}
-                          type={type}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <BusInfo busStop={list.station} list={bus} />
-                        <CheckBoxContents>
-                          <CheckBox
-                            bus={bus}
-                            checkedItemHandler={checkedItemHandler}
-                            alreadySelectedBusList={list.bus}
-                          />
-                        </CheckBoxContents>
-                        {console.log(checkedItems)}
-                      </>
-                    )}
-                  </FavListBox>
-                ))}
-            </>
-          )}
+          <>
+            {busListData &&
+              busListData?.map((bus, index) => (
+                <FavListBox key={index}>
+                  <BusInfo
+                    busStop={list.station}
+                    list={bus}
+                    type={type ? type : ""}
+                  />
+                  {type ? (
+                    ""
+                  ) : (
+                    <CheckBoxContents>
+                      <CheckBox
+                        bus={bus}
+                        checkedItemHandler={checkedItemHandler}
+                        alreadySelectedBusList={list.bus}
+                      />
+                    </CheckBoxContents>
+                  )}
+                </FavListBox>
+              ))}
+          </>
         </Wrapper>
       </BusStopInfoBox>
     </>

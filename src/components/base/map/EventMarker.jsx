@@ -12,7 +12,6 @@ const EventMarker = ({ marker, markers }) => {
       (marker) => marker.stopId === clickedMarker.stopId
     );
     setSelectedBusStop(marker[0]);
-
     navigate("/bus-stop");
   };
 

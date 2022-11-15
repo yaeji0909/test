@@ -3,11 +3,12 @@ import { useQuery } from "react-query";
 import { getClickedBusInfo } from "@api/mapApi";
 import Timer from "@components/home/utils/Timer";
 
-const BusInfo = ({ list, busStop, type }) => {
-  const { data: busArrival = [] } = useQuery(
-    ["busArrival", list.no],
-    () => getClickedBusInfo(busStop, list.id),
-    { enabled: !!busStop !== [] && !!list.id !== [] }
+const StaticBusInfo = ({ busStop, clickedBusStation }) => {
+  console.log(busStop, "busStop");
+  const { data: busArrivalInfo = [] } = useQuery(
+    ["busArrivalInfo", busStop.id],
+    () => getClickedBusInfo(clickedBusStation.stopId, busStop.id),
+    { enabled: !!clickedBusStation.stopId && !!busStop !== [] }
   );
 
   const editSecondsToMinutes = (time = []) => {
@@ -15,31 +16,29 @@ const BusInfo = ({ list, busStop, type }) => {
     return result;
   };
 
-  const result = editSecondsToMinutes(busArrival.arrtime);
+  const result = editSecondsToMinutes(busArrivalInfo.arrtime);
 
   return (
     <>
       <BusInfoBox>
         <LeftBox>
-          {list.ty === "간선버스" ? (
+          {busStop.ty === "간선버스" ? (
             <>
               <BusBadge style={{ backgroundColor: "#59BE0A" }}>
                 <span>간선</span>
               </BusBadge>
-              <BusList style={{ color: "#59BE0A" }}>{list.no}</BusList>
+              <BusList style={{ color: "#59BE0A" }}>{busStop.no}</BusList>
             </>
           ) : (
             <>
               <BusBadge style={{ backgroundColor: "#1E7ADB" }}>
                 <span>급행</span>
               </BusBadge>
-              <BusList style={{ color: "#1E7ADB" }}>{list.no}</BusList>
+              <BusList style={{ color: "#1E7ADB" }}>{busStop.no}</BusList>
             </>
           )}
         </LeftBox>
-        {type === "FAVORITE_LIST" && (
-          <Timer style={{ position: "absolute" }} mm={result} ss={0} />
-        )}
+        <Timer style={{ position: "absolute" }} mm={result} ss={0} />
       </BusInfoBox>
     </>
   );
@@ -71,4 +70,4 @@ const BusList = styled.li`
   margin: 0 1rem;
 `;
 
-export default BusInfo;
+export default StaticBusInfo;

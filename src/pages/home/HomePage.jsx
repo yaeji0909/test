@@ -8,6 +8,8 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import BusStopInfoPage from "./BusStopInfoPage";
 import BottomTab from "@components/common/BottomTab";
 import SettingPage from "./SettingPage";
+import EditFavListPage from "./EditFavListPage";
+
 const HomePage = () => {
   const location = useLocation();
 
@@ -22,6 +24,7 @@ const HomePage = () => {
                 <Route path='home' element={<MainPage />} />
                 <Route path='search' element={<SearchPage />} />
                 <Route path='bus-stop' element={<BusStopInfoPage />} />
+                <Route path='bus-edit' element={<EditFavListPage />} />
                 <Route path='recent' element={<RecentSearchPage />} />
                 <Route path='settings' element={<SettingPage />} />
               </Routes>
