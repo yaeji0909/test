@@ -38,8 +38,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
 
   useEffect(() => {
     if (busListInFavorite !== []) {
-      console.log(busListInFavorite);
-      const busListInFav = busListInFavorite?.map((e) => e);
+      const busListInFav = busListInFavorite?.map((el) => el);
       editBusObj(busListInFav);
     }
   }, []);
@@ -52,8 +51,9 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       checkedItems.delete(target);
       setCheckedItems(checkedItems);
     }
+
     let busList = [];
-    checkedItems.forEach((e) => busList.push(e.id));
+    checkedItems.forEach((el) => busList.push(el.id));
     setSelectedBusList(busList);
     if (selectedBusList !== []) {
       setTimeout(() => {
@@ -108,17 +108,14 @@ const BusStopInfo = ({ list = [], type = [] }) => {
                     list={bus}
                     type={type ? type : ""}
                   />
-                  {type ? (
-                    ""
-                  ) : (
-                    <CheckBoxContents>
-                      <CheckBox
-                        bus={bus}
-                        checkedItemHandler={checkedItemHandler}
-                        alreadySelectedBusList={list.bus}
-                      />
-                    </CheckBoxContents>
-                  )}
+                  <CheckBoxContents>
+                    <CheckBox
+                      type={type ? type : ""}
+                      bus={bus}
+                      checkedItemHandler={checkedItemHandler}
+                      alreadySelectedBusList={list.bus}
+                    />
+                  </CheckBoxContents>
                 </FavListBox>
               ))}
           </>
@@ -149,11 +146,7 @@ const Wrapper = styled.div`
     height: 15%;
   }
 `;
-const CheckBoxContents = styled.div`
-  position: absolute;
-  right: 5%;
-  top: 35%;
-`;
+const CheckBoxContents = styled.div``;
 const FavListBox = styled.div`
   position: relative;
 `;

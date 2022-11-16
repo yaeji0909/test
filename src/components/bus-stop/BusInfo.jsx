@@ -46,7 +46,7 @@ const BusInfo = ({ list, busStop, type }) => {
 };
 
 const BusInfoBox = styled.div`
-  padding: 1.5rem;
+  padding: 1.5rem 3.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

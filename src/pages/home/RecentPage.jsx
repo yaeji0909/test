@@ -10,7 +10,7 @@ function RecentSearchPage() {
       <Header />
       <div>
         <h3>RecentSearchPage</h3>
-      </div>{" "}
+      </div>
     </>
   );
 }

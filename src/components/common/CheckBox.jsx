@@ -1,10 +1,13 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useRef, useState, useEffect } from "react";
+import starImage from "@static/svg/star.svg";
+import disabledStarImage from "@static/svg/star-disabled.svg";
 
 const CheckBox = ({
   checkedItemHandler,
   bus = [],
   alreadySelectedBusList = [],
+  type,
 }) => {
   const [bChecked, setChecked] = useState(false);
   const checkBoxRef = useRef();
@@ -30,13 +33,15 @@ const CheckBox = ({
 
   return (
     <Wrapper>
-      <input
-        ref={checkBoxRef}
-        type='checkbox'
-        name={bus ? `${bus.id}` : null}
-        checked={bChecked}
-        onChange={(e) => checkHandler(e)}
-      />
+      <StyledCheckBox star={type ? true : ""}>
+        <input
+          ref={checkBoxRef}
+          type='checkbox'
+          name={bus ? `${bus.id}` : null}
+          checked={bChecked}
+          onChange={(e) => checkHandler(e)}
+        />
+      </StyledCheckBox>
     </Wrapper>
   );
 };
@@ -46,5 +51,28 @@ const Wrapper = styled.div`
     width: 1rem;
     height: 1rem;
   }
+`;
+const StyledCheckBox = styled.div`
+  position: absolute;
+  right: 5%;
+  top: 35%;
+
+  ${(props) =>
+    props.star &&
+    css`
+      position: absolute;
+      left: 5%;
+      input[type="checkbox"] {
+        cursor: pointer;
+        width: 1.5rem;
+        height: 1.5rem;
+        appearance: none;
+        background-repeat: no-repeat;
+        background-image: url(${disabledStarImage});
+      }
+      input[type="checkbox"]:checked {
+        background-image: url(${starImage});
+      }
+    `}
 `;
 export default CheckBox;

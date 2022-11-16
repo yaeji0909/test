@@ -44,29 +44,25 @@ const FavoriteList = ({ favoriteList }) => {
                 <img src={busBadge} alt='bus-badge' />
                 <p>{list.name}</p>
               </ListTitle>
-              <>
-                <>
-                  <AddBusButton onClick={clickHandler} name={list.name}>
-                    + 버스
-                  </AddBusButton>
-                  <ListSubTitle></ListSubTitle>
-                  <BusListBox
-                    name={list.name}
-                    onClick={moveToBusInfoPage}
-                    onlyList
-                  >
-                    <img src={busStopIcon} alt='' className='bus-stop' />
-                    {list.bus?.map((el, index) => (
-                      <Bus list={list} bus={el} key={index} />
-                    ))}
-                  </BusListBox>
-                  <Rectangle></Rectangle>
-                </>
-              </>
+              <AddBusButton onClick={clickHandler} name={list.name}>
+                + 버스
+              </AddBusButton>
+              <ListSubTitle></ListSubTitle>
+              <BusListBox name={list.name} onClick={moveToBusInfoPage} onlyList>
+                <img src={busStopIcon} alt='' className='bus-stop' />
+                {list.bus?.map((el, index) => (
+                  <Bus list={list} bus={el} key={index} />
+                ))}
+              </BusListBox>
+              <Rectangle></Rectangle>
             </FavoriteListBox>
           ) : (
             <FavoriteListBox onlyBusStop>
-              <ListTitle onlyBusStop>
+              <ListTitle
+                onlyBusStop
+                name={list.name}
+                onClick={moveToBusInfoPage}
+              >
                 <img src={busBadge} alt='bus-badge' />
                 <p>{list.name}</p>
               </ListTitle>
@@ -80,6 +76,7 @@ const FavoriteList = ({ favoriteList }) => {
     </>
   );
 };
+
 const FavoriteListBox = styled.div`
   height: 20vh;
   margin: 0.4rem;
@@ -101,14 +98,15 @@ const ListTitle = styled.div`
   font-weight: 600;
   font-size: 18px;
   p {
-    padding-left: 5px;
+    padding-left: 8px;
   }
   ${(props) =>
     props.onlyBusStop &&
     css`
-      margin: 0.5rem;
+      margin: 0.8rem;
     `}
 `;
+
 const AddBusButton = styled(Button)`
   position: absolute;
   right: 5%;

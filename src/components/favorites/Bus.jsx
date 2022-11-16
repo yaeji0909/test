@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { getBusStopInfo, getClickedBusInfo } from "@api/mapApi";
 import Timer from "../home/utils/Timer";
-
 const Bus = ({ list = [], bus = [] }) => {
   const { data: busStopData = [] } = useQuery(["route", list.station], () =>
     getBusStopInfo(list.station)
@@ -38,15 +37,11 @@ const Bus = ({ list = [], bus = [] }) => {
             </span>
           )}
           {result ? (
-            <>
-              <span>
-                <Timer mm={result} ss={0} />
-              </span>
-            </>
+            <span>
+              <Timer mm={result} ss={0} />
+            </span>
           ) : (
-            <>
-              <span>도착정보 없음</span>
-            </>
+            <span>도착정보 없음</span>
           )}
         </BusArrivalInfo>
       </ArrivalInfoBox>
@@ -63,16 +58,17 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 0 0.5rem;
 `;
+
 const ArrivalInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 26vw;
   padding: 0 0.5rem;
 `;
+
 const BusArrivalInfo = styled.div`
-  width: 100%;
+  width: 20vw;
   display: flex;
   flex-direction: column;
   height: 7vh;

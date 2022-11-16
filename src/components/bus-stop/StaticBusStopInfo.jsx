@@ -8,14 +8,24 @@ import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { FiStar } from "react-icons/fi";
 import MainResponsive from "@components/main/MainResponsive";
 import StaticBusInfo from "./StaticBusInfo";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { clickedBusStop } from "@recoil/home";
 
 const StaticBusStopInfo = () => {
   const navigate = useNavigate();
   const [busListData, setBusListData] = useState([]);
-  const [clickedBusStation, setClickedBusStation] =
-    useRecoilState(clickedBusStop);
+  const clickedBusStation = useRecoilValue(clickedBusStop);
+
+  // 주변 정류소 클릭시
+  const { data: busStopData } = useQuery(
+    ["route", clickedBusStation.stopId],
+    () => getBusStopInfo(clickedBusStation.stopId),
+    {
+      staleTime: 5000,
+      cacheTime: Infinity,
+      enabled: !!clickedBusStation,
+    }
+  );
 
   const editBusObj = (busListArray) => {
     const busList = [];
@@ -38,21 +48,12 @@ const StaticBusStopInfo = () => {
     setBusListData(busList);
   };
 
-  // 주변 정류소 클릭시
-  const { data: busStopData, isSuccess } = useQuery(
-    ["route", clickedBusStation.stopId],
-    () => getBusStopInfo(clickedBusStation.stopId),
-    {
-      enabled: !!clickedBusStation,
-    }
-  );
-
   useEffect(() => {
-    if (busStopData) {
-      const busObjList = busStopData?.map((e) => e);
+    if (busStopData && busStopData.length > 0) {
+      const busObjList = busStopData?.map((el) => el);
       editBusObj(busObjList);
     }
-  }, []);
+  }, [busStopData]);
 
   return (
     <>
@@ -70,22 +71,24 @@ const StaticBusStopInfo = () => {
           </MapBtn>
         </BusStopInfoTextBox>
         <Wrapper>
+          {/* response가 하나일 경우 객체로, 여러개일 경우 array로 내려옴 */}
           {busListData !== [] && busListData.length === 0 ? (
             <StaticBusInfo
-              busStop={busListData}
+              busStop={busStopData}
               clickedBusStation={clickedBusStation}
             />
           ) : (
             <>
               {busListData !== [] &&
                 busListData.length > 0 &&
-                busListData?.map((busStop) => (
-                  <div key={`${busStop.id}`}>
+                busListData.map((busStop) => (
+                  <>
                     <StaticBusInfo
+                      key={`${busStop.id}`}
                       busStop={busStop}
                       clickedBusStation={clickedBusStation}
                     />
-                  </div>
+                  </>
                 ))}
             </>
           )}

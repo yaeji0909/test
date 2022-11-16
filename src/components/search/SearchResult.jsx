@@ -72,7 +72,6 @@ const SearchResult = ({ resultList, query, busStopIdFromFavList }) => {
         {clickToggle ? (
           <FiStar alt={"starBtn"} color='#f2e528' fill='#f2e528' />
         ) : (
-          // <FiStar alt={"starBtn"} color='#f2e528' fill='#f2e528' />
           <FiStar alt={"starBtn"} />
         )}
       </ImgBox>

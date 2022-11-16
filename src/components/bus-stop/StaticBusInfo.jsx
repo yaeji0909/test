@@ -3,12 +3,11 @@ import { useQuery } from "react-query";
 import { getClickedBusInfo } from "@api/mapApi";
 import Timer from "@components/home/utils/Timer";
 
-const StaticBusInfo = ({ busStop, clickedBusStation }) => {
-  console.log(busStop, "busStop");
-  const { data: busArrivalInfo = [] } = useQuery(
-    ["busArrivalInfo", busStop.id],
+const StaticBusInfo = ({ busStop = [], clickedBusStation }) => {
+  const { data: busArrivalInfo, isSuccess } = useQuery(
+    ["busArrivalInfo", busStop.id || busStop.routeid],
     () => getClickedBusInfo(clickedBusStation.stopId, busStop.id),
-    { enabled: !!clickedBusStation.stopId && !!busStop !== [] }
+    { enabled: (!!busStop.id || busStop.routeid) && !!clickedBusStation.stopId }
   );
 
   const editSecondsToMinutes = (time = []) => {
@@ -16,25 +15,29 @@ const StaticBusInfo = ({ busStop, clickedBusStation }) => {
     return result;
   };
 
-  const result = editSecondsToMinutes(busArrivalInfo.arrtime);
+  const result = editSecondsToMinutes(busArrivalInfo?.arrtime);
 
   return (
     <>
       <BusInfoBox>
         <LeftBox>
-          {busStop.ty === "간선버스" ? (
+          {busStop.ty || busStop.routetp === "간선버스" ? (
             <>
               <BusBadge style={{ backgroundColor: "#59BE0A" }}>
                 <span>간선</span>
               </BusBadge>
-              <BusList style={{ color: "#59BE0A" }}>{busStop.no}</BusList>
+              <BusList style={{ color: "#59BE0A" }}>
+                {busStop.no || busStop.routeno}
+              </BusList>
             </>
           ) : (
             <>
               <BusBadge style={{ backgroundColor: "#1E7ADB" }}>
                 <span>급행</span>
               </BusBadge>
-              <BusList style={{ color: "#1E7ADB" }}>{busStop.no}</BusList>
+              <BusList style={{ color: "#1E7ADB" }}>
+                {busStop.no || busStop.routeno}
+              </BusList>
             </>
           )}
         </LeftBox>

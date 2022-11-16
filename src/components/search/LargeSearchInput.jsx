@@ -16,26 +16,19 @@ const StyledSearchInput = styled(SearchInput)`
     position: absolute;
     width: 1.2rem;
     height: 2rem;
-    left: 5%;
+    left: 4%;
     top: 12%;
     z-index: ${zIndexes.FavAddButton};
   }
 `;
 
-const LargeSearchInput = ({ history, initialKeyword }) => {
-  const onSearch = useCallback((keyword) => {
-    console.log(keyword);
-  }, []);
+const LargeSearchInput = ({ initialKeyword }) => {
+  const onSearch = useCallback((keyword) => {}, []);
 
   return (
     <>
       <Link to='/search'>
-        <StyledSearchInput
-          onSearch={onSearch}
-          initial={initialKeyword}
-          large
-          searchAsYouType
-        />
+        <StyledSearchInput onSearch={onSearch} initial={initialKeyword} large />
       </Link>
     </>
   );

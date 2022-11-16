@@ -1,12 +1,12 @@
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import MainResponsive from "@components/main/MainResponsive";
 import HomeLayout from "@components/home/HomeLayout";
 import MainTemplate from "@components/main/MainTemplate";
+import BottomTab from "@components/common/BottomTab";
 import SearchPage from "./SearchPage";
 import RecentSearchPage from "./RecentPage";
 import MainPage from "./MainPage";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import BusStopInfoPage from "./BusStopInfoPage";
-import BottomTab from "@components/common/BottomTab";
 import SettingPage from "./SettingPage";
 import EditFavListPage from "./EditFavListPage";
 

@@ -2,6 +2,7 @@ import ToggleSwitch from "../common/ToggleSwitch";
 import styled from "styled-components";
 import { useState } from "react";
 import CheckBox from "../common/CheckBox";
+import CommonCheckBox from "./CommonCheckBox";
 
 const cities = [
   { id: "서울", num: 0 },
@@ -25,7 +26,7 @@ const SetLocation = () => {
         ? cities.map((city, index) => (
             <CitiesBox key={index}>
               <p>{city.id}</p>
-              <CheckBox data={city} />
+              <CommonCheckBox data={city} />
             </CitiesBox>
           ))
         : ""}
