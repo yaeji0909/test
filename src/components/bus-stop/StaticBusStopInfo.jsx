@@ -10,6 +10,7 @@ import MainResponsive from "@components/main/MainResponsive";
 import StaticBusInfo from "./StaticBusInfo";
 import { useRecoilValue } from "recoil";
 import { clickedBusStop } from "@recoil/home";
+import { Fragment } from "react";
 
 const StaticBusStopInfo = () => {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const StaticBusStopInfo = () => {
     ["route", clickedBusStation.stopId],
     () => getBusStopInfo(clickedBusStation.stopId),
     {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
       staleTime: 5000,
       cacheTime: Infinity,
       enabled: !!clickedBusStation,
@@ -82,13 +85,12 @@ const StaticBusStopInfo = () => {
               {busListData !== [] &&
                 busListData.length > 0 &&
                 busListData.map((busStop) => (
-                  <>
+                  <Fragment key={`${busStop.id}`}>
                     <StaticBusInfo
-                      key={`${busStop.id}`}
                       busStop={busStop}
                       clickedBusStation={clickedBusStation}
                     />
-                  </>
+                  </Fragment>
                 ))}
             </>
           )}

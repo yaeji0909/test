@@ -8,7 +8,7 @@ const StyledSearchInput = styled(SearchInput)`
   margin-top: 2rem;
   margin-bottom: 0.5rem;
   height: 3rem;
-  z-index: ${zIndexes.FavAddButton};
+  z-index: ${zIndexes.FloatButton};
   position: absolute;
   left: 6%;
   .hamburgerBtn {
@@ -18,7 +18,7 @@ const StyledSearchInput = styled(SearchInput)`
     height: 2rem;
     left: 4%;
     top: 12%;
-    z-index: ${zIndexes.FavAddButton};
+    z-index: ${zIndexes.FloatButton};
   }
 `;
 

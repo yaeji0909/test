@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { getClickedBusInfo } from "@api/mapApi";
 import Timer from "@components/home/utils/Timer";
+import { useEffect } from "react";
 
 const BusInfo = ({ list, busStop, type }) => {
   const { data: busArrival = [] } = useQuery(
@@ -19,28 +20,34 @@ const BusInfo = ({ list, busStop, type }) => {
 
   return (
     <>
-      <BusInfoBox>
-        <LeftBox>
-          {list.ty === "간선버스" ? (
-            <>
-              <BusBadge style={{ backgroundColor: "#59BE0A" }}>
-                <span>간선</span>
-              </BusBadge>
-              <BusList style={{ color: "#59BE0A" }}>{list.no}</BusList>
-            </>
+      {busArrival ? (
+        <BusInfoBox>
+          <LeftBox>
+            {list.ty === "간선버스" ? (
+              <>
+                <BusBadge style={{ backgroundColor: "#59BE0A" }}>
+                  <span>간선</span>
+                </BusBadge>
+                <BusList style={{ color: "#59BE0A" }}>{list.no}</BusList>
+              </>
+            ) : (
+              <>
+                <BusBadge style={{ backgroundColor: "#1E7ADB" }}>
+                  <span>급행</span>
+                </BusBadge>
+                <BusList style={{ color: "#1E7ADB" }}>{list.no}</BusList>
+              </>
+            )}
+          </LeftBox>
+          {type === "FAVORITE_LIST" && result !== 0 ? (
+            <Timer style={{ position: "absolute" }} mm={result} ss={0} />
           ) : (
-            <>
-              <BusBadge style={{ backgroundColor: "#1E7ADB" }}>
-                <span>급행</span>
-              </BusBadge>
-              <BusList style={{ color: "#1E7ADB" }}>{list.no}</BusList>
-            </>
+            <>도착정보없음</>
           )}
-        </LeftBox>
-        {type === "FAVORITE_LIST" && (
-          <Timer style={{ position: "absolute" }} mm={result} ss={0} />
-        )}
-      </BusInfoBox>
+        </BusInfoBox>
+      ) : (
+        ""
+      )}
     </>
   );
 };

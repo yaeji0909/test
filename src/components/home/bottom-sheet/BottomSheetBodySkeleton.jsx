@@ -2,7 +2,7 @@ import { useRef } from "react";
 import styled, { css } from "styled-components";
 import { BottomSheetBodyBox, Wrapper } from "./bottomSheetStyles";
 import { useRecoilState } from "recoil";
-import { favBusStopList } from "@recoil/favorite";
+import { favBusStopList } from "@recoil/favorites";
 import Skeleton from "../../common/Skeleton";
 import { Fragment } from "react";
 

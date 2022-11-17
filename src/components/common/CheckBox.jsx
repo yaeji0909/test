@@ -8,6 +8,7 @@ const CheckBox = ({
   bus = [],
   alreadySelectedBusList = [],
   type,
+  addBusInFavList,
 }) => {
   const [bChecked, setChecked] = useState(false);
   const checkBoxRef = useRef();
@@ -15,6 +16,7 @@ const CheckBox = ({
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
     checkedItemHandler(bus, target.checked);
+    addBusInFavList();
   };
 
   useEffect(() => {

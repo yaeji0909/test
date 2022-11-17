@@ -9,7 +9,6 @@ import MainPage from "./MainPage";
 import BusStopInfoPage from "./BusStopInfoPage";
 import SettingPage from "./SettingPage";
 import EditFavListPage from "./EditFavListPage";
-
 const HomePage = () => {
   const location = useLocation();
 

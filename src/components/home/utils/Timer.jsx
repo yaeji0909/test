@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 const Timer = ({ mm = [], ss = [] }) => {
   const [minutes, setMinutes] = useState(parseInt(mm));
   const [seconds, setSeconds] = useState(parseInt(ss));
-
   useEffect(() => {
     const countdown = setInterval(() => {
       if (parseInt(seconds) > 0) {

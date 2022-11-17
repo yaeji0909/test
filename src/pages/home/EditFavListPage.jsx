@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import BusStopInfo from "@components/bus-stop/BusStopInfo";
 import { useLocation } from "react-router-dom";
 
-function EditFavListPage() {
+const EditFavListPage = () => {
   // 즐겨찾기 클릭시
   const location = useLocation();
 
@@ -20,6 +20,6 @@ function EditFavListPage() {
       ))}
     </>
   );
-}
+};
 
 export default EditFavListPage;

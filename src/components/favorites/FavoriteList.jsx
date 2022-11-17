@@ -6,26 +6,31 @@ import { useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 import Button from "../common/Button";
 import zIndexes from "@lib/styles/zIndexes";
+import { useRecoilState } from "recoil";
+import { filteredBusStop } from "@recoil/favorites";
 
 const FavoriteList = ({ favoriteList }) => {
+  const [filteredBusStation, setFilteredBusStation] =
+    useRecoilState(filteredBusStop);
   const navigate = useNavigate();
 
   const clickHandler = (e) => {
     const filteredList = favoriteList.filter(
       (city) => city.name === e.currentTarget.getAttribute("name")
     );
+    setFilteredBusStation(filteredList);
     navigate("/bus-edit", {
       state: {
         list: filteredList,
       },
     });
-    console.log("filteredList", filteredList);
   };
 
   const moveToBusInfoPage = (e) => {
     const filteredList = favoriteList.filter(
       (city) => city.name === e.currentTarget.getAttribute("name")
     );
+    setFilteredBusStation(filteredList);
     navigate("/bus-edit", {
       state: {
         list: filteredList,
@@ -116,7 +121,7 @@ const AddBusButton = styled(Button)`
   border-radius: 3px;
   color: #b2b3b9;
   padding: 0.5rem;
-  z-index: ${zIndexes.BottomTab};
+  z-index: ${zIndexes.DragDropUpload};
   font-weight: 300;
   font-size: 14px;
   ${(props) =>

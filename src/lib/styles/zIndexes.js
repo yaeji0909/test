@@ -1,5 +1,5 @@
 const zIndexes = {
-  FloatButton: 10,
+  FloatButton: 5,
   BottomTab: 50,
   FavAddButton: 30,
   TopSheetButton: 40,

@@ -1,9 +1,11 @@
 import busIcon from "@static/svg/bus-icon.svg";
 import bgImg from "@static/images/background-img.png";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useQuery } from "react-query";
 import { getBusStopInfo, getClickedBusInfo } from "@api/mapApi";
 import Timer from "../home/utils/Timer";
+import media from "../../lib/styles/media";
+
 const Bus = ({ list = [], bus = [] }) => {
   const { data: busStopData = [] } = useQuery(["route", list.station], () =>
     getBusStopInfo(list.station)
@@ -73,15 +75,21 @@ const BusArrivalInfo = styled.div`
   flex-direction: column;
   height: 7vh;
   background: url(${bgImg}) no-repeat;
+  background-size: cover;
+  font-size: 0.7rem;
   .bus-num {
     font-size: 1rem;
   }
   span {
     padding-top: 3px;
     text-align: center;
-    font-size: 0.7rem;
     color: #8c8d96;
     letter-spacing: 1px;
+  }
+  ${media.xsmall} {
+    span {
+      font-size: 0.5rem;
+    }
   }
 `;
 const ImgBox = styled.div``;

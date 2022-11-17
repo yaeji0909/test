@@ -10,6 +10,8 @@ import { useMutation } from "react-query";
 import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { FiStar } from "react-icons/fi";
+import { useRecoilState } from "recoil";
+import { filteredBusStop } from "@recoil/favorites";
 import MainResponsive from "@components/main/MainResponsive";
 
 const BusStopInfo = ({ list = [], type = [] }) => {
@@ -17,11 +19,14 @@ const BusStopInfo = ({ list = [], type = [] }) => {
   const [selectedBusList, setSelectedBusList] = useState([]);
   const [busListData, setBusListData] = useState([]);
   const [checkedItems, setCheckedItems] = useState(new Set());
+  const [filteredBusStation, setFilteredBusStation] =
+    useRecoilState(filteredBusStop);
 
+  console.log(filteredBusStation);
   // 즐겨찾기에서 접근시 실행되는 쿼리
   const { data: busListInFavorite = [] } = useQuery(
-    ["route", list.station],
-    () => getBusStopInfo(list.station),
+    ["route", list.station || filteredBusStation.station],
+    () => getBusStopInfo(list.station || filteredBusStation.station),
     {
       enabled: !!list,
     }
@@ -29,7 +34,11 @@ const BusStopInfo = ({ list = [], type = [] }) => {
 
   // put / delete mutation query
   const putMutation = useMutation(() => {
-    addFavoriteList(list.city, list.station, selectedBusList);
+    addFavoriteList(
+      list.city || filteredBusStation.city,
+      list.station || filteredBusStation.station,
+      selectedBusList
+    );
   });
 
   const deleteMutation = useMutation(() => {
@@ -41,7 +50,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       const busListInFav = busListInFavorite?.map((el) => el);
       editBusObj(busListInFav);
     }
-  }, []);
+  }, [busListInFavorite]);
 
   const checkedItemHandler = (target, isChecked) => {
     if (isChecked) {
@@ -51,13 +60,19 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       checkedItems.delete(target);
       setCheckedItems(checkedItems);
     }
+  };
 
+  const addBusInFavList = () => {
     let busList = [];
     checkedItems.forEach((el) => busList.push(el.id));
     setSelectedBusList(busList);
     if (selectedBusList !== []) {
       setTimeout(() => {
-        putMutation.mutate(list.city, list.station, selectedBusList);
+        putMutation.mutate(
+          list.city || filteredBusStation.city,
+          list.station || filteredBusStation.station,
+          selectedBusList
+        );
       }, 5000);
     }
   };
@@ -92,7 +107,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
       <BusStopInfoBox>
         <BusStopInfoTextBox>
           <BusStopInfoText>
-            <p>{list.name}</p>
+            <p>{list.name || filteredBusStation.name}</p>
           </BusStopInfoText>
           <MapBtn onClick={() => navigate(-1)}>
             <IoMdMap />
@@ -104,7 +119,7 @@ const BusStopInfo = ({ list = [], type = [] }) => {
               busListData?.map((bus, index) => (
                 <FavListBox key={index}>
                   <BusInfo
-                    busStop={list.station}
+                    busStop={list.station || filteredBusStation.station}
                     list={bus}
                     type={type ? type : ""}
                   />
@@ -113,7 +128,10 @@ const BusStopInfo = ({ list = [], type = [] }) => {
                       type={type ? type : ""}
                       bus={bus}
                       checkedItemHandler={checkedItemHandler}
-                      alreadySelectedBusList={list.bus}
+                      alreadySelectedBusList={
+                        list.bus || filteredBusStation.bus
+                      }
+                      addBusInFavList={addBusInFavList}
                     />
                   </CheckBoxContents>
                 </FavListBox>

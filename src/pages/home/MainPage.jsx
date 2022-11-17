@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { getFavoriteList } from "@api/favoriteApi";
-import { favBusStopList } from "@recoil/favorite";
+import { favBusStopList } from "@recoil/favorites";
 import { selectedCity } from "@recoil/home";
 import { useQuery } from "react-query";
 import useDebounce from "@components/home/hooks/useDebounce";
@@ -35,6 +35,8 @@ function MainPage() {
 
   useEffect(() => {
     setFavoriteBusStopList(favoriteList);
+    sessionStorage.removeItem("filtered_busStop");
+    sessionStorage.removeItem("clicked_busStop");
   }, [favoriteList]);
 
   return (
