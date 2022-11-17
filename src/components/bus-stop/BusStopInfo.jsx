@@ -22,7 +22,6 @@ const BusStopInfo = ({ list = [], type = [] }) => {
   const [filteredBusStation, setFilteredBusStation] =
     useRecoilState(filteredBusStop);
 
-  console.log(filteredBusStation);
   // 즐겨찾기에서 접근시 실행되는 쿼리
   const { data: busListInFavorite = [] } = useQuery(
     ["route", list.station || filteredBusStation.station],

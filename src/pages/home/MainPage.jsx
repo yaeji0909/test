@@ -13,6 +13,8 @@ import BottomSheetBody from "@components/home/bottom-sheet/BottomSheetBody";
 import LargeSearchInput from "@components/search/LargeSearchInput";
 import MainMap from "@components/base/map/MainMap";
 import BottomSheetBodySkeleton from "@components/home/bottom-sheet/BottomSheetBodySkeleton";
+import styled from "styled-components";
+import MainResponsive from "@components/main/MainResponsive";
 
 function MainPage() {
   const [loadingOpen, setLoadingOpen] = useState(false);
@@ -40,7 +42,7 @@ function MainPage() {
   }, [favoriteList]);
 
   return (
-    <>
+    <Wrapper>
       <Helmet>
         <title>main page</title>
       </Helmet>
@@ -61,8 +63,10 @@ function MainPage() {
       >
         {open ? <BottomSheetBody /> : <BottomSheetBodySkeleton />}
       </BottomSheet>
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled(MainResponsive)``;
 
 export default MainPage;

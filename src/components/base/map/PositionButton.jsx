@@ -20,7 +20,7 @@ const Button = styled.button`
   color: #006ffd;
   z-index: 2;
   position: absolute;
-  bottom: 12%;
+  bottom: 15%;
   display: flex;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
   justify-content: center;

@@ -60,7 +60,6 @@ const SearchInputBlock = styled.div`
       height: 2rem;
       box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
       border: 1px solid ${themedPalette.border3};
-      width: 88%;
       padding: 0 1.5rem;
       background: #ffffff;
       input {
@@ -70,6 +69,7 @@ const SearchInputBlock = styled.div`
         height: auto;
         background: transparent;
       }
+
       ${media.small} {
         height: 2.25rem;
         padding-left: 1rem;

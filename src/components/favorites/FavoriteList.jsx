@@ -24,6 +24,7 @@ const FavoriteList = ({ favoriteList }) => {
         list: filteredList,
       },
     });
+    console.log("filteredList", filteredList);
   };
 
   const moveToBusInfoPage = (e) => {
@@ -89,11 +90,13 @@ const FavoriteListBox = styled.div`
   border-radius: 10px;
   position: relative;
   padding: 1.2rem 0;
+  overflow: hidden;
+  overflow-x: hidden;
   ${(props) =>
     props.onlyBusStop &&
     css`
       height: 10vh;
-    `}
+    `};
 `;
 
 const ListTitle = styled.div`

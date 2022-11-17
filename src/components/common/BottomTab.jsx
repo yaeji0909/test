@@ -4,10 +4,11 @@ import { IoMdSettings } from "react-icons/io";
 import { MdDirectionsBus } from "react-icons/md";
 import { Link } from "react-router-dom";
 import zIndexes from "@lib/styles/zIndexes";
+import media from "../../lib/styles/media";
 
 function BottomTab() {
   return (
-    <Block top={100}>
+    <Block>
       <Link to='/search'>
         <LeftBox>
           <AiOutlineSearch />
@@ -34,10 +35,11 @@ const Block = styled.div`
   height: 4rem;
   position: fixed;
   bottom: 0%;
+  left: 0%;
   display: flex;
   justify-content: space-around;
   z-index: ${zIndexes.BottomTab};
-  padding: 0.8rem 3rem;
+  padding: 0.8rem 2rem;
   background-color: #ffffff;
   color: #8c8d96;
   box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
@@ -51,13 +53,13 @@ const LeftBox = styled.div`
     margin-left: 0.8rem;
   }
 `;
-
 const Center = styled.div`
   width: 3rem;
   height: 3rem;
   position: absolute;
   bottom: 50%;
   left: 44%;
+
   display: flex;
   justify-content: center;
   align-items: center;
