@@ -8,10 +8,12 @@ import Button from "../common/Button";
 import zIndexes from "@lib/styles/zIndexes";
 import { useRecoilState } from "recoil";
 import { filteredBusStop } from "@recoil/favorites";
+import media from "../../lib/styles/media";
 
 const FavoriteList = ({ favoriteList }) => {
   const [filteredBusStation, setFilteredBusStation] =
     useRecoilState(filteredBusStop);
+
   const navigate = useNavigate();
 
   const clickHandler = (e) => {
@@ -44,39 +46,39 @@ const FavoriteList = ({ favoriteList }) => {
     <>
       {favoriteList?.map((list, index) => (
         <Fragment key={index}>
-          {list.bus ? (
-            <FavoriteListBox>
-              <ListTitle>
-                <img src={busBadge} alt='bus-badge' />
-                <p>{list.name}</p>
-              </ListTitle>
-              <AddBusButton onClick={clickHandler} name={list.name}>
-                + 버스
-              </AddBusButton>
-              <ListSubTitle></ListSubTitle>
-              <BusListBox name={list.name} onClick={moveToBusInfoPage} onlyList>
-                <img src={busStopIcon} alt='' className='bus-stop' />
-                {list.bus?.map((el, index) => (
-                  <Bus list={list} bus={el} key={index} />
-                ))}
-              </BusListBox>
-              <Rectangle></Rectangle>
-            </FavoriteListBox>
-          ) : (
-            <FavoriteListBox onlyBusStop>
-              <ListTitle
-                onlyBusStop
-                name={list.name}
-                onClick={moveToBusInfoPage}
-              >
-                <img src={busBadge} alt='bus-badge' />
-                <p>{list.name}</p>
-              </ListTitle>
-              <AddBusButton onClick={clickHandler} name={list.name} blue>
-                + 버스
-              </AddBusButton>
-            </FavoriteListBox>
-          )}
+          <FavoriteListBox onlyBusStop={!list.bus ? "true" : ""}>
+            <ListTitle
+              onlyBusStop={!list.bus ? "true" : ""}
+              name={list.name}
+              onClick={moveToBusInfoPage}
+            >
+              <img src={busBadge} alt='bus-badge' />
+              <p>{list.name}</p>
+            </ListTitle>
+            <AddBusButton
+              onClick={clickHandler}
+              name={list.name}
+              blue={!list.bus ? true : ""}
+            >
+              + 버스
+            </AddBusButton>
+            {list.bus && (
+              <>
+                <BusListBox
+                  name={list.name}
+                  onClick={moveToBusInfoPage}
+                  onlyList
+                >
+                  {console.log(list)}
+                  <img src={busStopIcon} alt='' className='bus-stop' />
+                  {list.bus?.map((el, index) => (
+                    <Bus list={list} bus={el} key={index} />
+                  ))}
+                </BusListBox>
+                <Rectangle></Rectangle>
+              </>
+            )}
+          </FavoriteListBox>
         </Fragment>
       ))}
     </>
@@ -84,7 +86,7 @@ const FavoriteList = ({ favoriteList }) => {
 };
 
 const FavoriteListBox = styled.div`
-  height: 20vh;
+  height: 22vh;
   margin: 0.4rem;
   box-shadow: 0px 4px 15px rgba(65, 97, 119, 0.2);
   border-radius: 10px;
@@ -111,7 +113,10 @@ const ListTitle = styled.div`
   ${(props) =>
     props.onlyBusStop &&
     css`
-      margin: 0.8rem;
+      margin: 0.7rem;
+      ${media.xsmall} {
+        margin: 0.5rem 0.8rem;
+      }
     `}
 `;
 
@@ -124,7 +129,7 @@ const AddBusButton = styled(Button)`
   border-radius: 3px;
   color: #b2b3b9;
   padding: 0.5rem;
-  z-index: ${zIndexes.DragDropUpload};
+  z-index: ${zIndexes.BottomSheet};
   font-weight: 300;
   font-size: 14px;
   ${(props) =>
@@ -138,7 +143,6 @@ const AddBusButton = styled(Button)`
       border-radius: 3px;
     `}
 `;
-const ListSubTitle = styled.div``;
 
 const BusListBox = styled.div`
   display: flex;

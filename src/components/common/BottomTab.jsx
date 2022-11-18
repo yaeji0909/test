@@ -4,7 +4,6 @@ import { IoMdSettings } from "react-icons/io";
 import { MdDirectionsBus } from "react-icons/md";
 import { Link } from "react-router-dom";
 import zIndexes from "@lib/styles/zIndexes";
-import media from "../../lib/styles/media";
 
 function BottomTab() {
   return (
@@ -53,13 +52,13 @@ const LeftBox = styled.div`
     margin-left: 0.8rem;
   }
 `;
+
 const Center = styled.div`
   width: 3rem;
   height: 3rem;
   position: absolute;
   bottom: 50%;
   left: 44%;
-
   display: flex;
   justify-content: center;
   align-items: center;

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { getClickedBusInfo } from "@api/mapApi";
 import Timer from "@components/home/utils/Timer";
-import { useEffect } from "react";
 
 const BusInfo = ({ list, busStop, type }) => {
   const { data: busArrival = [] } = useQuery(
@@ -39,10 +38,8 @@ const BusInfo = ({ list, busStop, type }) => {
               </>
             )}
           </LeftBox>
-          {type === "FAVORITE_LIST" && result !== 0 ? (
+          {type !== "" && (
             <Timer style={{ position: "absolute" }} mm={result} ss={0} />
-          ) : (
-            <>도착정보없음</>
           )}
         </BusInfoBox>
       ) : (
@@ -53,7 +50,7 @@ const BusInfo = ({ list, busStop, type }) => {
 };
 
 const BusInfoBox = styled.div`
-  padding: 1.5rem 3.5rem;
+  padding: 1.5rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

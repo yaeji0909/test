@@ -9,7 +9,7 @@ import { FiStar } from "react-icons/fi";
 import MainResponsive from "@components/main/MainResponsive";
 import StaticBusInfo from "./StaticBusInfo";
 import { useRecoilValue } from "recoil";
-import { clickedBusStop } from "@recoil/home";
+import { clickedBusStop } from "@recoil/map";
 import { Fragment } from "react";
 
 const StaticBusStopInfo = () => {
@@ -102,11 +102,10 @@ const StaticBusStopInfo = () => {
 
 const BusStopInfoBox = styled.div`
   width: 100%;
+  height: 100%;
 `;
 
 const Wrapper = styled.div`
-  height: 80vh;
-
   ::-webkit-scrollbar {
     width: 8px;
   }

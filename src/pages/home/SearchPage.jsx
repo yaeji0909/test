@@ -8,7 +8,7 @@ import { searchBusStop } from "@api/busServiceApi";
 import SearchInput from "@components/search/SearchInput";
 import SearchResult from "@components/search/SearchResult";
 import { favBusStopList } from "@recoil/favorites";
-import { selectedCity } from "@recoil/home";
+import { selectedCity } from "@recoil/map";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 import busStop from "@static/images/bus-stop.png";

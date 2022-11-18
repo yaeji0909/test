@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useMutation } from "react-query";
 import { addFavoriteList, deleteFavoriteList } from "@api/favoriteApi";
 // import { useRecoilState } from "recoil";
-// import { selectedCity } from "../../recoil/home";
+// import { selectedCity } from "../../recoil/map";
 import useToggle from "@lib/hooks/useToggle";
 
 const SearchResult = ({ resultList, query, busStopIdFromFavList }) => {

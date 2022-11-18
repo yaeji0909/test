@@ -3,7 +3,6 @@ import SearchInput from "@components/search/SearchInput";
 import styled from "styled-components";
 import zIndexes from "@lib/styles/zIndexes";
 import { Link } from "react-router-dom";
-import media from "../../lib/styles/media";
 
 const StyledSearchInput = styled(SearchInput)`
   margin-top: 2rem;
@@ -13,10 +12,6 @@ const StyledSearchInput = styled(SearchInput)`
   z-index: ${zIndexes.FloatButton};
   position: absolute;
   left: 6%;
-  ${media.xxlarge} {
-    width: 72vw;
-    left: 14%;
-  }
   .hamburgerBtn {
     fill: #191a20;
     position: absolute;

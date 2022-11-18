@@ -56,14 +56,14 @@ const Wrapper = styled.div`
 `;
 const StyledCheckBox = styled.div`
   position: absolute;
-  right: 5%;
-  top: 35%;
-
+  right: 4%;
+  top: 33%;
   ${(props) =>
     props.star &&
     css`
       position: absolute;
-      left: 5%;
+      left: 0%;
+      margin-left: 0.5rem;
       input[type="checkbox"] {
         cursor: pointer;
         width: 1.5rem;

@@ -120,11 +120,11 @@ const BusStopInfo = ({ list = [], type = [] }) => {
                   <BusInfo
                     busStop={list.station || filteredBusStation.station}
                     list={bus}
-                    type={type ? type : ""}
+                    type={type === "FAVORITE_LIST" ? type : ""}
                   />
                   <CheckBoxContents>
                     <CheckBox
-                      type={type ? type : ""}
+                      type={type === "FAVORITE_LIST" ? type : ""}
                       bus={bus}
                       checkedItemHandler={checkedItemHandler}
                       alreadySelectedBusList={
@@ -147,8 +147,6 @@ const BusStopInfoBox = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 80vh;
-
   ::-webkit-scrollbar {
     width: 8px;
   }

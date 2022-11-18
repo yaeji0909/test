@@ -1,11 +1,12 @@
 const zIndexes = {
-  FloatButton: 5,
-  BottomTab: 50,
-  FavAddButton: 30,
-  TopSheetButton: 40,
-  Popup: 60,
+  FloatButton: 2,
+  BottomSheet: 5,
   WriteFooter: 10,
   PublishScreen: 15,
+  FavAddButton: 30,
+  TopSheetButton: 40,
+  BottomTab: 50,
+  Popup: 60,
   DragDropUpload: 100,
 };
 

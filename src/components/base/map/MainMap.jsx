@@ -27,7 +27,6 @@ const MapContainer = () => {
 
   const toggleHandler = (e) => {
     setToggle(!toggle);
-    console.log(toggle);
   };
   // 현 위치 조회
   const getCurrentPos = () => {
