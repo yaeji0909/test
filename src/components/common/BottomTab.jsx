@@ -5,7 +5,7 @@ import { MdDirectionsBus } from "react-icons/md";
 import { Link } from "react-router-dom";
 import zIndexes from "@lib/styles/zIndexes";
 
-function BottomTab() {
+const BottomTab = () => {
   return (
     <Block>
       <Link to='/search'>
@@ -27,7 +27,7 @@ function BottomTab() {
       </Link>
     </Block>
   );
-}
+};
 
 const Block = styled.div`
   width: 100%;

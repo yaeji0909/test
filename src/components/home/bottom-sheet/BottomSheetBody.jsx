@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { getFavoriteList } from "@api/favoriteApi";
 import { useRecoilState } from "recoil";
 import { selectedCity } from "@recoil/map";
+import media from "../../../lib/styles/media";
 
 const BottomSheetBody = () => {
   const [city, setCity] = useRecoilState(selectedCity);
@@ -27,9 +28,8 @@ const BottomSheetBody = () => {
   return (
     <Wrapper>
       <BottomSheetBodyBox ref={bottomBody}>
-        {favoriteListData ? (
-          <FavoriteList favoriteList={favoriteListData} />
-        ) : (
+        {favoriteListData && <FavoriteList favoriteList={favoriteListData} />}
+        {!favoriteListData && (
           <ExampleImgBox>
             <img src={exampleImg} alt='example-img' />
             <p>
@@ -61,8 +61,11 @@ const ExampleImgBox = styled.div`
 
 const ButtonBox = styled.div`
   right: 5%;
-  bottom: 12%;
+  bottom: 14%;
   position: absolute;
+  ${media.xsmall} {
+    bottom: 16%;
+  }
   svg {
     border-radius: 50%;
     font-size: 3rem;

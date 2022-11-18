@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { getBusStopInfo, getClickedBusInfo } from "@api/mapApi";
 import Timer from "../home/utils/Timer";
 import media from "../../lib/styles/media";
+import { useCallback } from "react";
 
 const Bus = ({ list = [], bus = [] }) => {
   const { data: busStopData = [] } = useQuery(["route", list.station], () =>
@@ -18,10 +19,10 @@ const Bus = ({ list = [], bus = [] }) => {
     { enabled: !!bus && !!list }
   );
 
-  const editSecondsToMinutes = (time = []) => {
+  const editSecondsToMinutes = useCallback((time = []) => {
     const result = time / 60;
     return result;
-  };
+  }, []);
 
   const result = editSecondsToMinutes(busArrivalInfo.arrtime);
 
@@ -55,6 +56,7 @@ const Bus = ({ list = [], bus = [] }) => {
 };
 
 const Wrapper = styled.div`
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;

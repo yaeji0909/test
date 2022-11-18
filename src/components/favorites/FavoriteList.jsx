@@ -26,7 +26,6 @@ const FavoriteList = ({ favoriteList }) => {
         list: filteredList,
       },
     });
-    console.log("filteredList", filteredList);
   };
 
   const moveToBusInfoPage = (e) => {
@@ -69,7 +68,6 @@ const FavoriteList = ({ favoriteList }) => {
                   onClick={moveToBusInfoPage}
                   onlyList
                 >
-                  {console.log(list)}
                   <img src={busStopIcon} alt='' className='bus-stop' />
                   {list.bus?.map((el, index) => (
                     <Bus list={list} bus={el} key={index} />
@@ -93,7 +91,6 @@ const FavoriteListBox = styled.div`
   position: relative;
   padding: 1.2rem 0;
   overflow: hidden;
-  overflow-x: hidden;
   ${(props) =>
     props.onlyBusStop &&
     css`
@@ -116,6 +113,9 @@ const ListTitle = styled.div`
       margin: 0.7rem;
       ${media.xsmall} {
         margin: 0.5rem 0.8rem;
+      }
+      ${media.xxsmall} {
+        margin: 0.4rem 0.8rem;
       }
     `}
 `;

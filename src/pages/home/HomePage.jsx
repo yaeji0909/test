@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
 import MainResponsive from "@components/main/MainResponsive";
 import HomeLayout from "@components/home/HomeLayout";
 import MainTemplate from "@components/main/MainTemplate";
@@ -19,6 +20,7 @@ const HomePage = () => {
           main={
             <>
               <Routes location={location}>
+                {/* <Suspense fallback={<div>...loading</div>}> */}
                 <Route path='/' element={<Navigate replace to='home' />} />
                 <Route path='home' element={<MainPage />} />
                 <Route path='search' element={<SearchPage />} />
@@ -26,7 +28,9 @@ const HomePage = () => {
                 <Route path='bus-edit' element={<EditFavListPage />} />
                 <Route path='recent' element={<RecentSearchPage />} />
                 <Route path='settings' element={<SettingPage />} />
+                {/* </Suspense> */}
               </Routes>
+
               <BottomTab />
             </>
           }
